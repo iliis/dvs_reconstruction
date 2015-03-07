@@ -1,0 +1,143 @@
+% ETH Zurich  - 3D Photography 2015
+% http://www.cvg.ethz.ch/teaching/3dphoto/
+% Template for project proposals
+
+\documentclass[11pt,a4paper,oneside,onecolumn]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{verbatimbox}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+% Enter the project title and your project supervisor here
+\newcommand{\ProjectTitle}{Gradient reconstruction from DVS sensor}
+\newcommand{\ProjectSupervisor}{Petri Tanskanen}
+\newcommand{\DateOfReport}{March 6, 2015}
+
+% Enter the team members' names and path to their photos. Comment / uncomment
+% related definitions if the number of members are different than 2.  Including
+% photographs are optional. Photos are there to help us to evaluate your group
+% more effectively. If you wish not to include your photos, please comment the
+% following line.
+%\newcommand{\PutPhotos}{}
+% Please include a clear photo of each member. (use pdf or png files for Latex to embed them in the document well)
+\newcommand{\memberone}{Samuel Bryner}
+\newcommand{\memberonepicture}{pic1.png}
+\newcommand{\membertwo}{Marcel Geppert}
+\newcommand{\membertwopicture}{pic2.png}
+
+%%%% DO NOT EDIT THE PART BELOW %%%%
+\title{\ProjectTitle}
+\author{3D Photography Project Proposal\\Supervised by: \ProjectSupervisor\\ \DateOfReport}
+\begin{document}
+\maketitle
+\vspace{-1.5cm}\section*{Group Members}\vspace{0.3cm}
+\begin{center}\begin{minipage}{\linewidth}\begin{center}
+\begin{minipage}{3 cm}\begin{center}\memberone\ifdefined\PutPhotos\\\vspace{0.2cm}\includegraphics[height=3cm]{\memberonepicture}\fi\end{center}\end{minipage}
+\ifdefined\membertwo\begin{minipage}{3 cm}\begin{center}\membertwo\ifdefined\PutPhotos\\\vspace{0.2cm}\includegraphics[height=3cm]{\membertwopicture}\fi\end{center}\end{minipage}\fi
+\ifdefined\memberthree\begin{minipage}{3 cm}\begin{center}\memberthree\ifdefined\PutPhotos\\\vspace{0.2cm}\includegraphics[height=3cm]{\memberthreepicture}\fi\end{center}\end{minipage}\fi
+\end{center}\end{minipage}\end{center}\vspace{0.3cm}
+%%%% END OF PROTECTED LINES %%%%
+
+
+%%%% BEGIN WRITING THE DOCUMENT HERE %%%%
+
+
+\section{Description of the project}
+
+A Dynamic Vision Sensor (DVS, also called an event camera) is a camera that
+asynchronously outputs spikes for pixels where the sensed intensity change
+exceeds a given threshold, in contrast to full images at a fixed frequency like
+a normal camera.
+
+Our goal is to implement the approach of \cite{DBLP:conf/bmvc/KimHBID14} to
+reconstruct a gradient map and finally a grayscale image of the scene from the
+DVS signal.
+
+
+\section{Work packages and timeline}
+
+%Detailed descriptions of work packages you planned, their outcomes, the
+%responsible group member and estimated timeline. Specify the challenges that
+%will be tackled and considered solutions with possible alternatives, citing
+%related documents if applicable. Mention the platform (Android, PC etc.) and
+%the language (C++ etc.) you plan to use.
+
+The approach in \cite{DBLP:conf/bmvc/KimHBID14} consists of three main parts:
+tracking the camera motion, building a gradient map on basis of the estimated
+camera rotation and the single pixel spikes, and computing a grayscale image
+from this gradient map.
+
+Our main challenge is likely the chicken-and-egg nature of the gradient map
+building and tracking. The tracking of the camera rotation relies on the
+existence of a gradient map while the construction of such a map requires an
+estimation of the orientation to work. To handle this problem we will build a
+simple simulation of the sensor output based on a given image. The simulation
+will enable us to test the tracking algorithm without any mapping.
+
+To test the construction of the gradient map independently, we will capture
+test data where the orientation of the camera is obtained by an external
+sensor.
+
+The tracking of the camera rotation is done using a particle filter that tries
+to estimate the camera rotation from the estimated movement of each single
+pixel. The gradient map is built using a pixel-wise Kalman filter that
+estimates the gradient of a pixel based on the estimated camera rotation.  For
+the reconstruction of the grayscale image from the gradient map a Poisson image
+reconstruction will be used. Here we can rely in large parts on publicly
+available code what reduces the complexity of this task significantly.
+
+The system will run on a PC using MATLAB. The project schedule is as follows:
+
+\begin{center}
+\rowcolors{1}{}{gray!25}
+\addvbuffer[12pt]{\begin{tabular}{l l l}
+Task & Responsible & Until\\
+\toprule
+\textbf{Proposal presentation} & & March 9\\
+Simulation of camera output & Marcel & March 15\\
+Capture test data with rotation & Samuel & March 15\\
+Image reconstruction from gradient map & Marcel & March 22\\
+Gradient map building & Samuel & April 10\\
+Rotation tracking & Marcel & April 10\\
+\textbf{Project updates} & & April 13\\
+Component integration & Marcel & April 26\\
+Refinement + tuning & Samuel & May 10\\
+\textbf{Project demo} & & May 18
+\end{tabular}}
+\end{center}
+
+
+\section{Outcomes and Demonstration}
+
+%Give detailed information on the expected outcome of your project and the
+%experiments you plan to test your implementation. If applicable, describe the
+%online or offline demo you plan to present at the end of the semester.
+
+We plan to reconstruct a grayscale image of the scene from the camera signal as
+in \cite{DBLP:conf/bmvc/KimHBID14}. The evaluation of the method will be a
+manual qualitative comparison of the generated images to the actual scene and
+to images taken with a standard camera. For the demonstration we want to show a
+standard picture of the scene together with an offline visualization of the raw
+camera signal and reconstruction of the image from this signal, or possibly an
+online reconstruction of the scene directly from the camera signal.
+
+
+\vspace{1cm}
+\textbf{Instructions:}
+
+%\begin{itemize}
+%\item The document should not exceed two pages including the references.
+%\item Please name the document
+%    \textbf{3DPhoto\_Proposal\_Surname1\_Surname2.pdf} and send it to
+%    Ya\u{g}{\i}z in an email titled \textbf{[3DPhoto] Project Proposal -
+%    Surname1 Surname2}, filling in your surnames.
+%\end{itemize}
+
+{%\singlespace
+{\small
+\bibliography{refs}
+\bibliographystyle{plain}}}
+
+
+
+
+\end{document}
