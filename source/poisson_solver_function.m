@@ -43,6 +43,10 @@ clear f2;
 [x,y] = meshgrid(1:W-2,1:H-2);
 denom = (2*cos(pi*x/(W-1))-2) + (2*cos(pi*y/(H-1)) - 2);
 
+% debug output
+% f2sinSize = size(f2sin)
+% denomSize = size(denom)
+
 %divide
 f3 = f2sin./denom;
 clear f2sin x y

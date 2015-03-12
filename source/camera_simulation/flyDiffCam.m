@@ -1,4 +1,4 @@
-function [allAddr, allTS] = flyDiffCam(imagepath, thetaStart, thetaStop, omega)
+function [allAddr, allTS, thetas] = flyDiffCam(imagepath, thetaStart, thetaStop, omega)
 
 % Simulates a camera rotation of the event camera in the scene given by 'imagepath'
 % 
@@ -14,10 +14,11 @@ theta = thetaStart;
 state = zeros(128);
 
 img = rgb2gray(imread(imagepath));
-time = 0;
+time = 1;
 
 allAddr = [];
 allTS = [];
+thetas = [];
 
 while running(theta)
     
@@ -25,6 +26,7 @@ while running(theta)
     
     allAddr = [allAddr; addr];
     allTS = [allTS; ts];
+    thetas = [thetas; repmat(newTheta, size(addr,1), 1)];
     
     theta = newTheta;
     state = newState;

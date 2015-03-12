@@ -25,8 +25,8 @@ elseif nargin < 5
     end
 end
 
-threshold = 5;
-K = [85 0 64.5; 0 85 64.5; 0 0 1];
+threshold = pixelIntensityThreshold();
+K = cameraIntrinsicParameterMatrix;
 
 newTheta = [theta(1) + omega(1), theta(2) + omega(2), theta(3) + omega(3)];
 
