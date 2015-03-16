@@ -26,7 +26,7 @@ elseif nargin < 5
 end
 
 threshold = pixelIntensityThreshold();
-K = cameraIntrinsicParameterMatrix;
+K = cameraIntrinsicParameterMatrix();
 
 newTheta = [theta(1) + omega(1), theta(2) + omega(2), theta(3) + omega(3)];
 
@@ -51,5 +51,5 @@ imshow(visDiffs);
 
 newState([vp; vn], [up; un]) = 0;
 
-addr = getTmpdiff128Addr([up; un],  [vp; vn],  [ones(size(vp)); -ones(size(vn))]);
+addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
 ts = ts*ones(size(addr));

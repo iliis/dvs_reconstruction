@@ -1,17 +1,19 @@
-imagepath = 'camera_simulation/testimages/panorama.png';
-thetaStart = [0, -pi/4, 0];
-thetaStop = [0, pi/4, 0];
-omega = [0, 0.02, 0];
+imagepath = 'camera_simulation/testimages/churchtest_cropped.jpg';
+thetaStart = [-pi/8, -pi/4, 0];
+thetaStop = [pi/8, pi/4, 0];
+omega = [0.01, 0.02, 0.01];
 
-boundary_image = 0.5*ones(500, 1000);
+outputImageSize = [300, 600];
+
+boundary_image = 0.5*ones(outputImageSize);
 
 [allAddr, allTS, thetas] = flyDiffCam(imagepath, thetaStart, thetaStop, omega);
 
 
-gradients = zeros(2,500,1000);
-covariances = 1*ones(2,2,500,1000);
-lastSigs = zeros(500,1000);
-lastPos = zeros(2,500,1000);
+gradients = zeros([2, outputImageSize]);
+covariances = 1000*ones([2,2,outputImageSize]);
+lastSigs = zeros(128);
+lastPos = zeros(2,128,128);
 
 K = cameraIntrinsicParameterMatrix();
 
@@ -38,9 +40,11 @@ for i = 1:size(x,1)
         fprintf('event %d / %d\n', i, nOfEvents);
     
         img = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
-        [min(min(img)) max(max(img))]
+        
+        minMaxGrad = [min(min(min(gradients))) max(max(max(gradients)))]
+        minMaxImg = [min(min(img)) max(max(img))]
         imshow(img);
-        pause(0.1);
+        pause(1);
     end
 end
 

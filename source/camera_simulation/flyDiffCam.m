@@ -21,15 +21,13 @@ allTS = [];
 thetas = [];
 
 while running(theta)
-    
-    [addr, ts, newTheta, newState] = moveCam(img, theta, omega, time, state);
-    
+%     [addr, ts, newTheta, newState] = moveCam(img, theta, omega, time, state);
+    [addr, ts, theta, state] = moveCam(img, theta, omega, time, state);
+
     allAddr = [allAddr; addr];
     allTS = [allTS; ts];
-    thetas = [thetas; repmat(newTheta, size(addr,1), 1)];
-    
-    theta = newTheta;
-    state = newState;
+    thetas = [thetas; repmat(theta, size(addr,1), 1)];
+
     time = time + 1;
-    pause(0.001);
+    pause(0.0001);
 end
