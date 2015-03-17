@@ -1,2 +1,5 @@
 # temporary files
 *.m~
+
+# autosave files
+*.asv
