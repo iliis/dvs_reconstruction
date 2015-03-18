@@ -16,7 +16,7 @@ for u = 1:128
 %         compute ray angle through pixel
         invKP = K \ [u v 1]';
         thetaAlpha = atan(cos(-gamma)*invKP(2) + sin(-gamma)*invKP(1));
-        thetaBeta = -atan(cos(-gamma)*invKP(1) - sin(-gamma)*invKP(2));
+        thetaBeta = atan(cos(-gamma)*invKP(1) - sin(-gamma)*invKP(2));
         targetP = [beta + thetaBeta, alpha + thetaAlpha]; 
         
 %         compute coordinates in input image
