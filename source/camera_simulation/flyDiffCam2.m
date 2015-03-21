@@ -1,4 +1,4 @@
-function [allAddr, allTS, thetas] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega)
+function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega, startState)
 
 % Simulates a camera rotation of the event camera in the scene given by 'imagepath'
 % 
@@ -7,9 +7,16 @@ function [allAddr, allTS, thetas] = flyDiffCam2(imagepath, thetaStart, thetaStop
 % thetaStart: the initial camera orientation (angles)
 % thetaStop: the stopping orientation
 % omega: the rotation speed (orientation change in one timestep)
+% startState: the state of each pixel at the beginning (in case of several
+% concatenated paths)
 
 % theta = thetaStart;
-state = zeros(128);
+
+if nargin < 5 || (size(startState, 1) ~= 128 || size(startState, 2) ~= 128)
+    state = zeros(128);
+else
+    state = startState;
+end
 
 img = double(rgb2gray(imread(imagepath)));
 % time = 1;
@@ -61,6 +68,8 @@ for i = 1:max(steps)
         fprintf('timestep %d/%d\n', i, max(steps));
     end
 end
+
+endState = state;
 
 % while sum(abs(theta(1:2) - thetaStop(1:2))) > sum(abs(omega(1:2)))
 % %     [addr, ts, newTheta, newState] = moveCam(img, theta, omega, time, state);
