@@ -4,7 +4,7 @@ function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, t
 % history with an EKF
 
 C = pixelIntensityThreshold(); %DUMMY - log intensity change that causes an event
-R = 20; %DUMMY - measurement noise
+R = 10; %DUMMY - measurement noise
 
 % debug output
 % u
@@ -20,7 +20,14 @@ tau = double(timestamp - lastSigs(v, u));
 invKP = K \ [u v 1]';
 deltaAlpha = atan(cos(-theta(3))*invKP(2) + sin(-theta(3))*invKP(1));
 deltaBeta = atan(cos(-theta(3))*invKP(1) - sin(-theta(3))*invKP(2));
-p = [-(theta(2) + deltaBeta)*size(gradients, 3)/(2*pi) , (theta(1) + deltaAlpha) * size(gradients, 3)/(2*pi)];
+
+targetP = [-theta(2) + deltaBeta, -theta(1) + deltaAlpha]; 
+
+%         compute coordinates in gradient map
+p = targetP * size(gradients, 3)/(2*pi);
+
+
+% p = [-(theta(2) + deltaBeta)*size(gradients, 3)/(2*pi) , (theta(1) + deltaAlpha) * size(gradients, 3)/(2*pi)];
 pmt = round(p + ([size(gradients, 3), size(gradients, 2)] ./ 2))';
 
 % get last position of this pixel
@@ -41,7 +48,7 @@ nu = z - h;
 
 % compute dh/dg - formula 15
 % dhdg = [velocity(2) velocity(1)] ./ C;
-dhdg = pol * velocity' ./ C;
+dhdg = -pol * velocity' ./ C;
 
 % get covariances from matrix
 PgTau = covariances(:,:,pmt(2),pmt(1));
@@ -59,6 +66,16 @@ Pgt = PgTau - (PgTau * dhdg' * W'); % try to avoid numerical errors
 % compute updated gradient
 gt = gTau + (W * nu);
 % gt = min([[1;1], max([[-1;-1], gTau + (W * nu)], [], 2)], [], 2); %clamp values
+
+% u
+% v
+% pol
+% timestamp
+% theta
+% pmt
+% pmTau
+% W
+% gt
 
 % if sum(sum(gt > 1)) + sum(sum(gt < -1)) > 0
 %     fprintf('clamping gradient to [-1, 1]\n');
