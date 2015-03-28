@@ -28,7 +28,7 @@ thetas = [];
 threshold = pixelIntensityThreshold();
 K = cameraIntrinsicParameterMatrix();
 
-lastPatch = getPatch(img, K, thetaStart(1), thetaStart(2), thetaStart(3));
+lastPatch = getPatch(img, K, thetaStart);
 
 steps = round((thetaStop - thetaStart) ./ omega);
 
@@ -53,7 +53,7 @@ for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    patch = getPatch(img, K, theta(1), theta(2), theta(3));
+    patch = getPatch(img, K, theta);
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
 

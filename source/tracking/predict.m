@@ -11,6 +11,6 @@ sigma = 1;
 
 % TODO: this would probably work as well, right? (I don't know enough about
 % Lie algebra and exponential maps)
-particles(1:D,:) = particles(2:end, :) + sigma * randn(size(particles)-[1,0]);
+particles(2:end,:) = particles(2:end, :) + sigma * randn(size(particles)-[1,0]);
 
 end

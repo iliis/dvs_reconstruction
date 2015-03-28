@@ -2,7 +2,7 @@ function particles = resample(old_particles)
 % input:  4xN list of particles [normalized weight, 3xrot]
 % output: 4xN resampled list of particles
 
-% TODO: there are exacgter ways to implement resampling
+% TODO: there are exacter ways to implement resampling
 
 % trivial resampling algorithm
 % copy particle with probability according to its weight
@@ -27,5 +27,8 @@ for i = 1:size(particles,2)
     % assign new weight
     particles(1,i) = 1/size(particles,2);
 end
+
+assert(sum(particles(1,:)) == 1, 'New weights must sum to 1.');
+assert(sum(particles(1,:)<0) == 0, 'New weights must be >= 0.');
 
 end

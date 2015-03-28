@@ -30,6 +30,11 @@ p = targetP * size(gradients, 3)/(2*pi);
 % p = [-(theta(2) + deltaBeta)*size(gradients, 3)/(2*pi) , (theta(1) + deltaAlpha) * size(gradients, 3)/(2*pi)];
 pmt = round(p + ([size(gradients, 3), size(gradients, 2)] ./ 2))';
 
+
+
+pmt = round(cameraToWorldCoordinates(u,v,K,theta,[size(gradients,3),size(gradients,2)]))';
+
+
 % get last position of this pixel
 pmTau = lastPos(:, v, u);
 

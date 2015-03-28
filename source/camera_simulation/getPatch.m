@@ -1,6 +1,6 @@
-function patch = getPatch(img, K, alpha, beta, gamma)
+function patch = getPatch(img, K, theta)
 
-% Extracts a 128*128 pixel patch out of the given image, assuming this is a 360°
+% Extracts a 128*128 pixel patch out of the given image, assuming this is a 360ï¿½
 % panorama. The FOV depends on the given camera intrinsic parameter matrix
 % K and the camera orientation in angles alpha, beta, gamma around x-, y-
 % and z-axis in image space (z axis points away from camera)
@@ -12,17 +12,8 @@ pixelCoords = double(zeros(128*128, 2));
 % compute positions in global image
 for u = 1:128
     for v = 1:128
-%         compute ray angle through pixel
-        invKP = K \ [u v 1]';
-        deltaAlpha = atan(cos(-gamma)*invKP(2) + sin(-gamma)*invKP(1));
-        deltaBeta = atan(cos(-gamma)*invKP(1) - sin(-gamma)*invKP(2));
-        targetO = [-alpha + deltaAlpha, -beta + deltaBeta]; 
         
-%         compute coordinates in input image
-%         targetCoords = [targetP(2)*size(img, 2)/(2*pi) + origin(1), targetP(1)*size(img, 2)/(2*pi) + origin(2)];
-        targetCoords = (targetO * size(img, 2)/(2*pi)) + origin;
-%         roundedCoords = round(targetCoords);
-        pixelCoords((u-1)*128 + v, :) = targetCoords;
+        pixelCoords((u-1)*128 + v, :) = cameraToWorldCoordinates(u,v,K,theta,[size(img,2),size(img,1)]);
         
 %         values = img(roundedCoords(1)-1:roundedCoords(1)+1, roundedCoords(2)-1:roundedCoords(2)+1);
 %         coordOffset = targetCoords - roundedCoords + 2;
@@ -34,4 +25,4 @@ for u = 1:128
     end
 end
 
-patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [128 128]);
+patch = reshape(interp2(img, pixelCoords(:,1), pixelCoords(:,2)), [128 128]);
