@@ -7,7 +7,6 @@ function patch = getPatch(img, invKPs, alpha, beta, gamma)
 % invKPs is the matrix of each pixel coordinate multiplied with the inverse
 % of K
 
-% origin = zeros([1 1 2]);
 origin(1,1,:) = size(img)/2;
 
 % commented part kept to understand the used formula
@@ -33,11 +32,11 @@ cosMat = cos(-gamma)*ones(128);
 sinMat = sin(-gamma)*ones(128);
 
 deltaAlphas = atan(cosMat .* invKPs(:,:,2) + sinMat .* invKPs(:,:,1));
-deltaBetas = atan(cosMat .* invKPs(:,:,1) + sinMat .* invKPs(:,:,2));
+deltaBetas = atan(cosMat .* invKPs(:,:,1) - sinMat .* invKPs(:,:,2));
 targetOs = zeros([128 128 2]);
 targetOs(:,:,1) = -alpha*ones(128) + deltaAlphas;
 targetOs(:,:,2) = -beta*ones(128) + deltaBetas;
-targetCoords = (targetOs * size(img, 2)/(2*pi)) + repmat(origin, [128 128]);
+targetCoords = (targetOs .* (size(img, 2)/(2*pi))) + repmat(origin, [128 128 1]);
 pixelCoords = reshape(targetCoords, 16384, 2);
 
 patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [128 128]);
