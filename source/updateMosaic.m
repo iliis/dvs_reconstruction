@@ -1,23 +1,16 @@
-function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, timestamp, theta, K, gradients, covariances, lastSigs, lastPos)
+function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, timestamp, theta, invKPs, gradients, covariances, lastSigs, lastPos)
 
 % This function an event and updates the mosaic, gradients, covariances and
 % history with an EKF
 
 C = pixelIntensityThreshold(); %DUMMY - log intensity change that causes an event
-R = 10; %DUMMY - measurement noise
-
-% debug output
-% u
-% v
-% theta
-% timestamp
-% pause(0.1);
+R = measurementNoise(); %DUMMY - measurement noise
 
 % compute tau
 tau = double(timestamp - lastSigs(v, u));
 
 %compute pixel in global image space
-invKP = K \ [u v 1]';
+invKP = invKPs(:, v, u); 
 deltaAlpha = atan(cos(-theta(3))*invKP(2) + sin(-theta(3))*invKP(1));
 deltaBeta = atan(cos(-theta(3))*invKP(1) - sin(-theta(3))*invKP(2));
 
@@ -48,7 +41,7 @@ nu = z - h;
 
 % compute dh/dg - formula 15
 % dhdg = [velocity(2) velocity(1)] ./ C;
-dhdg = -pol * velocity' ./ C;
+dhdg = pol * velocity' ./ C;
 
 % get covariances from matrix
 PgTau = covariances(:,:,pmt(2),pmt(1));
@@ -65,66 +58,15 @@ Pgt = PgTau - (PgTau * dhdg' * W'); % try to avoid numerical errors
 
 % compute updated gradient
 gt = gTau + (W * nu);
-% gt = min([[1;1], max([[-1;-1], gTau + (W * nu)], [], 2)], [], 2); %clamp values
-
-% u
-% v
-% pol
-% timestamp
-% theta
-% pmt
-% pmTau
-% W
-% gt
-
-% if sum(sum(gt > 1)) + sum(sum(gt < -1)) > 0
-%     fprintf('clamping gradient to [-1, 1]\n');
-%     gt(gt > 1) = 1;
-%     gt(gt < -1) = -1;
-% end
-
-% debug
-% if pol == -1
-%     pol
-%     tau
-%     pmt
-%     pmTau
-%     velocity
-%     gTau
-%     z
-%     h
-%     nu
-%     dhdg
-%     PgTau
-%     S
-%     W
-%     Pgt
-%     gt
-%     0;
-% end
-
-% if abs(gt(1)) > 0.05 || abs(gt(2)) > 0.05
-%     tau = tau
-%     gTau = gTau
-%     velocity = velocity
-%     zh = [z h]
-%     nu = nu
-%     PgTau = PgTau
-%     S = S
-%     W = W
-%     dhdg = dhdg
-%     gt = gt
-%     pause(1);
-% end
 
 if sum(isnan(gt)) > 0
     fprintf('gradient is NaN (updateMosaic)\n');
-%     u
-%     v
-%     pol
+    u
+    v
+    pol
 %     theta
     tau
-%     timestamp
+    timestamp
 %     lastSigs(v, u)
 %     pmt
 %     pmTau
@@ -148,8 +90,5 @@ covariances(:,:,pmt(2),pmt(1)) = Pgt;
 gradients(:,pmt(2),pmt(1)) = gt;
 lastSigs(v, u) = timestamp;
 lastPos(:,v,u) = pmt;
-
-% fprintf('updating gradients(%d, %d) = [%f, %f]\n', pmt(2), pmt(1), gt(1), gt(2));
-% pause(1)
 
 return;

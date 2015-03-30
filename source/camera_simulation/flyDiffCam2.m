@@ -28,11 +28,9 @@ thetas = [];
 threshold = pixelIntensityThreshold();
 K = cameraIntrinsicParameterMatrix();
 
-lastPatch = getPatch(img, K, thetaStart(1), thetaStart(2), thetaStart(3));
-
 steps = round((thetaStop - thetaStart) ./ omega);
 
-steps((thetaStop - thetaStart) == 0 & omega == 0) = 0;
+steps((thetaStop - thetaStart) == 0 & omega == 0) = 0; %avoid invalid values due to division by 0
 
 if (steps(1) ~= steps(2) && steps(1) ~= 0 && steps(2) ~= 0) || ...
         (steps(1) ~= steps(3) && steps(1) ~= 0 && steps(3) ~= 0) || ...
@@ -49,11 +47,22 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
+invKPs = zeros([2 128 128]);
+
+for u = 1:128
+    for v = 1:128      
+        invKP = K \ [u v 1]';  
+        invKPs(:, v, u) = invKP(1:2);    
+    end
+end
+
+lastPatch = getPatch(img, invKPs, thetaStart(1), thetaStart(2), thetaStart(3));
+
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    patch = getPatch(img, K, theta(1), theta(2), theta(3));
+    patch = getPatch(img, invKPs, theta(1), theta(2), theta(3));
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
 
@@ -71,19 +80,4 @@ end
 
 endState = state;
 
-% while sum(abs(theta(1:2) - thetaStop(1:2))) > sum(abs(omega(1:2)))
-% %     [addr, ts, newTheta, newState] = moveCam(img, theta, omega, time, state);
-% 	theta = [theta(1) + omega(1), theta(2) + omega(2), theta(3) + omega(3)];
-% 	
-% 	patch = getPatch(img, K, theta(1), theta(2), theta(3));
-% 	
-% 	[addr, ts, state] = getSignals(lastPatch, patch, time, state, threshold);
-% 
-%     allAddr = [allAddr; addr];
-%     allTS = [allTS; ts];
-%     thetas = [thetas; repmat(theta, size(addr,1), 1)];
-% 
-%     time = time + 1;
-% 	lastPatch = patch;
-%     pause(0.001);
-% end
+return;

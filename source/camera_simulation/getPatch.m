@@ -1,4 +1,4 @@
-function patch = getPatch(img, K, alpha, beta, gamma)
+function patch = getPatch(img, invKPs, alpha, beta, gamma)
 
 % Extracts a 128*128 pixel patch out of the given image, assuming this is a 360°
 % panorama. The FOV depends on the given camera intrinsic parameter matrix
@@ -13,24 +13,14 @@ pixelCoords = double(zeros(128*128, 2));
 for u = 1:128
     for v = 1:128
 %         compute ray angle through pixel
-        invKP = K \ [u v 1]';
+        invKP = invKPs(:, v, u);
         deltaAlpha = atan(cos(-gamma)*invKP(2) + sin(-gamma)*invKP(1));
         deltaBeta = atan(cos(-gamma)*invKP(1) - sin(-gamma)*invKP(2));
         targetO = [-alpha + deltaAlpha, -beta + deltaBeta]; 
         
 %         compute coordinates in input image
-%         targetCoords = [targetP(2)*size(img, 2)/(2*pi) + origin(1), targetP(1)*size(img, 2)/(2*pi) + origin(2)];
         targetCoords = (targetO * size(img, 2)/(2*pi)) + origin;
-%         roundedCoords = round(targetCoords);
         pixelCoords((u-1)*128 + v, :) = targetCoords;
-        
-%         values = img(roundedCoords(1)-1:roundedCoords(1)+1, roundedCoords(2)-1:roundedCoords(2)+1);
-%         coordOffset = targetCoords - roundedCoords + 2;
-        
-%         interpolate to obtain exact values
-%         patch(v, u) = interp2(values, coordOffset(1), coordOffset(2));
-        
-%         patch(v, u) = img(round(targetP(2)*size(img, 2)/(2*pi)) + origin(1), round(targetP(1)*size(img, 2)/(2*pi)) + origin(2));
     end
 end
 
