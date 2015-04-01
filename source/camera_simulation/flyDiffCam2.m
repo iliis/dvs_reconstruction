@@ -75,6 +75,7 @@ for i = 1:max(steps)
     
     if mod(i, 100) == 0
         fprintf('timestep %d/%d\n', i, max(steps));
+        state(isnan(state)) = 0; %reset nan values
     end
 end
 

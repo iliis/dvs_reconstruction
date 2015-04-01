@@ -22,11 +22,11 @@ nIdx(noiseInds(round(nOfNoisePxls / 2 + 1):round(3*nOfNoisePxls / 4))) = true;
 pIdx(noiseInds(round(nOfNoisePxls / 2 + 1):round(3*nOfNoisePxls / 4))) = false;
 nIdx(noiseInds(round(3*nOfNoisePxls / 4 + 1):end)) = false;
 
-visDiffs = 0.5*ones(128);
-visDiffs(pIdx) = 1;
-visDiffs(nIdx) = 0;
+% visDiffs = 0.5*ones(128);
+% visDiffs(pIdx) = 1;
+% visDiffs(nIdx) = 0;
 
-imshow(visDiffs);
+% imshow(visDiffs);
 
 [vp, up] = find(pIdx);
 [vn, un] = find(nIdx);

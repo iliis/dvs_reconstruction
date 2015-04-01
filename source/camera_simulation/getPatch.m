@@ -7,6 +7,10 @@ function patch = getPatch(img, invKPs, alpha, beta, gamma)
 % invKPs is the matrix of each pixel coordinate multiplied with the inverse
 % of K
 
+%#codegen
+% coder.inline('never');
+
+origin = zeros([1 1 2]);
 origin(1,1,:) = size(img)/2;
 
 % commented part kept to understand the used formula
