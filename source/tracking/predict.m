@@ -4,7 +4,13 @@ function particles = predict(particles)
 % predict motion (instead of just adding noise)
 
 % TODO: linearly increase sigma with time
-% TODO: what is a good value for sigma?
+
+% Q: what is a good value for sigma?
+% A: something proportional to the expected movement between two events
+%    if the intensity threshold is at, say, 5 then the simulator produces
+%    the first event at movement of around 0.0003, so sigma should be very
+%    small (and so should the timesteps of the simulation!)
+% sigma = 0.005; % good for first movement
 sigma = 0.00001;
 
 % TODO: implement perturbation in tangent space

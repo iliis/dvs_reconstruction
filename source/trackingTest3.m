@@ -3,6 +3,8 @@
 % look a tiny bit up; this gives a max delta of about 7.8, with 5.3 at 61,43
 theta_new = [0.0003 0 0];
 
+range = linspace(-0.01,0.01,100);
+
 imagepath = 'camera_simulation/testimages/panorama.png';
 
 K = cameraIntrinsicParameterMatrix();
@@ -29,7 +31,6 @@ disp(['diff at ' num2str([u v]) ' = ' num2str(diff) '. Max. diff = ' num2str(max
 
 % plot change in likelihood over small alpha/beta movement range
 
-range = linspace(-0.01,0.01);
 [X, Y] = meshgrid(range,range);
 particles = [repmat(1/numel(X), numel(X),1) reshape(X, numel(X),1) reshape(Y, numel(Y),1) zeros(numel(X),1)];
 particles_prior = initParticles(numel(X));
@@ -37,6 +38,11 @@ particles_prior = initParticles(numel(X));
 LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 1; % 0.08
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+
+
+% if this threshold is off from the 'real' one, the actual movement doesn't
+% correspond to the (local) maximum likelihood!
+INTENSITY_THRESHOLD = diff;
 
 
 K = cameraIntrinsicParameterMatrix();
@@ -50,8 +56,12 @@ new_points_w = zeros(size(particles,1),2);
 p1 = cameraToWorldCoordinatesBatch(invKPs, [0 0 0],   size(img));
 p2 = cameraToWorldCoordinatesBatch(invKPs, theta_new, size(img));
 
-disp(['p1 is at ' num2str(p1) ' (' num2str(p1-size(img)/2) ' from center) with img(p1) = ' num2str(interp2(img, p1(1),p1(2)))]);
-disp(['p2 is at ' num2str(p2) ' (' num2str(p2-size(img)/2) ' from center) with img(p2) = ' num2str(interp2(img, p2(1),p2(2)))]);
+I1 = interp2(img, p1(2), p1(1));
+I2 = interp2(img, p2(2), p2(1));
+
+disp(['p1 is at ' num2str(p1) ' (' num2str(p1-size(img)/2) ' from center) with img(p1) = ' num2str(I1)]);
+disp(['p2 is at ' num2str(p2) ' (' num2str(p2-size(img)/2) ' from center) with img(p2) = ' num2str(I2)]);
+disp([' --> diff = ' num2str(I2-I1) ' should equal ' num2str(diff)]);
 
 
 for i = 1:size(particles_prior,1)
@@ -61,18 +71,46 @@ for i = 1:size(particles_prior,1)
 end
     
 % get pixel-intensity difference of prior and proposed posterior particle
-measurements = interp2(img,new_points_w(:,1),new_points_w(:,2)) - interp2(img,old_points_w(:,1),old_points_w(:,2));
+measurements = interp2(img,new_points_w(:,2),new_points_w(:,1)) - interp2(img,old_points_w(:,2),old_points_w(:,1));
 
 % TODO: handle isnan(measurement)
 assert(sum(isnan(measurements)) == 0);
 
 particles(:, 1) = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD]);
 
-%imagesc(particles(:,2), particles(:,3), particles(:,1));
-surf(X, Y, reshape(particles(:,1), numel(range), numel(range)));
-%figure;
-%imagesc(reshape(measurements, numel(range), numel(range)));
+[max_val, max_pos] = max(particles(:,1));
 
-%imagesc(img);
-%hold on;
-%plot(old_points_w(:,2), old_points_w(:,1), 'or');
+imagesc(range, range, reshape(particles(:,1), numel(range), numel(range)));
+hold on;
+plot(theta_new(1), theta_new(2), 'or');
+
+max_y = range(mod(max_pos-1,numel(range))+1);
+max_x = range(ceil(max_pos/numel(range)));
+plot(max_x, max_y, 'og');
+
+test_particles = predict(initParticles(500));
+plot(test_particles(:,2), test_particles(:,3), '.b');
+
+title({'likelihood of movement in alpha (X) or beta (Y) direction', ...
+    'red circle: actual movement', ...
+    ['green circle: max. likelihood (' num2str(max_val) ')'], ...
+    ['intensity event threshold: ' num2str(INTENSITY_THRESHOLD)], ...
+    ['actual intensity change at threshold: ' num2str(diff)]
+});
+
+if false
+    figure('Name', 'circle: the pixel we''re currently looking at');
+    subplot(1,2,1);
+    imagesc(img);
+    hold on;
+    plot(p1(2), p1(1), 'or');
+    plot(p2(2), p2(1), 'ob');
+    hold off;
+    title('global intensity map');
+    subplot(1,2,2);
+    imagesc(old_patch);
+    hold on;
+    plot(u,v,'or');
+    hold off;
+    title('image patch');
+end

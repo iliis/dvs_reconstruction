@@ -3,7 +3,7 @@ function particles = updateOnEvent(particles_prior, event, intensities)
 
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.0001;
-INTENSITY_VARIANCE  = 1; % 0.08
+INTENSITY_VARIANCE  = 5; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
 
 particles = predict(particles_prior);
@@ -42,6 +42,9 @@ particles( matching_sign, 1) = 2*LOW_LIKELIHOOD + gaussmf(measurements(matching_
 
 % event sign doesn't match -> these particles are bad
 particles(~matching_sign, 1) = LOW_LIKELIHOOD; % some fixed low likelihood
+
+% actually update prior probability
+particles(:,1) = particles(:,1) .* particles_prior(:,1);
 
 % normalize weights
 particles(:,1) = particles(:,1) / sum(particles(:,1));
