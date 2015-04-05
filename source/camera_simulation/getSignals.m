@@ -6,14 +6,27 @@ diff = double(newPatch) - double(oldPatch);
 
 state = state + diff;
 
+% state(isnan(state)) = 0; %hack to avoid constant Nan values if one pixel
+% was once outside of the source image
+
 pIdx = state > threshold;
 nIdx = state < -threshold;
 
-visDiffs = 0.5*ones(128);
-visDiffs(pIdx) = 1;
-visDiffs(nIdx) = 0;
+% compute indices of noise
+noiseInds = randperm(16384, max(20, round(sum(sum(pIdx + nIdx))/20)));
+nOfNoisePxls = size(noiseInds, 1);
+pIdx(noiseInds(1:round(nOfNoisePxls / 4))) = true;
+nIdx(noiseInds(1:round(nOfNoisePxls / 4))) = false;
+pIdx(noiseInds(round(nOfNoisePxls / 4 + 1):round(nOfNoisePxls / 2))) = false;
+nIdx(noiseInds(round(nOfNoisePxls / 2 + 1):round(3*nOfNoisePxls / 4))) = true;
+pIdx(noiseInds(round(nOfNoisePxls / 2 + 1):round(3*nOfNoisePxls / 4))) = false;
+nIdx(noiseInds(round(3*nOfNoisePxls / 4 + 1):end)) = false;
 
-imshow(visDiffs);
+% visDiffs = 0.5*ones(128);
+% visDiffs(pIdx) = 1;
+% visDiffs(nIdx) = 0;
+
+% imshow(visDiffs);
 
 [vp, up] = find(pIdx);
 [vn, un] = find(nIdx);
