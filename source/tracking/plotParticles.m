@@ -15,8 +15,10 @@ plot(0.0003, 0, 'og');
 
 hold off;
 
-%L = 0.05;
-L = 0.001;
+title({'red X: weighted average over particles', 'green O: correct solution'});
+
+L = 0.01; % same as in trackingTest3
+%L = 0.001;
 xlim([-L L]);
 ylim([-L L]);
 
