@@ -26,15 +26,15 @@ for i = 1:size(particles,1)
     
     % assign new weight
     %particles(i,1) = 1/size(particles,1); % uniform
-    particles(i,1) = old_particles(i,1); % keep old weight
-    particles(i,1) = old_particles(i,1) + 1/size(particles,1); % some sort of weighted average
+    particles(i,1) = old_particles(k,1); % keep old weight
+    %particles(i,1) = old_particles(k,1) + 1/size(particles,1); % some sort of weighted average
 end
 
 % renormalize weights
 particles(:,1) = particles(:,1) / sum(particles(:,1));
 
 s = sum(particles(:,1));
-assert((s >= 1-10*eps) && (s <= 1+10*eps), 'New weights must sum to 1.');
+assert((s >= 1-1e-13) && (s <= 1+1e-13), ['New weights must sum to 1. diff = ' num2str(1-s)]);
 assert(sum(particles(:,1)<0) == 0, 'New weights must be >= 0.');
 
 end

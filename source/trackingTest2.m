@@ -47,18 +47,20 @@ end
 %events = events(randperm(size(events,1)), :);
 
 % update on events
-N = 1000;
+N = 100;
 particles      = initParticles(N);
 tracking_state = initTrackingState(N, size(old_patch,1));
 
 % use grid particles from test3 instead of all fixed around origin
 % (disable predict() inside updateOnEvents() to get identical image to test3)
-range = linspace(-0.01,0.01,100);
-[X, Y] = meshgrid(range,range);
-particles = [repmat(1/numel(X), numel(X),1) reshape(X, numel(X),1) reshape(Y, numel(Y),1) zeros(numel(X),1)];
-% add artifical event to test math
-events = [61 43 1 1; events]; % top edge of sphere
-
+if false
+    range = linspace(-0.01,0.01,50);
+    [X, Y] = meshgrid(range,range);
+    particles = [repmat(1/numel(X), numel(X),1) reshape(X, numel(X),1) reshape(Y, numel(Y),1) zeros(numel(X),1)];
+    % add artifical event to test math
+    events = [61 43 1 1; events]; % top edge of sphere
+    tracking_state = initTrackingState(size(particles,1), size(old_patch,1));
+end
 
 % wide initial distribution
 % particles(:, 2:end) = particles(:, 2:end) + 0.0004 * randn(size(particles)-[0,1]);
