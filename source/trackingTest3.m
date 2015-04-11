@@ -117,6 +117,7 @@ if false
     figure('Name', 'circle: the pixel we''re currently looking at');
     subplot(1,2,1);
     imagesc(img);
+    colormap 'gray';
     hold on;
     plot(p1(2), p1(1), 'or');
     plot(p2(2), p2(1), 'ob');

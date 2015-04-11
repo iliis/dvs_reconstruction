@@ -1,7 +1,7 @@
 function plotParticles( particles )
 
 subplot(1,2,1);
-colormap 'parula';
+colormap 'hot'; %'parula';
 whitebg 'black';
 scatter(particles(:,2),particles(:,3),5,particles(:,1),'filled');
 colorbar;

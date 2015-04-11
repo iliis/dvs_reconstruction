@@ -3,6 +3,8 @@ function tracking1D_plotMap( image, events )
 H = size(image, 1);
 W = size(image, 2);
 
+whitebg('black');
+
 for i = 1:H
     plot(1:W, image(i,:) + 2*(H-i), 'w-');
     hold on;
@@ -21,7 +23,7 @@ if nargin > 1 && size(events,1) > 0
         text(ev(4),2*(H-ev(1))+1,num2str(i), 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
     end
 end
-whitebg('black');
+
 hold off;
 
 end

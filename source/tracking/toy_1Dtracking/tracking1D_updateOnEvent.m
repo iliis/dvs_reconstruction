@@ -10,7 +10,7 @@ LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 0.1; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = tracking1D_pixelIntensityThreshold(); %0.22;
 
-if event(3) > 0
+if event(2) > 0
     s = 1;
 else
     s = -1;
@@ -33,6 +33,7 @@ for p = 1:size(particles_prior,1)
     
     % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
     likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
+    %likelihoods = likelihoods/sum(likelihoods);
     
     % sum up likelihood over all possible positions at time of previous
     % event at that pixel
