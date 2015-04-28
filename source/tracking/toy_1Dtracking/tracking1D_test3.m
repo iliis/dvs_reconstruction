@@ -11,12 +11,12 @@
 % other rows correspond to posterior of successive events
 
 show_predicted_prior = false;
-show_pixel_states    = false;
+show_pixel_states    = true;
 
 whitebg('black');
 
 map = tracking1D_globalMap();
-[particles, state] = tracking1D_initParticles(1000, size(map));
+[particles, state] = tracking1D_initParticles(200, size(map));
 
 events = tracking1D_generateSignals(map, size(map,2)/2, size(map,2)-1, 100);
 

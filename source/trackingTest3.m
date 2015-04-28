@@ -8,11 +8,13 @@ else
 end
 
 % look a tiny bit up; this gives a max delta of about 7.8, with 5.3 at 61,43
-theta_new = [0.0003 0 0];
+%theta_new = [0.0003 0 0]; % panorama.png
+%theta_new = [0.000069 0 0]; % toy_example1.png: 5.0406
 
 range = linspace(-0.01,0.01,100);
 
-imagepath = 'camera_simulation/testimages/panorama.png';
+%imagepath = 'camera_simulation/testimages/panorama.png';
+imagepath = 'camera_simulation/testimages/toy_example1.png';
 
 K = cameraIntrinsicParameterMatrix();
 invKPs = zeros([128 128 2]);
@@ -28,25 +30,25 @@ img = double(rgb2gray(imread(imagepath)));
 old_patch = getPatch(img, invKPs, [0 0 0]);
 new_patch = getPatch(img, invKPs, theta_new);
 
-u = 61; v = 43; % top edge of sphere
+%u = 61; v = 43; % top edge of sphere
+u = 54; v = 22;
 
 diff = new_patch(v,u) - old_patch(v,u);
 %imagesc(new_patch-old_patch);
 
 % just checking if the coordinate transforrmations are correct
-disp(['diff at ' num2str([u v]) ' = ' num2str(diff) '. Max. diff = ' num2str(max(max(sum(new_patch-old_patch))))]);
+disp(['diff at ' num2str([u v]) ' = ' num2str(diff) '. Max. diff = ' num2str(max(max(new_patch-old_patch)))]);
 
 
 % plot change in likelihood over small alpha/beta movement range
 
 [X, Y] = meshgrid(range,range);
 particles = [repmat(1/numel(X), numel(X),1) reshape(X, numel(X),1) reshape(Y, numel(Y),1) zeros(numel(X),1)];
-particles_prior = initParticles(numel(X));
+particles_prior = particles;
 
 LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 5; % 0.08
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
-
 
 % if this threshold is off from the 'real' one, the actual movement doesn't
 % correspond to the (local) maximum likelihood!
@@ -93,6 +95,7 @@ particles(:, 1) = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD]
 [max_val, max_pos] = max(particles(:,1));
 
 imagesc(range, range, reshape(particles(:,1), numel(range), numel(range)));
+colorbar;
 hold on;
 plot(theta_new(1), theta_new(2), 'or');
 
@@ -100,7 +103,7 @@ max_y = range(mod(max_pos-1,numel(range))+1);
 max_x = range(ceil(max_pos/numel(range)));
 plot(max_x, max_y, 'og');
 
-test_particles = initParticles(500);
+test_particles = initParticles(500, size(old_patch));
 particles(:, 2:end) = particles(:, 2:end) + 0.0004 * randn(size(particles)-[0,1]);
 plot(test_particles(:,2), test_particles(:,3), '.b');
 
@@ -113,7 +116,7 @@ title({'likelihood of movement in alpha (X) or beta (Y) direction', ...
 xlabel('alpha'); ylabel('beta');
 
 % set to true to plot global intensity map and current image patch
-if false
+if true
     figure('Name', 'circle: the pixel we''re currently looking at');
     subplot(1,2,1);
     imagesc(img);

@@ -1,4 +1,4 @@
-function [particles, state] = updateOnEvent(particles_prior, event, intensities, state_prior, deltaT_global)
+function [particles, state] = updateOnEvent(particles_prior, event, intensities, state_prior)
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]
@@ -16,12 +16,10 @@ else
     s = -1;
 end
 
-particles = predict(particles_prior, deltaT_global);
-%particles = particles_prior;
-
 K = cameraIntrinsicParameterMatrix();
 invKPs = reshape(K \ [u v 1]', 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
+particles = particles_prior;
 old_points_w = zeros(size(particles,1),2);
 new_points_w = zeros(size(particles,1),2);
 
@@ -41,41 +39,29 @@ end
 likelihoods = zeros(size(particles,1),1);
 old_intensities = interp2(intensities, old_points_w(:,2), old_points_w(:,1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
-for i = 1:size(new_points_w,1)
-    measurements = new_intensities(i) - old_intensities;
-    matching_sign = (measurements * s) > 0;
+
+
+for p = 1:size(particles,1)
     
-    tmp_likelihoods = gaussmf(abs(measurements), [INTENSITY_VARIANCE INTENSITY_THRESHOLD]) .* particles_prior_this_pixel(:,1);
-    likelihoods(i) = sum(tmp_likelihoods(matching_sign)) + LOW_LIKELIHOOD;
+    % compare current pixel's intensity with all possible previous ones
+    measurements = new_intensities(p) - old_intensities;
     
+    assert(~any(isnan(measurements)));
+    
+    % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
+    likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
+    %likelihoods = likelihoods/sum(likelihoods);
+    
+    % sum up likelihood over all possible positions at time of previous
+    % event at that pixel
+    particles(p,1) = likelihoods' * permute(state_prior(v,u,:,1), [3 1 2 4]);
 end
-
-%old_point_w = cameraToWorldCoordinates(u,v,K, reshape(state_prior(v,u,:),3,1), size(intensities));
-%old_intensity = interp2(intensities, old_point_w(2), old_point_w(1));
-%measurements = interp2(intensities,new_points_w(:,2),new_points_w(:,1)) - old_intensity; %interp2(intensities,old_points_w(:,2),old_points_w(:,1));
-
-% TODO: handle isnan(measurement)
-%assert(sum(isnan(measurements)) == 0);
-
-%matching_sign = (measurements * s) > 0;
-
-% event sign matches the predicted one of current particle
-% TODO: parameters for gaussian are quite arbitrary...
-%particles( matching_sign, 1) = 2*LOW_LIKELIHOOD + gaussmf(measurements(matching_sign), [INTENSITY_VARIANCE INTENSITY_THRESHOLD]);
-
-% event sign doesn't match -> these particles are bad
-%particles(~matching_sign, 1) = LOW_LIKELIHOOD; % some fixed low likelihood
-
-%particles( :, 1) = 2*LOW_LIKELIHOOD + gaussmf(measurements(:), [INTENSITY_VARIANCE INTENSITY_THRESHOLD]);
-
-particles(:,1) = likelihoods;
-
 
 % actually update prior probability
 particles(:,1) = particles(:,1) .* particles_prior(:,1);
 
 % normalize weights
-particles(:,1) = particles(:,1) / sum(particles(:,1));
+particles = normalizeParticles(particles);
 
 % update state
 state = state_prior;

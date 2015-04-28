@@ -17,10 +17,10 @@ hold off;
 
 title({'red X: weighted average over particles', 'green O: correct solution'});
 
-L = 0.01; % same as in trackingTest3
-%L = 0.001;
-xlim([-L L]);
-ylim([-L L]);
+% L = 0.01; % same as in trackingTest3
+% %L = 0.001;
+% xlim([-L L]);
+% ylim([-L L]);
 
 ax = subplot(1,2,2);
 hist(ax,particles(:,1));

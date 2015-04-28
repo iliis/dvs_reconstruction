@@ -37,5 +37,8 @@ nIdx(noiseInds(round(3*nOfNoisePxls / 4 + 1):end)) = false;
 state(vp, up) = 0;
 state(vn, un) = 0;
 
-addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
+% WHY IS THERE A -1 ?!?!
+%addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
+addr = getTmpdiff128Addr([up; un],  [vp; vn],  [ones(size(vp)); zeros(size(vn))]);
+
 ts = time*ones(size(addr));
