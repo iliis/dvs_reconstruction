@@ -30,7 +30,7 @@ hold off;
 t = 0;
 for i = 1:(size(events,1)+1)
     
-    % plot current particle filter and current tracking state
+    % plot current particle filter and current tracking statetrue
     
     if show_pixel_states
         ax = subplot(size(events,1)+1,size(state,1)+1, (i-1)*(size(state,1)+1)+1);

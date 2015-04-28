@@ -18,6 +18,8 @@ end
 
 d = event(1);
 
+assert(sum(sum(isnan(particles_prior))) == 0);
+
 previous_intensities = tracking1D_getMapValue(map, state_prior(d,:,2));
 current_intensities  = tracking1D_getMapValue(map, particles_prior(:,2));
 
@@ -45,8 +47,20 @@ particles(:,1) = particles(:,1) .* particles_prior(:,1);
 
 particles = normalizeParticles(particles);
 
+if tracking1D_useSparseParticles()
+    eff_N = effectiveParticleNumber(particles);
+    disp(['effective Number = ' num2str(eff_N)]);
+    if eff_N < size(particles,1)/2
+        particles = resample(particles);
+        eff_N = effectiveParticleNumber(particles);
+        disp([' -> resample: effective Number = ' num2str(eff_N)]);
+    end
+end
+
 state = state_prior;
 state(d,:,:) = particles;
+
+assert(~any(isnan(particles(:))));
 
 end
 

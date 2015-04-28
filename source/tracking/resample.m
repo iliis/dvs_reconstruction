@@ -36,5 +36,6 @@ particles(:,1) = particles(:,1) / sum(particles(:,1));
 s = sum(particles(:,1));
 assert((s >= 1-1e-13) && (s <= 1+1e-13), ['New weights must sum to 1. diff = ' num2str(1-s)]);
 assert(sum(particles(:,1)<0) == 0, 'New weights must be >= 0.');
+assert(~any(isnan(particles(:))), 'No invalid values (NaN).');
 
 end

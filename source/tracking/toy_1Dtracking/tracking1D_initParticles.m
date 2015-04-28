@@ -1,7 +1,7 @@
 function [ particles, state ] = tracking1D_initParticles( N, map_size )
 
 particles = zeros(N, 2); % [weight, xpos]
-state = zeros(map_size(1), N, 2);
+state = zeros(map_size(1), N, 2); % pixel_x * N * [weight, xpos]
 
 if tracking1D_useSparseParticles()
     % normal particle filter (init N particles at center of map)
