@@ -1,0 +1,110 @@
+General
+=======
+
+- online/realtime
+  - fast
+  - no global optimization (bundle adj.)
+  - mainly interested in localization (=> sparse map)
+  - correct long-term drift, constant-time loop closure
+  - lot of optimizations: only use cpu power where it brings results
+
+-> sparse map of high quality features
+
+
+problems with vision based SLAM
+-------------------------------
+
+- very high input data rate
+- inherently 3D data
+- lack of direct depth measurement
+- difficult to extract long-term features for mapping
+
+
+Map
+===
+
+- quadratic space complexity (linear state, quadratic covariance matrix)
+-> bounded number of features (~100 in paper)
+
+- detect features using 'Sih and Tomasi'
+- align them on a plane
+- are not updated for stable remeasurement
+
+- predict movement of camera using constant [angular] velocity
+- calculate position of features on camera screen by simple backprojection
+  -> but account for radial distortion due to wide angle camera by another projection step (instead of warping image)
+- project uncertainty into image as well and search for feature in that region
+- first search for features with high uncertainty, as these provide the most in information
+- problematic if tracking lost -> would need global search to relocalize
+
+new features:
+- depth is unknown, represent as ray
+- init uniform distribution over depth (pos along ray) using particle filter
+- test each particle (hypothesis) by projecting them into image and checking where the feature acutally lies
+  - optimize by pruning weakest hypothesis
+  - uncertainty of each depth-particle/hypothesis determined by camera pos. uncertainty
+  - resolves quicker trough sideways motion than along the optic axis
+- when distribution over depth becomes peaky enough, replace it with gaussian distr. and convert ray to normal feature
+  - usually still large uncertainty in 'depth' direction, but quickly resolved trough more motion
+  - feature will now be used to estimate camera position as well
+- instead of uniform distr. over depth, use 3D gaussians over inv. depth
+  - more efficient use of samples by using inv. depth
+  - new features are immediately used for camera localization estimation (no need to wait for feature to be fully initialized)
+
+management of features:
+- keep number of features visible from any given point constant
+  - not too few, otherwise no good tracking possible
+  - not too much, otherwise too much computation necessary
+  - 12 seems to be a good number for wide-angle camera
+- if not enough features in FoV, search for new ones where:
+  - there aren't already existing features
+  - new features won't dissapear from FoV immediately (according to current motion estimation)
+- features are deleted if to many matching attempts fail (~50%). removes bad features, such as:
+  - not really 3D points (occlusion boundaries)
+  - on moving objects
+  - specular highlights
+  - just often occluded
+- creates a selection pressure for stable, static and widely-observable point features
+- problematic if mismatches occur (potentially catastrophic)
+  - unlikely due to large feature templates and small search windows
+
+estimation of feature normals:
+- assume flat surfaces
+- including surface orientation increases measurability
+- might be used in future for full geometry reconstruction
+- add surface normal and camera pos at capture time to feature
+  -> can now predict warping of image patch
+- measure change in warp:
+  - exhaustive search over pos and orientation a bit too extreme
+  - instead: estimate position of feature in image as before, then do gradient-descent to find warp parameters
+- initialization: normal parallel to current viewing direction
+- assumption: surface orientation only weakly correlated with camera and feature pos
+  -> keep track of orientation in separate state vector
+- orientation estimation only works well for large, planar features with good texture
+  -> not a problem: difficulty to estimate feature orientation equals viewpoint invariance
+  -> either we estimate orientation to get better recognizability or we don't need to warp to detect feature
+
+applications tested:
+- AR:
+  - robust
+  - realtime
+  - long time periods
+  - no problems with small and large loops
+  - situations without features are problematic (can survive as few as two or three visible features tough)
+- Robot:
+  - additionaly incorporate gyro (straightforward)
+  - suitable for long-term use, higly repeatable
+
+general accuracy:
+- accurate to a few centimeters
+- jitter of 1-2 cm
+- bigger errors possible, are corrected over time
+
+future directions:
+- larger environments
+  - probably some sort of submapping necessary
+  - SIFT or so for relocalization if completely lost
+- higher framerates
+  - interestingly, performance scales sublinearly as uncertainity is smaller between frames!
+- more dynamic motions (quick, jerky motions are a problem)
+- more complicated scenes, occlusions, complicated geometry, changing lighting
