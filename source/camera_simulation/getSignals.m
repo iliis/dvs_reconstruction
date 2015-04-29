@@ -38,7 +38,8 @@ state(vp, up) = 0;
 state(vn, un) = 0;
 
 % WHY IS THERE A -1 ?!?!
-%addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
-addr = getTmpdiff128Addr([up; un],  [vp; vn],  [ones(size(vp)); zeros(size(vn))]);
+% function assumes indices starting with 0 -> -1 aviods memory overflow
+% (values are stored in 8 bits in addr)
+addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
 
 ts = time*ones(size(addr));
