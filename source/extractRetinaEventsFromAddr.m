@@ -6,6 +6,7 @@ function [x,y,pol]=extractRetinaEventsFromAddr(addr)
 % addr is vector of n event addresses, 
 % returns x,y addresses and spike ON/OFF polarity pol with pol=1 for ON and
 % pol=-1 for OFF
+% {x, y} in [0, 127]!!
 retinaSizeX=128;
 
 persistent xmask ymask xshift yshift polmask
