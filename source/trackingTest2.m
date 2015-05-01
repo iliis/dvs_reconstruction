@@ -41,7 +41,7 @@ events_raw = getSignals(old_patch, new_patch, 0, zeros(size(old_patch)), pixelIn
 events = zeros(size(events_raw,1), 4);
 for i = 1:size(events_raw,1)
     [x, y, pol] = extractRetinaEventsFromAddr(events_raw(i));
-    events(i,:) = [x y pol 1];
+    events(i,:) = [x y pol norm(theta_new)]; % use movement in radian as 'time'
     
     disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol) ' actual diff = ' num2str(diff(y,x))]);
 end
@@ -71,7 +71,7 @@ N = 1000;
 % particles(:, 2:end) = particles(:, 2:end) + 0.0004 * randn(size(particles)-[0,1]);
 last_timestamp = 0;
 
-plotParticles(particles); drawnow; waitforbuttonpress;
+plotParticles(particles, theta_new); drawnow; waitforbuttonpress;
 
 for i = 1:size(events,1)
     
@@ -84,7 +84,7 @@ for i = 1:size(events,1)
     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
     disp(['updated on event ' num2str(i) ' = ' num2str(events(i,:)) ' deltaT_global = ' num2str(deltaT_global) ' mean = ' num2str(particleAverage(particles)) '  eff. no. = ' num2str(effectiveParticleNumber(particles))]);
     
-    plotParticles(particles); drawnow; waitforbuttonpress;
+    plotParticles(particles, theta_new); drawnow; waitforbuttonpress;
     
     
     % resample distribution if particles become too unevenly distributed
@@ -93,7 +93,7 @@ for i = 1:size(events,1)
         effno = effectiveParticleNumber(particles);
         disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
         
-        plotParticles(particles); drawnow; waitforbuttonpress;
+        plotParticles(particles, theta_new); drawnow; waitforbuttonpress;
     end
 end
 

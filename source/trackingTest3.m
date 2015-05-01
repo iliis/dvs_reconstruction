@@ -9,7 +9,7 @@ end
 
 % look a tiny bit up; this gives a max delta of about 7.8, with 5.3 at 61,43
 %theta_new = [0.0003 0 0]; % panorama.png
-%theta_new = [0.000069 0 0]; % toy_example1.png: 5.0406
+theta_new = [0.000069 0 0]; % toy_example1.png: 5.0406
 
 range = linspace(-0.01,0.01,100);
 
@@ -107,7 +107,7 @@ test_particles = initParticles(500, size(old_patch));
 particles(:, 2:end) = particles(:, 2:end) + 0.0004 * randn(size(particles)-[0,1]);
 plot(test_particles(:,2), test_particles(:,3), '.b');
 
-title({'likelihood of movement in alpha (X) or beta (Y) direction', ...
+title({'likelihood of movement in alpha (Y?) or beta (X?) direction', ...
     'red circle: actual movement', ...
     ['green circle: max. likelihood (' num2str(max_val) ')'], ...
     ['intensity event threshold: ' num2str(INTENSITY_THRESHOLD)], ...

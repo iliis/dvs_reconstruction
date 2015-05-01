@@ -38,6 +38,7 @@ state(vp, up) = 0;
 state(vn, un) = 0;
 
 % WHY IS THERE A -1 ?!?!
+% Camera gives 0 based coordinates, but Matlab code expects indexes starting with 1
 %addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
 addr = getTmpdiff128Addr([up; un],  [vp; vn],  [ones(size(vp)); zeros(size(vn))]);
 

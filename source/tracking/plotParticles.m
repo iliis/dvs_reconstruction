@@ -1,17 +1,19 @@
-function plotParticles( particles )
+function plotParticles( particles, true_solution )
 
 subplot(1,2,1);
 colormap 'hot'; %'parula';
 whitebg 'black';
 scatter(particles(:,2),particles(:,3),5,particles(:,1),'filled');
+%quiver(particles(:,2), particles(:,3), -sin(particles(:,4)).*particles(:,1), cos(particles(:,4)).*particles(:,1));
 colorbar;
 hold on;
 avg = particleAverage(particles);
 plot(avg(1), avg(2), 'xr');
 
-% plot actual solution
-% TODO: make this an optional parameter
-plot(0.0003, 0, 'og');
+if nargin > 1
+    % plot actual solution
+    plot(true_solution(1), true_solution(2), 'og');
+end
 
 hold off;
 
