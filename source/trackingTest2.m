@@ -41,7 +41,8 @@ events_raw = getSignals(old_patch, new_patch, 0, zeros(size(old_patch)), pixelIn
 events = zeros(size(events_raw,1), 4);
 for i = 1:size(events_raw,1)
     [x, y, pol] = extractRetinaEventsFromAddr(events_raw(i));
-    events(i,:) = [x y pol norm(theta_new)]; % use movement in radian as 'time'
+    % exractRetinaEventsFromAddr() gives 0 based indexes...
+    events(i,:) = [x+1 y+1 pol norm(theta_new)]; % use movement in radian as 'time'
     
     disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol) ' actual diff = ' num2str(diff(y,x))]);
 end
