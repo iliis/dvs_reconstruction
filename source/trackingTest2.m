@@ -9,11 +9,13 @@ else
     figure(tracking_test2_figure);
 end
 
-%imagepath = 'camera_simulation/testimages/panorama.png';
-%theta_new = [0.0003 0 0];  % look a tiny bit up
+imagepath = 'camera_simulation/testimages/panorama.png';
+theta_new = [0.0003 0 0];  % look a tiny bit up
 
-imagepath = 'camera_simulation/testimages/toy_example1.png';
-theta_new = [0.000069 0 0];
+% imagepath = 'camera_simulation/testimages/toy_example1.png';
+theta = [0 0 0];
+% theta_new = [0.000069 0 0];
+omega = [0 0.000001 0];
 
 K = cameraIntrinsicParameterMatrix();
 invKPs = zeros([128 128 2]);
@@ -37,14 +39,27 @@ diff = new_patch - old_patch;
 % 'warmup' step (-> smaller movement needed for event))
 events_raw = getSignals(old_patch, new_patch, 0, zeros(size(old_patch)), pixelIntensityThreshold());
 
+% state = zeros(128);
+% events_raw = [];
+% TS = [];
+% 
+% for i = 1:500
+%     old_patch = getPatch(img, invKPs, theta);
+%     theta = theta + omega;
+%     new_patch = getPatch(img, invKPs, theta);
+%     [addr, ts, state] = getSignals(old_patch, new_patch, i, state, pixelIntensityThreshold());
+%     events_raw = [events_raw; addr];
+%     TS = [TS; ts];
+% end
+
 % convert events into normal matlab vectors
 events = zeros(size(events_raw,1), 4);
 for i = 1:size(events_raw,1)
     [x, y, pol] = extractRetinaEventsFromAddr(events_raw(i));
     % exractRetinaEventsFromAddr() gives 0 based indexes...
-    events(i,:) = [x+1 y+1 pol norm(theta_new)]; % use movement in radian as 'time'
+    events(i,:) = [x+1 y+1 pol TS(i)]; % use movement in radian as 'time'
     
-    disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol) ' actual diff = ' num2str(diff(y,x))]);
+    disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol)]);
 end
 
 disp(['got ' num2str(size(events,1)) ' events']);
