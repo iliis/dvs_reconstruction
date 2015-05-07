@@ -1,4 +1,4 @@
-function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, img_size )
+function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, img_size ) %#codegen
 %CAMERATOWORLDCOORDINATES Summary of this function goes here
 %
 % parameters:
@@ -9,7 +9,6 @@ function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, i
 %
 % output:
 %  [x, y]: pixel coordinates in world image coordinates ([1,img_size])
-
 
 
 % % compute ray angle through pixel
@@ -24,11 +23,6 @@ function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, i
 % % targetCoords = [targetP(2)*size(img, 2)/(2*pi) + origin(1), targetP(1)*size(img, 2)/(2*pi) + origin(2)];
 % world_coordinates = (targetO * img_size(2)/(2*pi)) + img_size/2;
 % % roundedCoords = round(targetCoords);
-
-
-
-
-
 
 
 origin = zeros([1 1 2]);
@@ -69,7 +63,7 @@ deltaBetas  = atan(cosMat .* invKPs(:,:,1) - sinMat .* invKPs(:,:,2));
 targetOs = zeros(size(invKPs));
 targetOs(:,:,1) = -theta(1)*ones(N) + deltaAlphas;
 targetOs(:,:,2) = -theta(2)*ones(N) + deltaBetas;
-targetCoords = (targetOs .* (img_size(1)/(2*pi))) + repmat(origin, [N N 1]);
+targetCoords = (targetOs .* (double(img_size(1))/(2*pi))) + repmat(double(origin), [N N 1]);
 
 world_coordinates = reshape(targetCoords, N*N, 2);
 

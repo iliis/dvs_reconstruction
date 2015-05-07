@@ -18,7 +18,7 @@ else
     state = startState;
 end
 
-img = double(rgb2gray(imread(imagepath)));
+img = im2double(rgb2gray(imread(imagepath)));
 % time = 1;
 
 allAddr = [];
@@ -56,13 +56,13 @@ for u = 1:128
     end
 end
 
-lastPatch = getPatch(img, invKPs, thetaStart);
+lastPatch = getPatch_mex(img, invKPs, thetaStart);
 
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    patch = getPatch(img, invKPs, theta);
+    patch = getPatch_mex(img, invKPs, theta);
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
 

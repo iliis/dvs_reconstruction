@@ -1,5 +1,8 @@
 function plotParticles( particles, true_solution )
 
+% axisLimits = 0.001 * [-0.1 1.9 -1 1];
+axisLimits = 0.001 * [-1 1 -1 50];
+
 subplot(1,2,1);
 colormap 'hot'; %'parula';
 whitebg 'black';
@@ -14,7 +17,7 @@ if nargin > 1
     % plot actual solution
     plot(true_solution(1), true_solution(2), 'og');
 end
-
+axis(axisLimits);
 hold off;
 
 title({'red X: weighted average over particles', 'green O: correct solution'});

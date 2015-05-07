@@ -1,27 +1,29 @@
-function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, timestamp, theta, invKPs, gradients, covariances, lastSigs, lastPos)
+function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, timestamp, theta, gradients, covariances, lastSigs, lastPos)
 
 % This function an event and updates the mosaic, gradients, covariances and
 % history with an EKF
 
-C = pixelIntensityThreshold(); %DUMMY - log intensity change that causes an event
+assert(pol == 1 || pol == -1, 'polarity signal error');
+
+C = pixelIntensityThreshold(); %0.22 - log intensity change that causes an event
 R = measurementNoise(); %DUMMY - measurement noise
 
 % compute tau
 tau = double(timestamp - lastSigs(v, u));
 
 %compute pixel in global image space
-invKP = invKPs(:, v, u); 
-deltaAlpha = atan(cos(-theta(3))*invKP(2) + sin(-theta(3))*invKP(1));
-deltaBeta  = atan(cos(-theta(3))*invKP(1) - sin(-theta(3))*invKP(2));
+% invKP = invKPs(:, v, u); 
+% deltaAlpha = atan(cos(-theta(3))*invKP(2) + sin(-theta(3))*invKP(1));
+% deltaBeta  = atan(cos(-theta(3))*invKP(1) - sin(-theta(3))*invKP(2));
 
-targetP = [-theta(2) + deltaBeta, -theta(1) + deltaAlpha]; 
+% targetP = [-theta(2) + deltaBeta, -theta(1) + deltaAlpha]; 
 
 %         compute coordinates in gradient map
-p = targetP * size(gradients, 3)/(2*pi);
+% p = targetP * size(gradients, 3)/(2*pi);
 
 
 % p = [-(theta(2) + deltaBeta)*size(gradients, 3)/(2*pi) , (theta(1) + deltaAlpha) * size(gradients, 3)/(2*pi)];
-pmt = round(p + ([size(gradients, 3), size(gradients, 2)] ./ 2))';
+% pmt = round(p + ([size(gradients, 3), size(gradients, 2)] ./ 2))';
 
 pmt = round(cameraToWorldCoordinates(u,v,cameraIntrinsicParameterMatrix(),theta,[size(gradients,2),size(gradients,3)]));
 pmt = [pmt(2); pmt(1)];

@@ -1,21 +1,8 @@
-function [ map, gradients, theta_est ] = trackingTest2(steps)
+function [ map, gradients, theta_est ] = trackingTest_combined(events_raw, TS, theta_gt)
 
 imagepath = 'camera_simulation/testimages/panorama.png';
 
-omega = [0.00001 0.00001 0];
-
-% K = cameraIntrinsicParameterMatrix();
-% invKPs = zeros([128 128 2]);
-% for u = 1:128
-%     for v = 1:128      
-%         invKP = K \ [u v 1]';  
-%         invKPs(v, u, :) = invKP(1:2);
-%     end
-% end
-
 img = im2double(rgb2gray(imread(imagepath)));
-
-[events_raw, TS, theta_gt, ~] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(128));
 
 % convert events into normal matlab vectors
 events = zeros(size(events_raw,1), 4);
@@ -40,7 +27,7 @@ if ~exist('tracking_test2_figure', 'var') || ~ishandle(tracking_test2_figure)
 else
     figure(tracking_test2_figure);
 end
-plotParticles(particles, omega); drawnow; %waitforbuttonpress;
+plotParticles(particles, [0 0 0]); drawnow; %waitforbuttonpress;
 
 theta_est = zeros(size(events, 1), 3);
 % map = zeros(3000, 6000);
@@ -55,15 +42,10 @@ for i = 1:size(events,1)
     
     theta_est(i,:) = particleAverage(particles);
     
-    if deltaT_global > 0; [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :)); end;    
-    disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
+%     if deltaT_global > 0; [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :)); end;
     
-%     if i < 200
-        [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
-%     else
-%         [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state);
-%     end
-
+%     [particles, tracking_state] = updateOnEvent(particles, events(i,:), double(im2uint8(map)), tracking_state);
+    [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
     disp(['updated on event ' num2str(i) ...
         ' (time ' num2str(events(i,4)) ')' ...
         ' = ' num2str(events(i,1:3)) ...
@@ -72,7 +54,7 @@ for i = 1:size(events,1)
         ' mean = ' num2str(particleAverage(particles)) ...
         ' eff. no. = ' num2str(effectiveParticleNumber(particles))]);
     
-    if i < 50
+    if i < 200
         if ~exist('tracking_test2_figure', 'var') || ~ishandle(tracking_test2_figure)
             tracking_test2_figure = figure();
         else
@@ -82,16 +64,16 @@ for i = 1:size(events,1)
     end
     
     if mod(i, 50) == 0
-%         [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :));
+        [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :));
         if ~exist('intermediate_map_figure', 'var') || ~ishandle(intermediate_map_figure)
             intermediate_map_figure = figure();
         else
             figure(intermediate_map_figure);
         end
-        imagesc(map);
+        imagesc(double(map));
         colormap(   intermediate_map_figure, 'gray');
         drawnow;
-        disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
+        disp(['map extreme values: [' num2str(min(min(im2uint8(map)))) ', ' num2str(max(max(im2uint8(map)))) ']']);
         disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
     end
         
@@ -112,22 +94,22 @@ end
 
 disp(['final mean = ' num2str(particleAverage(particles)) '  eff. no. = ' effectiveParticleNumber(particles)]);
 
-dist = sqrt(sum(theta_gt, 2))';
+travelled_distance = sqrt(sum(theta_gt.^2, 2))';
 err = sqrt(sum((theta_gt - theta_est).^2, 2))';
-relerr = err ./ dist;
+relerr = err ./ travelled_distance;
 
 if ~exist('errorplot_figure', 'var') || ~ishandle(errorplot_figure)
     errorplot_figure = figure();
 else
     figure(errorplot_figure);
 end
-semilogy(1:size(theta_gt,1), err, 'r', 1:size(theta_gt,1), relerr, 'b', 1:size(theta_gt,1), dist, 'g');
+semilogy(1:size(theta_gt,1), err, 'r', 1:size(theta_gt,1), relerr, 'b', 1:size(theta_gt,1), travelled_distance, 'g');
 legend('total error', 'error relative to overall movement', 'overall movement');
 
 
 [map, gradients] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :));
 disp(['map extreme values(double): [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
-% disp(['map extreme values: [' num2str(min(min(im2uint8(map)))) ', ' num2str(max(max(im2uint8(map)))) ']']);
+disp(['map extreme values: [' num2str(min(min(im2uint8(map)))) ', ' num2str(max(max(im2uint8(map)))) ']']);
 disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
 
 if ~exist('intermediate_map_figure', 'var') || ~ishandle(intermediate_map_figure)
