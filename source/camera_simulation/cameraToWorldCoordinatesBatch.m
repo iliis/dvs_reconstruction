@@ -8,7 +8,7 @@ function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, i
 %  //img_size: [W,H] size of world image (i.e. [size(img,2), size(img,1)])
 %
 % output:
-%  [x, y]: pixel coordinates in world image coordinates ([1,img_size])
+%  [y, x]: pixel coordinates in world image coordinates ([1,img_size])
 
 
 

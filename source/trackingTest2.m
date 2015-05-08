@@ -13,7 +13,7 @@ end
 %theta_new = [0.0003 0 0];  % look a tiny bit up
 
 imagepath = 'camera_simulation/testimages/toy_example1.png';
-theta_new = [0.000069 0 0];
+theta_new = [0.00016 0 0]; % toy_example1.png: 5.1819
 
 K = cameraIntrinsicParameterMatrix();
 invKPs = zeros([128 128 2]);
@@ -41,8 +41,10 @@ events_raw = getSignals(old_patch, new_patch, 0, zeros(size(old_patch)), pixelIn
 events = zeros(size(events_raw,1), 4);
 for i = 1:size(events_raw,1)
     [x, y, pol] = extractRetinaEventsFromAddr(events_raw(i));
+    x = x + 1;
+    y = y + 1;
     % exractRetinaEventsFromAddr() gives 0 based indexes...
-    events(i,:) = [x+1 y+1 pol norm(theta_new)]; % use movement in radian as 'time'
+    events(i,:) = [x y pol norm(theta_new)]; % use movement in radian as 'time'
     
     disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol) ' actual diff = ' num2str(diff(y,x))]);
 end

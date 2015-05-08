@@ -4,8 +4,8 @@ function [particles, state] = updateOnEvent(particles_prior, event, intensities,
 %  1 event [u,v,sign,timestamp]
 %  state: position of camera for every pixel at the time of its last event [128x128x3]
 
-% TODO: these values were chosen arbitrariliy!
-LOW_LIKELIHOOD = 0.0001;
+% TODO: these values were chosen quite arbitrariliy!
+% LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 5; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
 u = event(1); v = event(2);
@@ -36,7 +36,7 @@ end
 % get pixel-intensity difference of prior and proposed posterior particle
 %measurements = log(interp2(intensities,new_points_w(:,2),new_points_w(:,1))) - log(interp2(intensities,old_points_w(:,2),old_points_w(:,1)));
 
-likelihoods = zeros(size(particles,1),1);
+%likelihoods = zeros(size(particles,1),1);
 old_intensities = interp2(intensities, old_points_w(:,2), old_points_w(:,1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
 
