@@ -1,37 +1,59 @@
 % track longer path over known image
 
-% Warning: we don't generate any timestamps for the events and just use
+% Warning: we don't explicitely generate timestamps for the events and just use
 % norm(theta) which works out nicely, as we're monotonically moving away
 % from the start point as flyDiffCamFine only walks in positive direction.
 
 clear all;
 close all;
 
+hold on;
+
 imagepath = 'camera_simulation/testimages/toy_example1.png';
 img = double(rgb2gray(imread(imagepath)));
 
-% generate a path
-[events, ground_truth, state] = flyDiffCamFine(img, 50);
 
 [particles, tracking_state] = initParticles(1000, [128 128]);
 
+
+% generate a path
+
+events = [];
+ground_truth = [];
+
+last_pos  = [0 0 0]; % initial position
+last_time = 0;
+[~,~,flydiff_state] = flyDiffCamFine(img,0,last_pos);
+
+tracked_path = particleAverage(particles);
+
 for i = 1:10
-    [events_new, ground_truth_new, state] = flyDiffCamFine(img, ...
-            10,                     ... % generate at least so many events
-            ground_truth(end,:),    ... % start where we left off on last iteration
-            randi(2),               ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
-            0.00001,                ... % default sweep step size
-            state);                     % state of camera sensor
+    
+    [events_new, ground_truth_new, flydiff_state] = flyDiffCamFine(img, ...
+            20,          ... % generate at least so many events
+            last_pos,    ... % start where we left off on last iteration
+            randi(2),    ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
+            0.00001,     ... % default sweep step size
+            flydiff_state);          % state of camera sensor
+        
+    [particles, tracking_state] = trackMovement( particles, tracking_state, events_new, img, last_time);
+    tracked_path = [tracked_path; particleAverage(particles)];
+    plotCameraGroundTruth([last_pos; ground_truth_new], size(img), 'green');
+    plotParticlesInWorld(particles, size(img));
+    plotCameraGroundTruth(tracked_path(end-1:end,:), size(img), 'blue');
+    drawnow;
     
     events = [events; events_new];
     ground_truth = [ground_truth; ground_truth_new];
+    
+    last_pos  = ground_truth(end,:);
+    last_time = events(end,4);
 end
 
 
 %function [particles, tracking_state] = trackMovement( particles, tracking_state, events, img, last_timestamp)
-[particles, tracking_state] = trackMovement( particles, tracking_state, events, img, 0);
+%[particles, tracking_state] = trackMovement( particles, tracking_state, events, img, 0);
 
-imagesc(img);
-hold on;
-plotCameraGroundTruth(ground_truth, size(img));
-plotParticlesInWorld(particles, size(img));
+%plotCameraGroundTruth(ground_truth, size(img));
+%hold on;
+%plotParticlesInWorld(particles, size(img));

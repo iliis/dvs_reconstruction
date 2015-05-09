@@ -1,5 +1,9 @@
 function plotParticlesInWorld( particles, img_size )
 
+
+
+
+
 invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [64 64]);
 
 w = zeros(size(particles,1),2);

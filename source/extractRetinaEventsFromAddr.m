@@ -29,7 +29,7 @@ end
 % TODO: this abs() should NEVER be necessary and might mask another bug!
 % addr=abs(addr); % make sure nonnegative or an error will result from bitand (glitches can somehow result in negative addressses...)
 x=retinaSizeX-1-double(bitshift(bitand(addr,xmask),-xshift)); % x addresses
-y=double(bitshift(bitand(addr,ymask),-yshift)); % y addresses
+y=retinaSizeX-1-double(bitshift(bitand(addr,ymask),-yshift)); % y addresses
 pol=2*double(bitand(addr,polmask))-1; % 1 for ON, -1 for OFF
 
 % n=min([3,length(addr)]);
