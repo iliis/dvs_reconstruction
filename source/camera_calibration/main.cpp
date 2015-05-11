@@ -1,6 +1,10 @@
 // http://stackoverflow.com/questions/21890627/drawing-a-rectangle-with-sdl2
 
 #include <stdlib.h>
+#include <math.h>
+#include <iostream>
+#include <string>
+#include <algorithm>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 
@@ -25,8 +29,52 @@ void draw_checkerboard_pattern(SDL_Window* window, SDL_Renderer* r, int numrows,
     }
 }
 
-int main(int argc, char* argv[])
+void draw_focus_pattern(SDL_Window* window, SDL_Renderer* r)
 {
+    int W = 0, H = 0;
+    SDL_GetWindowSize(window, &W, &H);
+
+    SDL_Rect rect;
+    rect.w = W; //pow(2, floor(log2(std::max(W,H))));
+    rect.h = rect.w;
+
+    bool white = true;
+
+    while (rect.w > 0) {
+        if (white)
+            SDL_SetRenderDrawColor(r, 255, 255, 255, 255 );
+        else
+            SDL_SetRenderDrawColor(r, 0, 0, 0, 255 );
+
+        // draw centered rectangle
+        rect.x = W/2 - rect.w/2;
+        rect.y = H/2 - rect.h/2;
+
+        SDL_RenderFillRect(r, &rect);
+
+        rect.w = rect.w * 0.8;
+        rect.h = rect.w;
+        white = !white; // alternate colors
+    }
+}
+
+int main(int argc, const char* argv[])
+{
+    int pattern = 0;
+    if (argc == 2) {
+        if (argv[1] == string("checkerboard"))
+            pattern = 1;
+        else if (argv[1] == string("focus"))
+            pattern = 2;
+    }
+
+    if (pattern == 0) {
+        cout << "usage: " << argv[0] << " pattern" << endl;
+        cout << "where pattern = 'checkerboard' or 'focus'" << endl;
+
+        return EXIT_FAILURE;
+    }
+
     SDL_Window* window = NULL;
     window = SDL_CreateWindow
     (
@@ -60,14 +108,27 @@ int main(int argc, char* argv[])
         SDL_RenderClear( renderer );
 
         SDL_SetRenderDrawColor( renderer, 255, 255, 255, 255 );
-        draw_checkerboard_pattern(window, renderer, 6, 10);
+
+        switch (pattern) {
+            case 1:
+                draw_checkerboard_pattern(window, renderer, 6, 10);
+                break;
+
+            case 2:
+                draw_focus_pattern(window, renderer);
+                break;
+        }
         SDL_RenderPresent(renderer);
+
+        //SDL_Delay(50);
 
 
         // show black window
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255 );
         SDL_RenderClear(renderer);
         SDL_RenderPresent(renderer);
+
+        //SDL_Delay(50);
     }
 
     SDL_DestroyWindow(window);
