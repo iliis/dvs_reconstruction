@@ -10,20 +10,33 @@
 
 using namespace std;
 
-void draw_checkerboard_pattern(SDL_Window* window, SDL_Renderer* r, int numrows, int numcols)
+void draw_checkerboard_pattern(SDL_Window* window, SDL_Renderer* r, int numrows, int numcols, bool points = false)
 {
     int W = 0, H = 0;
     SDL_GetWindowSize(window, &W, &H);
 
     SDL_Rect rect;
-    rect.w = W/numcols; rect.h = H/numrows;
+
+    if (points) {
+        rect.w = W/numcols/3;
+        rect.h = H/numrows/3;
+    } else {
+        rect.w = W/numcols;
+        rect.h = H/numrows;
+    }
 
     for (int row = 0; row < numrows; ++row) {
         for (int col = 0; col < numcols; ++col) {
-            if ((row % 2) == (col % 2)) {
-                rect.x = col * rect.w;
-                rect.y = row * rect.h;
+            if (points) {
+                rect.x = col * rect.w * 3 + rect.w;
+                rect.y = row * rect.h * 3 + rect.h;
                 SDL_RenderFillRect(r, &rect);
+            } else {
+                if ((row % 2) == (col % 2)) {
+                    rect.x = col * rect.w;
+                    rect.y = row * rect.h;
+                    SDL_RenderFillRect(r, &rect);
+                }
             }
         }
     }
@@ -64,13 +77,15 @@ int main(int argc, const char* argv[])
     if (argc == 2) {
         if (argv[1] == string("checkerboard"))
             pattern = 1;
-        else if (argv[1] == string("focus"))
+        else if (argv[1] == string("points"))
             pattern = 2;
+        else if (argv[1] == string("focus"))
+            pattern = 3;
     }
 
     if (pattern == 0) {
         cout << "usage: " << argv[0] << " pattern" << endl;
-        cout << "where pattern = 'checkerboard' or 'focus'" << endl;
+        cout << "where pattern = 'checkerboard', 'points' or 'focus'" << endl;
 
         return EXIT_FAILURE;
     }
@@ -115,6 +130,10 @@ int main(int argc, const char* argv[])
                 break;
 
             case 2:
+                draw_checkerboard_pattern(window, renderer, 6, 10, true);
+                break;
+
+            case 3:
                 draw_focus_pattern(window, renderer);
                 break;
         }
