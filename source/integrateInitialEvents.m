@@ -31,24 +31,31 @@ minVal = min(min(integratedImage))
 % maxVal = max(max(integratedImage))
 % minVal = min(min(integratedImage))
 
-K = cameraIntrinsicParameterMatrix();
-ulCorner = round(cameraToWorldCoordinates(1, 1, K, [0 0 0], imgSize));
-urCorner = round(cameraToWorldCoordinates(1, 128, K, [0 0 0], imgSize));
-dlCorner = round(cameraToWorldCoordinates(128, 1, K, [0 0 0], imgSize));
-% dlCorner = round(cameraToWorldCoordinates(128, 128, K, [0 0 0], imgSize))
+[camCoords, width, height] = initialWorld2CamBatch(imgSize);
 
-xDiff = urCorner(1) - ulCorner(1);
-yDiff = dlCorner(2) - ulCorner(2);
-xCoords = linspace(1,128, xDiff);
-yCoords = linspace(1,128,yDiff);
-[X, Y] = meshgrid(xCoords, yCoords);
+% K = cameraIntrinsicParameterMatrix();
+% ulCorner = round(cameraToWorldCoordinates(1, 1, K, [0 0 0], imgSize));
+% urCorner = round(cameraToWorldCoordinates(1, 128, K, [0 0 0], imgSize));
+% dlCorner = round(cameraToWorldCoordinates(128, 1, K, [0 0 0], imgSize));
+% % dlCorner = round(cameraToWorldCoordinates(128, 128, K, [0 0 0], imgSize))
+% 
+% xDiff = urCorner(1) - ulCorner(1);
+% yDiff = dlCorner(2) - ulCorner(2);
+% xCoords = linspace(1,128, xDiff);
+% yCoords = linspace(1,128,yDiff);
+% [X, Y] = meshgrid(xCoords, yCoords);
 
-vals = interp2(integratedImage, X, Y);
+% vals = interp2(integratedImage, X, Y);
+vals = interp2(integratedImage, camCoords(:,1), camCoords(:,2));
 
-vals = reshape(vals, yDiff, xDiff);
+% vals = reshape(vals, yDiff, xDiff);
+size(vals)
+width
+height
+vals = reshape(vals, height, width);
 worldImage = 0.5*ones(imgSize);
 
-invKPs = reshape((cameraIntrinsicParameterMatrix() \ [X(:)'; Y(:)'; ones(1,xDiff*yDiff)])', yDiff, xDiff, 3);
+invKPs = reshape((cameraIntrinsicParameterMatrix() \ [camCoords(:,1)'; camCoords(:,2)'; ones(1,width*height)])', height, width, 3);
 worldCoords = round(cameraToWorldCoordinatesBatch(invKPs(:,:,1:2), [0 0 0], imgSize));
 worldImage(sub2ind(size(worldImage), worldCoords(:,1), worldCoords(:,2))) = vals(:);
 
