@@ -40,7 +40,8 @@ end
 % u
 % v
 % theta
-pmt = round(cameraToWorldCoordinates(u,v,cameraIntrinsicParameterMatrix(),theta,[size(gradients,2),size(gradients,3)]));
+pmt = cameraToWorldCoordinates(u,v,cameraIntrinsicParameterMatrix(),theta,[size(gradients,2),size(gradients,3)]);
+idx = round(pmt);
 pmt = pmt';
 % pmt = [pmt(2); pmt(1)]
 
@@ -53,7 +54,7 @@ if all(velocity == [0 0]')
 end
 
 % get global pixel gradient from matrix
-gTau = gradients(:, pmt(1), pmt(2));
+gTau = gradients(:, idx(1), idx(2));
 
 z = 1/tau;
 
@@ -67,7 +68,7 @@ nu = z - h;
 dhdg = pol * velocity' ./ C;
 
 % get covariances from matrix
-PgTau = covariances(:,:,pmt(1),pmt(2));
+PgTau = covariances(:,:,idx(1),idx(2));
 
 % compute innovation covariance
 S = dhdg * PgTau * dhdg' + R;
@@ -109,8 +110,8 @@ if sum(isnan(gt)) > 0
 end
 
 % update matrices
-covariances(:,:,pmt(1),pmt(2)) = Pgt;
-gradients(:,pmt(1),pmt(2)) = gt;
+covariances(:,:,idx(1),idx(2)) = Pgt;
+gradients(:,idx(1),idx(2)) = gt;
 lastSigs(v, u) = timestamp;
 lastPos(:,v,u) = pmt;
 

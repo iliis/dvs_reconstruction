@@ -49,9 +49,6 @@ minVal = min(min(integratedImage))
 vals = interp2(integratedImage, camCoords(:,1), camCoords(:,2));
 
 % vals = reshape(vals, yDiff, xDiff);
-size(vals)
-width
-height
 vals = reshape(vals, height, width);
 worldImage = 0.5*ones(imgSize);
 

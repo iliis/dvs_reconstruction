@@ -104,10 +104,10 @@ lastPosUpdated = false;
 
 % initialPatch = cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize);
 originInitial = round(cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), [0 0 0], outputImageSize));
-movementDetectedTimestamp = 1000000000;
+% movementDetectedTimestamp = 1000000000;
 useGeneratedMap = false;
 
-for i = 1:size(events,1)
+for i = nextInd:size(events,1)
     
     deltaT_global = events(i,4) - last_timestamp;
     last_timestamp = events(i,4);
