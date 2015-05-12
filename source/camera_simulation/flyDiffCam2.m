@@ -71,7 +71,6 @@ for i = 1:max(steps)
     thetas = [thetas; repmat(theta, size(addr,1), 1)];
 
 	lastPatch = patch;
-    pause(0.0001);    
     
     if mod(i, 100) == 0
         fprintf('timestep %d/%d\n', i, max(steps));
