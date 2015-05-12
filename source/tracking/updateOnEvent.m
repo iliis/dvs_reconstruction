@@ -28,11 +28,8 @@ particles_prior_this_pixel = permute(state_prior(v,u,:,:), [3 4 1 2]);
 
 for i = 1:size(particles_prior,1)
     % get pixel coordinates in world map
-%     coder.varsize('particles_prior_this_pixel', [100000 4], [1 0]);
     old_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles_prior_this_pixel(i,2:end), size(intensities));
     
-%     assert(~any(any(isnan(old_points_w))))%, sprintf('NaN in old_points_w (particle %d)', i));
-%     coder.varsize('particles)', [100000 4], [1 0]);
     %old_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles_prior(i,2:end), size(intensities));
     new_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles(i,2:end),       size(intensities));
 %     assert(~any(any(isnan(new_points_w))))%, sprintf('NaN in new_points_w (particle %d)', i));
@@ -44,8 +41,6 @@ end
 % likelihoods = zeros(size(particles,1),1);
 old_intensities = interp2(intensities, old_points_w(:,2), old_points_w(:,1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
-% assert(~any(isnan(old_intensities)), 'NaN in old_intensities');
-% assert(~any(isnan(new_intensities)), 'NaN in new_intensities');
 
 
 for p = 1:size(particles,1)
@@ -53,7 +48,7 @@ for p = 1:size(particles,1)
     % compare current pixel's intensity with all possible previous ones
     measurements = new_intensities(p) - old_intensities;
     
-    assert(~any(isnan(measurements)))%, sprintf('NaN in measurements particle %d', p));
+    assert(~any(isnan(measurements)));
     
     % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
     %     copied from gaussmf

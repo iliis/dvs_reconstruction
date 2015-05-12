@@ -31,7 +31,7 @@ lastPos = repmat([1000000000 1000000000]', [1, 128 128]);
 secToLastSigs = lastSigs;
 secToLastPos = lastPos;
 
-[gradients, nextInd] = integrateInitialEvents(events, 5000, outputImageSize);
+[gradients, nextInd] = integrateInitialEvents(events, 2000, outputImageSize);
 
 pgrads = permute(gradients, [2 3 1]);
 % size(pgrads)
@@ -71,7 +71,11 @@ for i = nextInd:size(events,1)
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);
     
+        [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state);
+%     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
+    
     theta_est(i,:) = particleAverage(particles);
+
     
     if ~lastPosUpdated && (sum(abs(originInitial - cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), theta_est(i,:), outputImageSize))) > 5)
         lastPosUpdated = true;
@@ -93,12 +97,10 @@ for i = nextInd:size(events,1)
     end
     
     %     if deltaT_global > 0; [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :)); end;
-    
-    [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state);
-%     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
+   
     
     
-    if mod(i, 10) == 0
+    if mod(i, 100) == 0
         disp(['updated on event ' num2str(i) ...
             ' (time ' num2str(events(i,4)) ')' ...
             ' = ' num2str(events(i,1:3)) ...

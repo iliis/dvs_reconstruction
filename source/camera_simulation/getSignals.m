@@ -42,6 +42,6 @@ state(vn, un) = 0;
 % -> it doesn't make much sense to work with 8 bit uints in Matlab (we're
 %    actually using float/doubles anyway), better use one-based indexing
 %    troughout the whole Matlab codebase.
-addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
+addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [zeros(size(vn)); ones(size(vp))]);
 
 ts = time*ones(size(addr));

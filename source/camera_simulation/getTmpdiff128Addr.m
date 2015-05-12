@@ -6,4 +6,4 @@ function rawAddr=getTmpdiff128Addr(x,y,pol)
 % EXPECTS {x, y} in [0, 127]!!
 % TODO: expect x and y to be one-based (i.e. element of [1, 128]) and
 % clamp & convert them here (and in extractRetinaEventsFromAddr).
-rawAddr=(y)*256+(127-x)*2+pol; %extractor.getAddressFromCell(x,y,pol);
+rawAddr=(127-y)*256+(127-x)*2+pol; %extractor.getAddressFromCell(x,y,pol);
