@@ -13,7 +13,7 @@ pIdx = state > threshold;
 nIdx = state < -threshold;
 
 % compute indices of noise
-noiseInds = randperm(16384, max(20, round(sum(sum(pIdx + nIdx))/20)));
+noiseInds = randperm(64*64, max(20, round(sum(sum(pIdx + nIdx))/20)));
 nOfNoisePxls = size(noiseInds, 1);
 pIdx(noiseInds(1:round(nOfNoisePxls / 4))) = true;
 nIdx(noiseInds(1:round(nOfNoisePxls / 4))) = false;
@@ -42,6 +42,9 @@ state(vn, un) = 0;
 % -> it doesn't make much sense to work with 8 bit uints in Matlab (we're
 %    actually using float/doubles anyway), better use one-based indexing
 %    troughout the whole Matlab codebase.
-addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
+
+% the +64 is a super dirty hack because this whole address conversion is
+% completely fucked up.
+addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1+64,  [ones(size(vp)); zeros(size(vn))]);
 
 ts = time*ones(size(addr));

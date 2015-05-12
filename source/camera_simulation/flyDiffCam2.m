@@ -13,7 +13,7 @@ function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart,
 % theta = thetaStart;
 
 if nargin < 5 || (size(startState, 1) ~= 128 || size(startState, 2) ~= 128)
-    state = zeros(128);
+    state = zeros(64);
 else
     state = startState;
 end
@@ -47,10 +47,10 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
-invKPs = zeros([128 128 2]);
+invKPs = zeros([64 64 2]);
 
-for u = 1:128
-    for v = 1:128      
+for u = 1:64
+    for v = 1:64   
         invKP = K \ [u v 1]';  
         invKPs(v, u, :) = invKP(1:2);
     end
@@ -70,8 +70,7 @@ for i = 1:max(steps)
     allTS = [allTS; ts];
     thetas = [thetas; repmat(theta, size(addr,1), 1)];
 
-	lastPatch = patch;
-    pause(0.0001);    
+	lastPatch = patch; 
     
     if mod(i, 100) == 0
         fprintf('timestep %d/%d\n', i, max(steps));

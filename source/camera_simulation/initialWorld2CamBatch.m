@@ -3,8 +3,8 @@ function [camCoords, width, height] = initialWorld2CamBatch(imgSize)
 K = cameraIntrinsicParameterMatrix();
 
 lt = round(cameraToWorldCoordinates(1, 1, K, [0 0 0], imgSize));
-rt = round(cameraToWorldCoordinates(128, 1, K, [0 0 0], imgSize));
-lb = round(cameraToWorldCoordinates(1, 128, K, [0 0 0], imgSize));
+rt = round(cameraToWorldCoordinates(64, 1, K, [0 0 0], imgSize));
+lb = round(cameraToWorldCoordinates(1, 64, K, [0 0 0], imgSize));
 % rb = cameraToWorldCoordinates(128, 128, K, [0 0 0], imgSize);
 
 % camCoords = zeros([2, (lb(1)-lt(1)), (rt(2)-lt(2))]);
