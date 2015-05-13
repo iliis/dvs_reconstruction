@@ -10,19 +10,25 @@
 
 using namespace std;
 
-void draw_checkerboard_pattern(SDL_Window* window, SDL_Renderer* r, int numrows, int numcols, bool points = false)
+const int RECTSIZE = 180;
+
+void draw_checkerboard_pattern(SDL_Window* window, SDL_Renderer* r, int rect_size, bool points = false)
 {
     int W = 0, H = 0;
     SDL_GetWindowSize(window, &W, &H);
 
     SDL_Rect rect;
 
+    int numcols = floor(W/rect_size);
+    int numrows = floor(H/rect_size);
+
     if (points) {
         rect.w = W/numcols/3;
         rect.h = H/numrows/3;
     } else {
-        rect.w = W/numcols;
-        rect.h = H/numrows;
+        //rect.w = W/numcols;
+        rect.h = rect_size;
+        rect.w = rect_size;
     }
 
     for (int row = 0; row < numrows; ++row) {
@@ -98,7 +104,11 @@ int main(int argc, const char* argv[])
         SDL_WINDOWPOS_UNDEFINED,
         640,
         480,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP
+        SDL_WINDOW_SHOWN |
+        SDL_WINDOW_BORDERLESS |
+        SDL_WINDOW_MAXIMIZED |
+        SDL_WINDOW_RESIZABLE
+        //SDL_WINDOW_FULLSCREEN_DESKTOP
     );
 
     // Setup renderer
@@ -111,8 +121,8 @@ int main(int argc, const char* argv[])
         while (SDL_PollEvent(&e)){
             switch (e.type) {
                 case SDL_QUIT:
-                case SDL_KEYDOWN:
-                case SDL_MOUSEBUTTONDOWN:
+                //case SDL_KEYDOWN:
+                //case SDL_MOUSEBUTTONDOWN:
                     quit = true;
                     break;
             }
@@ -126,11 +136,11 @@ int main(int argc, const char* argv[])
 
         switch (pattern) {
             case 1:
-                draw_checkerboard_pattern(window, renderer, 6, 10);
+                draw_checkerboard_pattern(window, renderer, RECTSIZE);
                 break;
 
             case 2:
-                draw_checkerboard_pattern(window, renderer, 6, 10, true);
+                draw_checkerboard_pattern(window, renderer, RECTSIZE, true);
                 break;
 
             case 3:

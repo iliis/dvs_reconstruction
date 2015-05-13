@@ -69,7 +69,7 @@ deltaBetas  = atan(cosMat .* invKPs(:,:,1) - sinMat .* invKPs(:,:,2));
 targetOs = zeros(size(invKPs));
 targetOs(:,:,1) = -theta(1)*ones(N) + deltaAlphas;
 targetOs(:,:,2) = -theta(2)*ones(N) + deltaBetas;
-targetCoords = (targetOs .* (img_size(1)/(2*pi))) + repmat(origin, [N N 1]);
+targetCoords = (targetOs .* (img_size(2)/(2*pi))) + repmat(origin, [N N 1]);
 
 world_coordinates = reshape(targetCoords, N*N, 2);
 
