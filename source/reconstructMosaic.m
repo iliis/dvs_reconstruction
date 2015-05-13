@@ -9,10 +9,10 @@ boundary_image = 0.5*ones(outputImageSize);
 origin = outputImageSize ./ 2;
 gradients = zeros([2, outputImageSize]);
 covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
-lastSigs = zeros(128);
-% lastPos = 1000000000* ones(2,128,128);
-% lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 128 128]);
-lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), thetas(1,:), outputImageSize)', [2 128 128]);
+lastSigs = zeros(64);
+% lastPos = 1000000000* ones(2,64,64);
+% lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
+lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), thetas(1,:), outputImageSize)', [2 64 64]);
 secToLastSigs = lastSigs;
 secToLastPos = lastPos;
 

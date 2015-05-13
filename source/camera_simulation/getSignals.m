@@ -45,6 +45,6 @@ state(vn, un) = 0;
 
 % the +64 is a super dirty hack because this whole address conversion is
 % completely fucked up.
-addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1+64,  [ones(size(vp)); zeros(size(vn))]);
+addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
 
 ts = time*ones(size(addr));
