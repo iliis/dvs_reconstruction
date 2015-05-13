@@ -15,6 +15,8 @@ img = double(rgb2gray(imread(imagepath)));
 
 [particles, tracking_state] = initParticles(1000, [128 128]);
 
+% total: 214.22s
+% update: 137.544 self, 197.251 total
 
 % generate a path
 
@@ -27,12 +29,14 @@ last_time = 0;
 
 tracked_path = particleAverage(particles);
 
+path = [ 1     2     1     2     1     2     1     2     2     2];
+
 for i = 1:10
     
     [events_new, ground_truth_new, flydiff_state] = flyDiffCamFine(img, ...
             20,          ... % generate at least so many events
             last_pos,    ... % start where we left off on last iteration
-            randi(2),    ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
+            path(i), ... %randi(2),    ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
             0.00001,     ... % default sweep step size
             flydiff_state);          % state of camera sensor
         

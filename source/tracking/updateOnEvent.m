@@ -20,18 +20,14 @@ K = cameraIntrinsicParameterMatrix();
 invKPs = reshape(K \ [u v 1]', 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
-old_points_w = zeros(size(particles,1),2);
-new_points_w = zeros(size(particles,1),2);
+%old_points_w = zeros(size(particles,1),2);
+%new_points_w = zeros(size(particles,1),2);
 
-particles_prior_this_pixel = permute(state_prior(v,u,:,:), [3 4 1 2]);
+particles_prior_this_pixel = state_prior(:,:,v,u); %permute(state_prior(v,u,:,:), [3 4 1 2]);
 
-for i = 1:size(particles_prior,1)
-    % get pixel coordinates in world map
-    old_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles_prior_this_pixel(i,2:end), size(intensities));
-    
-    %old_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles_prior(i,2:end), size(intensities));
-    new_points_w(i,:) = cameraToWorldCoordinatesBatch(invKPs, particles(i,2:end),       size(intensities));
-end
+% get pixel coordinates in world map
+old_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles_prior_this_pixel(:,2:end), size(intensities));
+new_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles(:,2:end),                  size(intensities));
     
 % get pixel-intensity difference of prior and proposed posterior particle
 %measurements = log(interp2(intensities,new_points_w(:,2),new_points_w(:,1))) - log(interp2(intensities,old_points_w(:,2),old_points_w(:,1)));
@@ -54,7 +50,7 @@ for p = 1:size(particles,1)
     
     % sum up likelihood over all possible positions at time of previous
     % event at that pixel
-    particles(p,1) = likelihoods' * permute(state_prior(v,u,:,1), [3 1 2 4]);
+    particles(p,1) = likelihoods' * particles_prior_this_pixel(:,1); %permute(state_prior(v,u,:,1), [3 1 2 4]);
 end
 
 % actually update prior probability
@@ -65,6 +61,7 @@ particles = normalizeParticles(particles);
 
 % update state
 state = state_prior;
-state(v,u,:,:) = particles; %particleAverage(particles);
+
+state(:,:,v,u) = particles; %particleAverage(particles);
 
 end
