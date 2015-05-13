@@ -1,5 +1,5 @@
 function R = measurementNoise()
 
-R = 0.0001;
+R = 0.05;
 
 return;

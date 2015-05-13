@@ -1,4 +1,4 @@
-function [ map, gradients, theta_est ] = trackingTest_combined(events_raw, TS, theta_gt, imagepath)
+function [ map, gradients, theta_est ] = trackingTest_combinedAverage(events_raw, TS, theta_gt, imagepath)
 
 if nargin < 4
     imagepath = 'camera_simulation/testimages/panorama.png';
@@ -9,8 +9,8 @@ img = im2double(rgb2gray(imread(imagepath)));
 
 [x, y, pol] = extractRetinaEventsFromAddr(events_raw);
 events = [double(x+1) double(y+1) double(pol) double(TS)];
-disp(['got ' num2str(size(events,1)) ' events']);
-for i = 1:200
+
+for i = 1:10
     disp(['event ' num2str(i) ' at ' num2str([events(i,1) events(i,2)]) ' pol = ' num2str(events(i,3)) '(' num2str(events(i,:)) ')']);
 end
 
@@ -22,11 +22,11 @@ boundary_image = 0.5*ones(outputImageSize);
 % origin = outputImageSize ./ 2;
 % gradients = zeros([2, outputImageSize]);
 covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
-lastSigs = zeros(64);
+lastSigs = zeros(128);
 
-% lastPos = round(reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]));
-% lastPos = repmat(origin', [1, 64 64]);
-lastPos = repmat([1000000000 1000000000]', [1, 64 64]);
+% lastPos = round(reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 128 128]));
+% lastPos = repmat(origin', [1, 128 128]);
+lastPos = repmat([1000000000 1000000000]', [1, 128 128]);
 
 secToLastSigs = lastSigs;
 secToLastPos = lastPos;
@@ -47,8 +47,8 @@ drawnow;
 
 
 % update on events
-N = 200;
-[particles, tracking_state] = initParticles(N, [64 64]);
+N = 500;
+[particles, tracking_state] = initParticlesAverage(N, [128 128]);
 
 
 
@@ -60,7 +60,6 @@ lastPosUpdated = false;
 originInitial = cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), [0 0 0], outputImageSize);
 % movementDetectedTimestamp = 1000000000;
 % useGeneratedMap = false;
-nextInd
 last_timestamp = events(nextInd-1,4);
 events(nextInd:end,4) = events(nextInd:end,4);
 
@@ -72,17 +71,17 @@ for i = nextInd:size(events,1)
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);
     
-        [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state);
-%     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
+%         [particles, tracking_state] = updateOnEventAverage(particles, events(i,:), map, tracking_state);
+    [particles, tracking_state] = updateOnEventAverage(particles, events(i,:), img, tracking_state);
     
     theta_est(i,:) = particleAverage(particles);
 
     
-    if ~lastPosUpdated && (sum(abs(originInitial - cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), theta_est(i,:), outputImageSize))) > 5)
+    if ~lastPosUpdated && (sum(abs(originInitial - cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), theta_est(i,:), outputImageSize))) > 2)
         lastPosUpdated = true;
-        newLastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
+        newLastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 128 128]);
         covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
-        lastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64])) = newLastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64]));
+        lastPos(lastPos == repmat([1000000000 1000000000]', [1, 128 128])) = newLastPos(lastPos == repmat([1000000000 1000000000]', [1, 128 128]));
     end
     
     [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);

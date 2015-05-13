@@ -1,7 +1,7 @@
 function plotParticles( particles, true_solution )
 
 % axisLimits = 0.001 * [-0.1 1.9 -1 1];
-axisLimits = 0.1 * [-1 1 -1 1];
+axisLimits = [-1 1 -1 1];
 
 subplot(1,2,1);
 colormap 'hot'; %'parula';

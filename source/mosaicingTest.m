@@ -72,7 +72,6 @@ for i = 1:size(thetaCheckpoints, 1) - 1
     allAddr = [allAddr; addr];
     allTS = [allTS; ts + allTS(end)];
     allThetas = [allThetas; thetas];   
-    pause(0.1);
 end
 % [allAddr, allTS, thetas] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega);
 

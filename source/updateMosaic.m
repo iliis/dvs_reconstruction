@@ -18,6 +18,9 @@ pmTau = lastPos(:, v, u);
 if tau == 0
     warning('doubled event with same timestamp');
     tau = double(timestamp - secToLastSigs(v, u));
+    if tau == 0
+        return;
+    end
     pmTau = secToLastPos(:, v, u);
 else
     secToLastSigs(v, u) = lastSigs(v, u);
