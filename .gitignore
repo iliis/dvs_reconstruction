@@ -5,6 +5,5 @@
 *.asv
 
 # coder output
-*.prj
 *.mexw64
 codegen/
