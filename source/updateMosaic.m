@@ -35,13 +35,13 @@ pmt = pmt';
 % compute speed
 velocity = (pmt - pmTau) ./ tau;
 
-if sum(abs(pmt-pmTau)) < 1
-    if all(round(pmt) == round(pmTau))
+if sum(abs(pmt-pmTau)) < 0.1
+%     if all(round(pmt) == round(pmTau))
         warning('abort - double signal');
         return;
-    end
-    warning('small movement detected between events');
-    disp(['movement: ' num2str((pmt-pmTau)')]);
+%     end
+%     warning('small movement detected between events');
+%     disp(['movement: ' num2str((pmt-pmTau)')]);
 %     return;
 end
 
