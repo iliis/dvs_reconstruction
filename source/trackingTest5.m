@@ -41,6 +41,7 @@ for i = 1:10
             flydiff_state);          % state of camera sensor
         
     [particles, tracking_state] = trackMovement( particles, tracking_state, events_new, img, last_time);
+    
     tracked_path = [tracked_path; particleAverage(particles)];
     plotCameraGroundTruth([last_pos; ground_truth_new], size(img), 'green');
     plotParticlesInWorld(particles, size(img));

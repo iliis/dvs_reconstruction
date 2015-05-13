@@ -55,7 +55,7 @@ while size(events,1) < numEvents
     events = [events; events_new];
     thetas = [thetas; repmat(theta, size(events_new,1), 1)];
     
-    %disp(['got ' num2str(size(events_new,1)) ' new events']);
+    disp(['got ' num2str(size(events_new,1)) ' new events']);
 end
 disp(['got ' num2str(size(events,1)) ' events in total']);
 

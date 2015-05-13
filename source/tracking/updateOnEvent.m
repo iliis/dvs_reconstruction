@@ -5,7 +5,7 @@ function [particles, state] = updateOnEvent(particles_prior, event, intensities,
 %  state: position of camera for every pixel at the time of its last event [128x128x3]
 
 % TODO: these values were chosen quite arbitrariliy!
-% LOW_LIKELIHOOD = 0.0001;
+LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 5; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
 u = event(1); v = event(2);
@@ -45,7 +45,7 @@ for p = 1:size(particles,1)
     assert(~any(isnan(measurements)));
     
     % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
-    likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
+    likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]) + LOW_LIKELIHOOD;
     %likelihoods = likelihoods/sum(likelihoods);
     
     % sum up likelihood over all possible positions at time of previous
