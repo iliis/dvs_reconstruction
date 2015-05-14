@@ -1,4 +1,4 @@
-function [particles, state] = updateOnEvent(particles_prior, event, intensities, state_prior)
+function [particles, state_prior] = updateOnEvent(particles_prior, event, intensities, state_prior)
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]
@@ -60,8 +60,6 @@ particles(:,1) = particles(:,1) .* particles_prior(:,1);
 particles = normalizeParticles(particles);
 
 % update state
-state = state_prior;
-
-state(:,:,v,u) = particles; %particleAverage(particles);
+state_prior(:,:,v,u) = particles; %particleAverage(particles);
 
 end

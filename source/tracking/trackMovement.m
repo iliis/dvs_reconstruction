@@ -15,7 +15,7 @@ for i = 1:size(events,1)
     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
     
     disp(['updated on event ' num2str(i) ' = ' num2str(events(i,:)) ' deltaT_global = ' num2str(deltaT_global) ' mean = ' num2str(particleAverage(particles)) '  eff. no. = ' num2str(effectiveParticleNumber(particles))]);
-    plotParticles(particles); drawnow; waitforbuttonpress;
+    %plotParticles(particles); drawnow; waitforbuttonpress;
     
     
     % resample distribution if particles become too unevenly distributed
