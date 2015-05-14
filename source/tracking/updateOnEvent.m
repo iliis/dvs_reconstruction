@@ -30,6 +30,7 @@ particles = particles_prior;
 particles_prior_this_pixel = state_prior(:,:,v,u); %permute(state_prior(v,u,:,:), [3 4 1 2]);
 
 % get pixel coordinates in world map
+% WARNING: cameraToWorldCoordinates returns [y,x] !
 old_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles_prior_this_pixel(:,2:end), size(intensities));
 new_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles(:,2:end),                  size(intensities));
 

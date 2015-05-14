@@ -5,6 +5,7 @@ if nargin < 5
     last_timestamp = 0;
 end
 
+avg = particleAverage(particles);
 for i = 1:size(events,1)
     
     deltaT_global = events(i,4) - last_timestamp;
@@ -13,6 +14,10 @@ for i = 1:size(events,1)
     particles = predict(particles, deltaT_global);
     
     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
+    
+    prev_avg = avg;
+    avg = particleAverage(particles);
+    plotInWorld([prev_avg; avg], size(img), ':.b'); drawnow;
     
     disp(['updated on event ' num2str(i) ' = ' num2str(events(i,:)) ' deltaT_global = ' num2str(deltaT_global) ' mean = ' num2str(particleAverage(particles)) '  eff. no. = ' num2str(effectiveParticleNumber(particles))]);
     %plotParticles(particles); drawnow; waitforbuttonpress;
