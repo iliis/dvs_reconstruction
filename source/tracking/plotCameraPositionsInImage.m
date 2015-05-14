@@ -38,22 +38,15 @@ if plotGroundTruth
     plot(points(:,2), points(:,1), '.');
     plot(points(1,2), points(1,1), 'or');
     
+    points = zeros(4,2);
+    
     points(1,:) = cameraToWorldCoordinates(1,1,K,theta_gt(end,:),img_size);
-    points(2,:) = cameraToWorldCoordinates(1,128,K,theta_gt(end,:),img_size);
-    points(3,:) = cameraToWorldCoordinates(128,1,K,theta_gt(end,:),img_size);
-    points(4,:) = cameraToWorldCoordinates(128,128,K,theta_gt(end,:),img_size);
+    points(2,:) = cameraToWorldCoordinates(1,64,K,theta_gt(end,:),img_size);
+    points(3,:) = cameraToWorldCoordinates(64,1,K,theta_gt(end,:),img_size);
+    points(4,:) = cameraToWorldCoordinates(64,64,K,theta_gt(end,:),img_size);
     
     plot(points(:,2), points(:,1), 'ob');
 end
-
-points = zeros(4,2);
-
-points(1,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(end,:),img_size);
-points(2,:) = cameraToWorldCoordinates(1,128,K,thetaCheckpoints(end,:),img_size);
-points(3,:) = cameraToWorldCoordinates(128,1,K,thetaCheckpoints(end,:),img_size);
-points(4,:) = cameraToWorldCoordinates(128,128,K,thetaCheckpoints(end,:),img_size);
-
-plot(points(:,2), points(:,1), 'og');
 
 points = zeros(4,2);
 
@@ -63,6 +56,15 @@ points(3,:) = cameraToWorldCoordinates(64,1,K,thetaCheckpoints(end,:),img_size);
 points(4,:) = cameraToWorldCoordinates(64,64,K,thetaCheckpoints(end,:),img_size);
 
 plot(points(:,2), points(:,1), 'og');
+
+% points = zeros(4,2);
+% 
+% points(1,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(end,:),img_size);
+% points(2,:) = cameraToWorldCoordinates(1,64,K,thetaCheckpoints(end,:),img_size);
+% points(3,:) = cameraToWorldCoordinates(64,1,K,thetaCheckpoints(end,:),img_size);
+% points(4,:) = cameraToWorldCoordinates(64,64,K,thetaCheckpoints(end,:),img_size);
+% 
+% plot(points(:,2), points(:,1), 'og');
 
 hold off;
 

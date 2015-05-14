@@ -19,7 +19,7 @@ function particles = predict(particles, deltaT_global)
 % the longer we wait between events, the longer the camera probably moved
 % also allow some error even when the camera didn't move at all
 % sigma = 0.00001 + 0.0002 * deltaT_global;
-sigma = 0.00002 * deltaT_global;
+sigma = 0.0002 * deltaT_global;
 % sigma = 0.000001 + 0.000004 * deltaT_global;
 
 % TODO: implement perturbation in tangent space

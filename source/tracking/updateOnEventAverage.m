@@ -19,12 +19,12 @@ else
 end
 
 K = double(cameraIntrinsicParameterMatrix());
-invKPs = reshape(K \ double([u v 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
+invKPs = reshape(K \ double([u+32 v+32 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
 % old_points_w = zeros(size(particles,1),2);
 new_points_w = zeros(size(particles,1),2);
-particle_prior_this_pixel = permute(state_prior(v,u,:), [1 3 2]);
+particle_prior_this_pixel = permute(state_prior(:,v,u), [2 1 3]);
 
 % get pixel coordinates in world map
     old_point_w = cameraToWorldCoordinatesBatch(invKPs, particle_prior_this_pixel, size(intensities));
@@ -41,28 +41,36 @@ end
 old_intensity = interp2(intensities, old_point_w(2), old_point_w(1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
 
+measurements = new_intensities - old_intensity;
 
-for p = 1:size(particles,1)
-    
-    % compare current pixel's intensity with all possible previous ones
-    measurements = new_intensities(p) - old_intensity;
-    
-    assert(~any(isnan(measurements)));
-    
-    % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
-    %     copied from gaussmf
-    params = [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s];
-    sigma = params(1);
-    c = params(2);
-    likelihood = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
-    %     likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
-    %likelihoods = likelihoods/sum(likelihoods);
-    
-    % sum up likelihood over all possible positions at time of previous
-    % event at that pixel
-%     particles(p,1) = likelihoods' * state_prior(v,u,1);
-    particles(p,1) = likelihood;
-end
+assert(~any(isnan(measurements)))
+
+sigma = INTENSITY_VARIANCE;
+c = INTENSITY_THRESHOLD * s;
+likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
+particles(:,1) = likelihoods;
+
+% for p = 1:size(particles,1)
+%     
+%     % compare current pixel's intensity with all possible previous ones
+%     measurements = new_intensities(p) - old_intensity;
+%     
+%     assert(~any(isnan(measurements)));
+%     
+%     % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
+%     %     copied from gaussmf
+%     params = [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s];
+%     sigma = params(1);
+%     c = params(2);
+%     likelihood = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
+%     %     likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
+%     %likelihoods = likelihoods/sum(likelihoods);
+%     
+%     % sum up likelihood over all possible positions at time of previous
+%     % event at that pixel
+% %     particles(p,1) = likelihoods' * state_prior(v,u,1);
+%     particles(p,1) = likelihood;
+% end
 
 % actually update prior probability
 particles(:,1) = particles(:,1) .* particles_prior(:,1);
@@ -76,4 +84,4 @@ particles = normalizeParticles(particles);
 
 % update state
 state = state_prior;
-state(v,u,:) = permute(particleAverage(particles), [1 3 2]);
+state(:,v,u) = permute(particleAverage(particles), [1 3 2]);

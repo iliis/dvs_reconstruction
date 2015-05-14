@@ -1,9 +1,5 @@
 <deployment-project plugin="plugin.matlabcoder" plugin-version="R2014a_nu">
-<<<<<<< HEAD
-  <configuration build-checksum="2888674077" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\getPatch.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="getPatch" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
-=======
-  <configuration build-checksum="1113505590" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\getPatch.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="getPatch" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
->>>>>>> integration
+  <configuration build-checksum="3323084152" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\cameraToWorldCoordinatesBatch.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="cameraToWorldCoordinatesBatch" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
     <profile key="profile.mex">
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
@@ -348,10 +344,10 @@
         <param.UseECoderFeatures />
       </unset>
     </profile>
-    <param.outputfile>${PROJECT_ROOT}\getPatch_mex.mexw64</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}\cameraToWorldCoordinatesBatch_mex.mexw64</param.outputfile>
     <param.version>R2012a</param.version>
     <param.HasECoderFeatures>false</param.HasECoderFeatures>
-    <param.mex.mainhtml>D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\codegen\mex\getPatch\html\index.html</param.mex.mainhtml>
+    <param.mex.mainhtml>D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\codegen\mex\cameraToWorldCoordinatesBatch\html\index.html</param.mex.mainhtml>
     <param.grt.mainhtml />
     <param.CallGeneratedCodeFromTest>true</param.CallGeneratedCodeFromTest>
     <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
@@ -361,13 +357,9 @@
     <param.AutoInferUseUnboundedSize>false</param.AutoInferUseUnboundedSize>
     <param.AutoInferVariableSizeThreshold>1024</param.AutoInferVariableSizeThreshold>
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
-<<<<<<< HEAD
-    <param.AnnotationChecksum>354442658</param.AnnotationChecksum>
-=======
-    <param.AnnotationChecksum>1418215982</param.AnnotationChecksum>
->>>>>>> integration
-    <param.mex.outputfile>getPatch_mex</param.mex.outputfile>
-    <param.grt.outputfile>getPatch</param.grt.outputfile>
+    <param.AnnotationChecksum>2872916344</param.AnnotationChecksum>
+    <param.mex.outputfile>cameraToWorldCoordinatesBatch_mex</param.mex.outputfile>
+    <param.grt.outputfile>cameraToWorldCoordinatesBatch</param.grt.outputfile>
     <param.artifact>option.target.artifact.mex</param.artifact>
     <param.FixedPointTypeProposalMode>option.FixedPointTypeProposalMode.ProposeFractionLengths</param.FixedPointTypeProposalMode>
     <param.DefaultProposedFixedPointType>numerictype([],16,12)</param.DefaultProposedFixedPointType>
@@ -466,23 +458,11 @@
       <param.DefaultFixedPointSignedness />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}\getPatch.m">
-        <Inputs fileName="getPatch.m" functionName="getPatch">
-          <Input Name="img">
-            <Class>double</Class>
-            <Size>:inf x :inf</Size>
-            <Value />
-            <InitialValue />
-            <UserDefined>true</UserDefined>
-            <Complex>false</Complex>
-          </Input>
+      <file custom-data-expanded="true" value="${PROJECT_ROOT}\cameraToWorldCoordinatesBatch.m">
+        <Inputs fileName="cameraToWorldCoordinatesBatch.m" functionName="cameraToWorldCoordinatesBatch">
           <Input Name="invKPs">
             <Class>double</Class>
-<<<<<<< HEAD
-            <Size>64 x 64 x 2</Size>
-=======
-            <Size>128 x 128 x 2</Size>
->>>>>>> integration
+            <Size>:inf x :inf x 2</Size>
             <Value />
             <InitialValue />
             <UserDefined>true</UserDefined>
@@ -496,13 +476,21 @@
             <UserDefined>true</UserDefined>
             <Complex>false</Complex>
           </Input>
+          <Input Name="img_size">
+            <Class>double</Class>
+            <Size>1 x 2</Size>
+            <Value />
+            <InitialValue />
+            <UserDefined>true</UserDefined>
+            <Complex>false</Complex>
+          </Input>
         </Inputs>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
     <fileset.package />
     <build-deliverables>
-      <file location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="getPatch_mex.mexw64" optional="false">D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\getPatch_mex.mexw64</file>
+      <file location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="cameraToWorldCoordinatesBatch_mex.mexw64" optional="false">D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\cameraToWorldCoordinatesBatch_mex.mexw64</file>
     </build-deliverables>
     <workflow />
     <matlab>

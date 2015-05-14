@@ -11,7 +11,7 @@ particles(:,1) = 1/N;
 % full particle filter for each pixel
 %state = zeros(sensor_size(1), sensor_size(2), N, 4); % sensor_y * sensor_x * N * [weight, alpha beta gamma]
 
-state = repmat(permute([0 0 0], [1 3 2]), [sensor_size(1) sensor_size(2)]);
+state = repmat([0 0 0]', [1 sensor_size(1) sensor_size(2)]);
 
 end
 

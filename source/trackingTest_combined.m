@@ -31,12 +31,12 @@ lastPos = repmat([1000000000 1000000000]', [1, 64 64]);
 secToLastSigs = lastSigs;
 secToLastPos = lastPos;
 
-[gradients, nextInd] = integrateInitialEvents(events, 10000, outputImageSize);
+[map, gradients, nextInd] = integrateInitialEvents(events, 10000, outputImageSize);
 
 pgrads = permute(gradients, [2 3 1]);
 % size(pgrads)
 % size(boundary_image)
-map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
+% map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
 if ~exist('initial_map_figure', 'var') || ~ishandle(initial_map_figure)
     initial_map_figure = figure('Name', 'Initial map');
 else

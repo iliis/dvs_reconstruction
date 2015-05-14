@@ -72,7 +72,7 @@ for i = 1:max(steps)
 
 	lastPatch = patch; 
     
-    if mod(i, 100) == 0
+    if mod(i, 1000) == 0
         fprintf('timestep %d/%d\n', i, max(steps));
         state(isnan(state)) = 0; %reset nan values
     end
