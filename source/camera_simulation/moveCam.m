@@ -18,7 +18,7 @@ if nargin < 3
     error('image, camera orientation and camera speed needed');
     
 elseif nargin < 5
-    state = zeros(64);
+    state = zeros(simulationPatchSize());
     
     if nargin < 4
         ts = 0;
@@ -40,7 +40,7 @@ newState = state + diff;
 pIdx = newState > threshold;
 nIdx = newState < -threshold;
 
-visDiffs = 0.5*ones(64);
+visDiffs = 0.5*ones(simulationPatchSize());
 visDiffs(pIdx) = 1;
 visDiffs(nIdx) = 0;
 

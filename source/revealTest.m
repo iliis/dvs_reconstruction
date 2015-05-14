@@ -8,7 +8,7 @@ recording_raw = loadaerdat([path name '.aedat']);
 
 [x,y,pol] = extractRetinaEventsFromAddr(recording_raw);
 
-image = zeros(128);
+image = zeros(DVS_PatchSize());
 
 %pol(pol < 0) = 0;
 

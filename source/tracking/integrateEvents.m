@@ -5,7 +5,7 @@ function integratedImage = integrateEvents(events)
 % output 128*128 matrix, each pixel is indicated with the polarity of the
 % last event given for this pixel, or 0 (no event)
 
-integratedImage = zeros(128);
+integratedImage = zeros(DVS_PatchSize());
 
 for i = 1:size(events,1)
     integratedImage(events(i,2), events(i,1)) =  integratedImage(events(i,2), events(i,1)) + events(i,3);

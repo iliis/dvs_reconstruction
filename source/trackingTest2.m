@@ -6,7 +6,7 @@ imagepath = 'camera_simulation/testimages/checkerboard_small.jpg';
 
 omega = [0.000001 0.000001 0];
 
-[events_raw, TS, theta_gt, ~] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(64));
+[events_raw, TS, theta_gt, ~] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(simulationPatchSize()));
 
 disp([ num2str(size(events_raw)) ' events generated']);
 

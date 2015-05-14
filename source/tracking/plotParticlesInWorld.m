@@ -1,10 +1,6 @@
 function plotParticlesInWorld( particles, img_size )
 
-
-
-
-
-invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [64 64]);
+invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [simulationPatchSize() simulationPatchSize()]);
 
 w = zeros(size(particles,1),2);
 for i = 1:size(particles,1);
@@ -12,7 +8,6 @@ for i = 1:size(particles,1);
 end
 
 colormap 'hot'; %'parula';
-%scatter(particles(:,2),particles(:,3),5,particles(:,1),'filled');
 scatter(w(:,2), w(:,1), 5, particles(:,1), 'filled');
 colorbar;
 

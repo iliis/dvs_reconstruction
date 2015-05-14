@@ -13,7 +13,7 @@ imagepath = 'camera_simulation/testimages/toy_example1.png';
 img = double(rgb2gray(imread(imagepath)));
 
 
-[particles, tracking_state] = initParticles(1000, [128 128]);
+[particles, tracking_state] = initParticles(1000, [simulationPatchSize() simulationPatchSize()]);
 
 % total: 214.22s
 % update: 137.544 self, 197.251 total

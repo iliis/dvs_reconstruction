@@ -12,8 +12,8 @@ function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart,
 
 % theta = thetaStart;
 
-if nargin < 5 || (size(startState, 1) ~= 128 || size(startState, 2) ~= 128)
-    state = zeros(64);
+if nargin < 5 || (size(startState, 1) ~= simulationPatchSize() || size(startState, 2) ~= simulationPatchSize())
+    state = zeros(simulationPatchSize());
 else
     state = startState;
 end
@@ -47,11 +47,11 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
-invKPs = zeros([64 64 2]);
+invKPs = zeros([simulationPatchSize() simulationPatchSize() 2]);
 
-for u = 1:64
-    for v = 1:64   
-        invKP = K \ [u+32 v+32 1]';  
+for u = 1:simulationPatchSize()
+    for v = 1:simulationPatchSize()   
+        invKP = K \ [u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]';  
         invKPs(v, u, :) = invKP(1:2);
     end
 end
@@ -67,8 +67,8 @@ for i = 1:max(steps)
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
 
     allAddr = [allAddr; addr];
-    allTS = [allTS; ts];
-    thetas = [thetas; repmat(theta, size(addr,1), 1)];
+    allTS   = [allTS; ts];
+    thetas  = [thetas; repmat(theta, size(addr,1), 1)];
 
 	lastPatch = patch; 
     
