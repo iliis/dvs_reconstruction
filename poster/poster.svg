@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49036458"
-     inkscape:cx="1120.6015"
-     inkscape:cy="972.58229"
+     inkscape:zoom="0.98072916"
+     inkscape:cx="513.98442"
+     inkscape:cy="467.18504"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +35,7 @@
      inkscape:window-x="0"
      inkscape:window-y="31"
      inkscape:window-maximized="1"
-     showguides="false"
+     showguides="true"
      inkscape:snap-object-midpoints="false"
      inkscape:snap-text-baseline="true"
      inkscape:guide-bbox="true"
@@ -249,20 +249,20 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1120"
-       y="802.36218"
+       x="1140"
+       y="792.3623"
        id="text4205"
        sodipodi:linespacing="125%"><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4232"
          sodipodi:role="line"
-         x="1120"
-         y="802.36218">H. Kim, A. Handa, R. Benosman, S. Ieng, A. Davison, 2014</tspan><tspan
+         x="1140"
+         y="792.3623">H. Kim, A. Handa, R. Benosman, S. Ieng, A. Davison, 2014</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4234"
          sodipodi:role="line"
-         x="1120"
-         y="838.29968">&quot;Simultaneous Mosaicing and Tracking with an Event Camera&quot;</tspan></text>
+         x="1140"
+         y="828.2998">&quot;Simultaneous Mosaicing and Tracking with an Event Camera&quot;</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:87.5px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#616161;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -289,11 +289,11 @@
     <text
        sodipodi:linespacing="125%"
        id="text4972"
-       y="802.36218"
+       y="792.3623"
        x="1080"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         y="802.36218"
+         y="792.3623"
          x="1080"
          sodipodi:role="line"
          id="tspan4976"
@@ -301,17 +301,17 @@
     <text
        sodipodi:linespacing="125%"
        id="text4980"
-       y="882.36218"
-       x="1120"
+       y="882.3623"
+       x="1140"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         y="882.36218"
-         x="1120"
+         y="882.3623"
+         x="1140"
          sodipodi:role="line"
          id="tspan4982"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">D. Weikersdorfer, D. Adrian, D. Cremers, Jörg Conradt, ICRA 2014</tspan><tspan
-         y="918.29968"
-         x="1120"
+         y="918.2998"
+         x="1140"
          sodipodi:role="line"
          id="tspan4984"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">&quot;Event-based 3D SLAM with a depth-augmented dynamic vision sensor&quot;</tspan></text>
@@ -319,39 +319,39 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1080"
-       y="882.36218"
+       y="882.3623"
        id="text4986"
        sodipodi:linespacing="125%"><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4988"
          sodipodi:role="line"
          x="1080"
-         y="882.36218">[2]</tspan></text>
+         y="882.3623">[2]</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1120"
-       y="962.36218"
+       x="1140"
+       y="972.3623"
        id="text4990"
        sodipodi:linespacing="125%"><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4992"
          sodipodi:role="line"
-         x="1120"
-         y="962.36218">E. Mueggler, B. Huber, D. Scaramuzza, IROS 2014</tspan><tspan
+         x="1140"
+         y="972.3623">E. Mueggler, B. Huber, D. Scaramuzza, IROS 2014</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4994"
          sodipodi:role="line"
-         x="1120"
-         y="998.29968">&quot;Event-based, 6-DOF Pose Tracking for High-Speed Maneuvers&quot;</tspan></text>
+         x="1140"
+         y="1008.2998">&quot;Event-based, 6-DOF Pose Tracking for High-Speed Maneuvers&quot;</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4996"
-       y="962.36218"
+       y="972.3623"
        x="1080"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         y="962.36218"
+         y="972.3623"
          x="1080"
          sodipodi:role="line"
          id="tspan4998"
@@ -360,14 +360,14 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:87.5px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1080"
-       y="732.36206"
+       y="722.36218"
        id="text5000"
        sodipodi:linespacing="125%"><tspan
          style="font-size:75px"
          sodipodi:role="line"
          id="tspan5002"
          x="1080"
-         y="732.36206">7. REFERENCES</tspan></text>
+         y="722.36218">7. REFERENCES</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text5004"
@@ -506,9 +506,9 @@
        style="opacity:0.08500001;fill:none;fill-opacity:1;stroke:none;stroke-width:3.54330707;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5286"
        width="999.99994"
-       height="439.99988"
+       height="539.99988"
        x="1080"
-       y="532.36218" />
+       y="432.36215" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:75px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -613,16 +613,16 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:75px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1080"
-       y="472.36215"
+       y="432.36215"
        id="text5493"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5495"
          x="1080"
-         y="472.36215">6. CONCLUSION</tspan></text>
+         y="432.36215">6. CONCLUSION</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.08661413;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 1080,492.36207 1000,8e-5"
+       d="m 1080,452.36211 1000,8e-5"
        id="path5497"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -630,7 +630,7 @@
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path5523"
-       d="m 1080,752.36204 1000,8e-5"
+       d="m 1080,742.36214 1000,8e-5"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.08661413;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        style="opacity:0.08500001;fill:none;fill-opacity:1;stroke:none;stroke-width:3.54330707;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -1734,7 +1734,7 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
          sodipodi:role="line"
          id="tspan4500"
          x="40"
-         y="-427.63773">◤ Increase robustness and speed of </tspan><tspan
+         y="-427.63773">◤ increase robustness and speed of </tspan><tspan
          sodipodi:role="line"
          x="40"
          y="-390.40884"
@@ -1874,16 +1874,16 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
        id="flowRoot4658"
        transform="translate(560,212.36216)"><flowRegion
          id="flowRegion4660" /><flowPara
-         id="flowPara4664">◤ a change in brigntness is caused by a</flowPara><flowPara
+         id="flowPara4664">◤ a change in brightness is caused by a</flowPara><flowPara
          id="flowPara4678">movement of the camera (static scene)</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="flowRoot4670"
        transform="translate(560,302.36216)"><flowRegion
          id="flowRegion4672" /><flowPara
-         id="flowPara4676">◤ camera only rotating, no translation</flowPara><flowPara
+         id="flowPara4676">◤ only rotation, no translation</flowPara><flowPara
          id="flowPara4680">and therefore no parallax displacement</flowPara></flowRoot>    <flowRoot
-       transform="translate(40,692.36203)"
+       transform="translate(40,662.36216)"
        id="flowRoot4686"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><flowRegion
@@ -1893,7 +1893,7 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="flowRoot4696"
-       transform="translate(40,782.36203)"><flowRegion
+       transform="translate(40,752.36216)"><flowRegion
          id="flowRegion4698" /><flowPara
          id="flowPara4700">◤ Poisson-solver computes grayscale</flowPara><flowPara
          id="flowPara4719">image from gradients.</flowPara></flowRoot>    <flowRoot
@@ -1909,7 +1909,7 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
            width="100%"
            height="100%" /></flowRegion><flowPara
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;writing-mode:lr-tb;text-anchor:start"
-         id="flowPara4713">Use movement between current and last event of the pixel to estimate gradient (intensity change) at event pixel.</flowPara><flowPara
+         id="flowPara4713">Use movement between current and last event of the pixel to estimate gra-dient (intensity change) at event pixel.</flowPara><flowPara
          id="flowPara4715"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;writing-mode:lr-tb;text-anchor:start" /></flowRoot>    <flowRoot
        xml:space="preserve"
@@ -1924,10 +1924,10 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><flowRegion
          id="flowRegion4733" /><flowPara
-         id="flowPara4745">◤ When an event occurs: compare</flowPara><flowPara
-         id="flowPara4749">intensity at event position for every</flowPara><flowPara
-         id="flowPara4751">possible camera rotation to intensity</flowPara><flowPara
-         id="flowPara4741">at (assumed) position of last event:</flowPara></flowRoot>    <flowRoot
+         id="flowPara4749">◤ for every event, compare intensity at</flowPara><flowPara
+         id="flowPara5360">event position for every possible came-</flowPara><flowPara
+         id="flowPara4741">ra rotation to intensity at (assumed)</flowPara><flowPara
+         id="flowPara5368">position of last event:</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="flowRoot4763"
@@ -1958,7 +1958,7 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:25px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="flowRoot4844"
-       transform="translate(0,2.083514)"><flowRegion
+       transform="translate(3.3928402e-7,222.08351)"><flowRegion
          id="flowRegion4846"><use
            x="0"
            y="0"
@@ -1968,7 +1968,7 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
            height="100%"
            transform="translate(-3.3928402e-7,-222.08351)" /></flowRegion><flowPara
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;writing-mode:lr-tb;text-anchor:start"
-         id="flowPara4862">Jointly track the global rotational motion of a camera and estimate the gradients of the scene around it. The gradient map is then upgraded to a full image-like mosaic.</flowPara><flowPara
+         id="flowPara4862">Jointly track the global rotational mo-tion of a camera and estimate the gra-dients of the scene around it. The gra-dient map is then upgraded to a full image-like mosaic.</flowPara><flowPara
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;writing-mode:lr-tb;text-anchor:start"
          id="flowPara4870">Each of these components essentially believes that the current estimate from the other is correct.</flowPara></flowRoot>    <text
        xml:space="preserve"
@@ -2106,18 +2106,6 @@ eMUV7P8A8O4f2hv+iDfGf/widT/+M0UAf//Z
          id="flowRegion5081" /><flowPara
          id="flowPara5087">◤ standard camera</flowPara><flowPara
          id="flowPara5094">calibration toolbox</flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot5100"
-       transform="translate(0,-19.999992)"><flowRegion
-         id="flowRegion5102"><use
-           x="0"
-           y="0"
-           xlink:href="#rect5286"
-           id="use5104"
-           width="100%"
-           height="100%" /></flowRegion><flowPara
-         id="flowPara5108">A dynamic vision sensor is a feasible option for rotational motion tracking. With some optimizations the system is easily real-time capable, especially when com-bined with other sensors, such as an IMU.</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:25px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="flowRoot5114"><flowRegion
@@ -7989,5 +7977,41 @@ zFPbE+UAAAAASUVORK5CYII=
        id="path5273"
        d="m 1080,-477.63787 1000,0"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.08661413;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-  </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="520"
+       y="-612.63782"
+       id="text5332"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="520"
+         y="-612.63782"
+         id="tspan5334"
+         style="font-size:15px;text-align:end;text-anchor:end">images by [3]</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text5336"
+       y="-147.63783"
+       x="1610"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-size:15px;text-align:start;text-anchor:start;fill:#ffffff;fill-opacity:1"
+         id="tspan5338"
+         y="-147.63783"
+         x="1610"
+         sodipodi:role="line">CAB H57</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:justify;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="flowRoot5342"
+       transform="translate(0,40.000016)"><flowRegion
+         id="flowRegion5344"><use
+           x="0"
+           y="0"
+           xlink:href="#rect5286"
+           id="use5346"
+           width="100%"
+           height="100%" /></flowRegion><flowPara
+         id="flowPara5350">A dynamic vision sensor is a feasible option for rotational motion tracking. With some optimizations the system is conceiveably real-time capable, especially when combined with other sensors, such as an IMU, and might one day lead to full 3D-SLAM with a dynamic vision sensor.</flowPara></flowRoot>  </g>
 </svg>
