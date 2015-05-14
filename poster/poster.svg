@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.69348024"
-     inkscape:cx="1335.8987"
-     inkscape:cy="1159.1457"
+     inkscape:zoom="0.49036458"
+     inkscape:cx="1120.6015"
+     inkscape:cy="972.58229"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -367,7 +367,7 @@
          sodipodi:role="line"
          id="tspan5002"
          x="1080"
-         y="732.36206">6. REFERENCES</tspan></text>
+         y="732.36206">7. REFERENCES</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text5004"
@@ -619,7 +619,7 @@
          sodipodi:role="line"
          id="tspan5495"
          x="1080"
-         y="472.36215">5. CONCLUSION</tspan></text>
+         y="472.36215">6. CONCLUSION</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.08661413;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 1080,492.36207 1000,8e-5"
