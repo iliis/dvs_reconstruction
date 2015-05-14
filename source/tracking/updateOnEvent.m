@@ -4,22 +4,26 @@ function [particles, state_prior] = updateOnEvent(particles_prior, event, intens
 %  1 event [u,v,sign,timestamp]
 %  state: position of camera for every pixel at the time of its last event [128x128x3]
 
-% TODO: these values were chosen quite arbitrariliy!
-LOW_LIKELIHOOD = 0.0001;
-INTENSITY_VARIANCE  = 5; %1; % 0.08 % dependent on variance in predict and number of particles
+assert(~any(any(isnan(intensities))), 'NaN in intensities');
+
+% TODO: these values were chosen arbitrariliy!
+% LOW_LIKELIHOOD = 0.0001;
+INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+
 u = event(1); v = event(2);
 
 if event(3) > 0
-    s = 1;
+    event_sign = 1;
 else
-    s = -1;
+    event_sign = -1;
 end
 
-K = cameraIntrinsicParameterMatrix();
-invKPs = reshape(K \ [u v 1]', 1, 1, 3); invKPs = invKPs(:,:,1:2);
+K = double(cameraIntrinsicParameterMatrix());
+invKPs = reshape(K \ double([u v 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
+
 %old_points_w = zeros(size(particles,1),2);
 %new_points_w = zeros(size(particles,1),2);
 
@@ -28,11 +32,11 @@ particles_prior_this_pixel = state_prior(:,:,v,u); %permute(state_prior(v,u,:,:)
 % get pixel coordinates in world map
 old_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles_prior_this_pixel(:,2:end), size(intensities));
 new_points_w = cameraToWorldCoordinatesThetaBatch(invKPs, particles(:,2:end),                  size(intensities));
+
     
 % get pixel-intensity difference of prior and proposed posterior particle
 %measurements = log(interp2(intensities,new_points_w(:,2),new_points_w(:,1))) - log(interp2(intensities,old_points_w(:,2),old_points_w(:,1)));
 
-%likelihoods = zeros(size(particles,1),1);
 old_intensities = interp2(intensities, old_points_w(:,2), old_points_w(:,1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
 
@@ -44,8 +48,14 @@ for p = 1:size(particles,1)
     
     assert(~any(isnan(measurements)));
     
-    % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
-    likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]) + LOW_LIKELIHOOD;
+    % center gaussian around positive or negative threshold
+    % likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]) + LOW_LIKELIHOOD;
+    %     copied from gaussmf
+    params = [INTENSITY_VARIANCE INTENSITY_THRESHOLD*event_sign];
+    sigma = params(1);
+    c = params(2);
+    likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
+    
     %likelihoods = likelihoods/sum(likelihoods);
     
     % sum up likelihood over all possible positions at time of previous

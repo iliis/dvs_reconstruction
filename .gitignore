@@ -7,5 +7,6 @@
 # coder output
 *.prj
 *.mexw64
-*.pyc
 codegen/
+
+*.pyc

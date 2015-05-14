@@ -1,5 +1,8 @@
 function plotParticles( particles, true_solution )
 
+% axisLimits = 0.001 * [-0.1 1.9 -1 1];
+axisLimits = [-1 1 -1 1];
+
 subplot(1,2,1);
 colormap 'hot'; %'parula';
 whitebg([0.2 0.2 0.2]);
@@ -8,16 +11,16 @@ scatter(particles(:,2),particles(:,3),5,particles(:,1),'filled');
 colorbar;
 hold on;
 avg = particleAverage(particles);
-plot(avg(1), avg(2), 'xr');
+plot(avg(1), avg(2), 'xb');
 
 if nargin > 1
     % plot actual solution
     plot(true_solution(1), true_solution(2), 'og');
 end
-
+axis(axisLimits);
 hold off;
 
-title({'red X: weighted average over particles', 'green O: correct solution'});
+title({'blue X: weighted average over particles', 'green O: correct solution'});
 
 % L = 0.01; % same as in trackingTest3
 % %L = 0.001;

@@ -12,9 +12,10 @@ thetaCheckpoints = ...
    pi/4, -pi/4, 0; ...
    -pi/4, pi/4, 2*pi];
 omegas = ...
-    5*[-0.001, -0.001, -0.002; ...
-    0.001, 0, 0.002; ...
-    -0.001, 0.001, 0.004];
+    0.0001 * ...
+    [-1, -1, -2; ...
+    1, 0, 2; ...
+    -1, 1, 4];
 
 % thetaCheckpoints = ...
 %    [pi/8, pi/4, 0 ; ...
@@ -60,7 +61,7 @@ tic;
 allAddr = [];
 allTS = 0; %set first number 0 to have reference for first bunch of stamps
 allThetas = [];
-intermediateState = zeros(128, 128);http://explosm.net/comics/3749/
+intermediateState = zeros(128);
 
 for i = 1:size(thetaCheckpoints, 1) - 1
     
@@ -71,7 +72,6 @@ for i = 1:size(thetaCheckpoints, 1) - 1
     allAddr = [allAddr; addr];
     allTS = [allTS; ts + allTS(end)];
     allThetas = [allThetas; thetas];   
-    pause(0.1);
 end
 % [allAddr, allTS, thetas] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega);
 
@@ -84,7 +84,5 @@ toc
 
 [img, gradients] = reconstructMosaic(allAddr, allTS, allThetas);
 
-
-
-
-
+figure('Name', 'Reconstruction of mosaicingTest');
+imshow(img);
