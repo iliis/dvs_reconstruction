@@ -34,7 +34,6 @@ plotParticlesInWorld(particles, size(img));
 path = [ 1     2     1     2     1     2     1     2     2     2];
 
 for i = 1:10
-    last_time
     [events_new, ground_truth_new, flydiff_state] = flyDiffCamFine(img, ...
             20,          ... % generate at least so many events
             last_time,   ... % timestamp of last event (i.e. timestamp of flydiff_state)

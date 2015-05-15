@@ -84,6 +84,9 @@ for i = nextInd:size(events,1)
         lastPos(lastPos == repmat([1000000000 1000000000]', [1, simulationPatchSize() simulationPatchSize()])) = newLastPos(lastPos == repmat([1000000000 1000000000]', [1, simulationPatchSize() simulationPatchSize()]));
     end
     
+    % update gradient map with events
+    [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
+    
     if mod(i, 100) == 0
         pgrads = permute(gradients, [2 3 1]);
         map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
