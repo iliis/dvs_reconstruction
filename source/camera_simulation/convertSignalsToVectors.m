@@ -18,8 +18,8 @@ validInds  = ...
     & (events(:,2) <= (simulationPatchSize()/2*3));
 
 % adapt indices
-%events = events(validInds,:);
-%events(:,1:2) = events(:,1:2) - simulationPatchSize()/2;
+events = events(validInds,:);
+events(:,1:2) = events(:,1:2) - simulationPatchSize()/2;
 
 assert(all(all(events(:,1:2) > 0 & events(:,1:2) <= simulationPatchSize())));
 
