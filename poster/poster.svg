@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3869605"
-     inkscape:cx="1730.0401"
-     inkscape:cy="1292.055"
+     inkscape:zoom="0.34674012"
+     inkscape:cx="696.37091"
+     inkscape:cy="799.93553"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -250,19 +250,19 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1140"
-       y="792.3623"
+       y="882.3623"
        id="text4205"
        sodipodi:linespacing="125%"><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4232"
          sodipodi:role="line"
          x="1140"
-         y="792.3623">H. Kim, A. Handa, R. Benosman, S. Ieng, A. Davison, 2014</tspan><tspan
+         y="882.3623">H. Kim, A. Handa, R. Benosman, S. Ieng, A. Davison, 2014</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
          id="tspan4234"
          sodipodi:role="line"
          x="1140"
-         y="828.2998">&quot;Simultaneous Mosaicing and Tracking with an Event Camera&quot;</tspan></text>
+         y="918.2998">&quot;Simultaneous Mosaicing and Tracking with an Event Camera&quot;</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:87.5px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#616161;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -289,44 +289,15 @@
     <text
        sodipodi:linespacing="125%"
        id="text4972"
-       y="792.3623"
+       y="882.3623"
        x="1080"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         y="792.3623"
+         y="882.3623"
          x="1080"
          sodipodi:role="line"
          id="tspan4976"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">[1]</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4980"
-       y="882.3623"
-       x="1140"
-       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
-         y="882.3623"
-         x="1140"
-         sodipodi:role="line"
-         id="tspan4982"
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">D. Weikersdorfer, D. Adrian, D. Cremers, Jörg Conradt, ICRA 2014</tspan><tspan
-         y="918.2998"
-         x="1140"
-         sodipodi:role="line"
-         id="tspan4984"
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">&quot;Event-based 3D SLAM with a depth-augmented dynamic vision sensor&quot;</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1080"
-       y="882.3623"
-       id="text4986"
-       sodipodi:linespacing="125%"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start"
-         id="tspan4988"
-         sodipodi:role="line"
-         x="1080"
-         y="882.3623">[2]</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -355,19 +326,19 @@
          x="1080"
          sodipodi:role="line"
          id="tspan4998"
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">[3]</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:'Chronicle Text G2';-inkscape-font-specification:'Chronicle Text G2, Light';text-align:start;writing-mode:lr-tb;text-anchor:start">[2]</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:87.5px;line-height:125%;font-family:'Knockout HTF51-Middleweight';-inkscape-font-specification:'Knockout HTF51-Middleweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="1080"
-       y="722.36218"
+       y="812.36218"
        id="text5000"
        sodipodi:linespacing="125%"><tspan
          style="font-size:75px"
          sodipodi:role="line"
          id="tspan5002"
          x="1080"
-         y="722.36218">7. REFERENCES</tspan></text>
+         y="812.36218">7. REFERENCES</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text5004"
@@ -630,7 +601,7 @@
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path5523"
-       d="m 1080,742.36214 1000,8e-5"
+       d="m 1080,832.36212 1000,8e-5"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.08661413;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        style="opacity:0.08500001;fill:none;fill-opacity:1;stroke:none;stroke-width:3.54330707;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -1373,7 +1344,7 @@
          x="520"
          y="-612.63782"
          id="tspan5334"
-         style="font-size:15px;text-align:end;text-anchor:end">images by [3]</tspan></text>
+         style="font-size:15px;text-align:end;text-anchor:end">images by [2]</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text5336"
@@ -1398,5 +1369,17 @@
            id="use5346"
            width="100%"
            height="100%" /></flowRegion><flowPara
-         id="flowPara5350">A dynamic vision sensor is a feasible option for rotational motion tracking. With some optimizations the system is conceiveably real-time capable, especially when combined with other sensors, such as an IMU, and might one day lead to full 3D-SLAM with a dynamic vision sensor.</flowPara></flowRoot>  </g>
+         id="flowPara5350">A dynamic vision sensor is a feasible option for rotational motion tracking. With some optimizations the system is conceiveably real-time capable, especially when combined with other sensors, such as an IMU, and might one day lead to full 3D-SLAM with a dynamic vision sensor.</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:75px;line-height:125%;font-family:'Knockout HTF48-Featherweight';-inkscape-font-specification:'Knockout HTF48-Featherweight, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="2060"
+       y="-1882.1749"
+       id="text4882"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4884"
+         x="2060"
+         y="-1882.1749"
+         style="text-align:end;text-anchor:end;fill:#000000;fill-opacity:1">BASED ON WORK BY KIM ET AL. [1]</tspan></text>
+  </g>
 </svg>
