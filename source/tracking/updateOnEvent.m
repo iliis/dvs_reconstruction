@@ -7,8 +7,8 @@ function [particles, state] = updateOnEvent(particles_prior, event, intensities,
 assert(~any(any(isnan(intensities))), 'NaN in intensities');
 
 % TODO: these values were chosen arbitrariliy!
-% LOW_LIKELIHOOD = 0.0001;
-INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
+LOW_LIKELIHOOD = 0.02;
+INTENSITY_VARIANCE  = 0.05; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
 u = event(1); v = event(2);
 
@@ -52,10 +52,11 @@ for p = 1:size(particles,1)
     
     % no need for LOW_LIKELIHOOD, just center gaussian around positive or negative threshold
     %     copied from gaussmf
-    params = [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s];
-    sigma = params(1);
-    c = params(2);
-    likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
+%     params = [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s];
+    sigma = INTENSITY_VARIANCE;
+    c = INTENSITY_THRESHOLD * s;
+    likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), LOW_LIKELIHOOD);
+    likelihoods(sign(measurements) ~= sign(c)) = LOW_LIKELIHOOD;
     %     likelihoods = gaussmf(measurements, [INTENSITY_VARIANCE INTENSITY_THRESHOLD*s]);
     %likelihoods = likelihoods/sum(likelihoods);
     

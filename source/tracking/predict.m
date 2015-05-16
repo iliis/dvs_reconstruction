@@ -19,7 +19,7 @@ function particles = predict(particles, deltaT_global)
 % the longer we wait between events, the longer the camera probably moved
 % also allow some error even when the camera didn't move at all
 % sigma = 0.00001 + 0.0002 * deltaT_global;
-sigma = 0.0002 * deltaT_global;
+sigma = 0.00002 * deltaT_global;
 % sigma = 0.000001 + 0.000004 * deltaT_global;
 
 % TODO: implement perturbation in tangent space
@@ -27,7 +27,7 @@ sigma = 0.0002 * deltaT_global;
 
 % TODO: this would probably work as well, right? (I don't know enough about
 % Lie algebra and exponential maps)
-particles(:, 2:3) = particles(:, 2:3) + double(sigma) * randn(size(particles)-[0,2]);
+particles(:, 2:end) = particles(:, 2:end) + double(sigma) * randn(size(particles)-[0,1]);
 
 % disp(['predict: deltaT = ' num2str(deltaT_global)]);
 

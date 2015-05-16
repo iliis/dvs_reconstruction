@@ -1,4 +1,5 @@
-function [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(u, v, pol, timestamp, theta, gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos)
+function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, timestamp, theta, gradients, covariances, lastSigs, lastPos)
+% function [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(u, v, pol, timestamp, theta, gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos)
 
 % This function an event and updates the mosaic, gradients, covariances and
 % history with an EKF
@@ -15,17 +16,17 @@ tau = double(timestamp - lastSigs(v, u));
 pmTau = lastPos(:, v, u);
 
 % handle strong changes (-> multiple signals)
-if tau == 0
-    warning('doubled event with same timestamp');
-    tau = double(timestamp - secToLastSigs(v, u));
-    if tau == 0
-        return;
-    end
-    pmTau = secToLastPos(:, v, u);
-else
-    secToLastSigs(v, u) = lastSigs(v, u);
-    secToLastPos(:, v, u) = lastPos(:, v, u);
-end
+% if tau == 0
+%     warning('doubled event with same timestamp');
+%     tau = double(timestamp - secToLastSigs(v, u));
+%     if tau == 0
+%         return;
+%     end
+%     pmTau = secToLastPos(:, v, u);
+% else
+%     secToLastSigs(v, u) = lastSigs(v, u);
+%     secToLastPos(:, v, u) = lastPos(:, v, u);
+% end
 
 pmt = cameraToWorldCoordinates(u,v,cameraIntrinsicParameterMatrix(),theta,[size(gradients,2),size(gradients,3)]);
 idx = round(pmt);
@@ -84,6 +85,8 @@ if sum(isnan(gt)) > 0
     timestamp
     return;
 end
+
+% disp(['gradient old: ' num2str(gradients(:,idx(1),idx(2))') ' new: ' num2str(gt')]);
 
 % update matrices
 covariances(:,:,idx(1),idx(2)) = Pgt;

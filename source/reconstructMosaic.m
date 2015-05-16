@@ -28,8 +28,9 @@ fprintf('number of events: %d\n', nOfEvents);
 
 for i = 1:size(x,1)
     
-    [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(x(i)+1, y(i)+1, pol(i), allTS(i), thetas(i, :), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
-    
+%     [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(x(i)+1, y(i)+1, pol(i), allTS(i), thetas(i, :), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
+        [gradients, covariances, lastSigs, lastPos] = updateMosaic(x(i)+1, y(i)+1, pol(i), allTS(i), thetas(i, :), gradients, covariances, lastSigs, lastPos);
+
     
     if mod(i, 1000) == 0; fprintf('%d / %d\n', i, size(x,1)); end;
     if mod(i, 50000) == 0

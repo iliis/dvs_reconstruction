@@ -1,4 +1,4 @@
-function [map, gradients] = initializeMap(image, mapSize)
+function [gradients, xInds, yInds] = initializeMap(image, mapSize)
 
 K = cameraIntrinsicParameterMatrix();
 imgSize = size(image);
@@ -13,7 +13,7 @@ invKPs = reshape((cameraIntrinsicParameterMatrix() \ [camCoords(:,1)'; camCoords
 worldCoords = round(cameraToWorldCoordinatesBatch(invKPs(:,:,1:2), [0 0 0], imgSize));
 % worldImage(sub2ind(size(worldImage), worldCoords(:,1), worldCoords(:,2))) = vals(:);
 
-map = 0.5*ones(mapSize);
+% map = 0.5*ones(mapSize);
 % 
 % height
 % width
@@ -30,7 +30,10 @@ map = 0.5*ones(mapSize);
 
 [FX, FY] = gradient(image);
 
+xInds = lt(2) + (0:(width-1));
+yInds = lt(1) + (0:(height-1));
+
 gradients = zeros([mapSize, 2]);
-gradients(lt(1) + (0:(height-1)), lt(2) + (0:(width-1)),1) = reshape(FX(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
-gradients(lt(1) + (0:(height-1)), lt(2) + (0:(width-1)),2) = reshape(FY(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
+gradients(yInds,xInds,1) = reshape(FX(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
+gradients(yInds,xInds,2) = reshape(FY(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
 gradients = permute(gradients, [3 1 2]);

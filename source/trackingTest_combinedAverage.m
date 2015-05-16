@@ -25,20 +25,23 @@ outputImageSize = [1000 2000];
 boundary_image = 0.5*ones(outputImageSize);
 % origin = outputImageSize ./ 2;
 % gradients = zeros([2, outputImageSize]);
-covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
+covariances = 100*repmat(eye(2), [1, 1, outputImageSize]);
 lastSigs = zeros(64);
 
 % lastPos = round(reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]));
 % lastPos = repmat(origin', [1, 64 64]);
 % lastPos = repmat([1000000000 1000000000]', [1, 64 64]);
 lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
-
-secToLastSigs = lastSigs;
-secToLastPos = lastPos;
+% 
+% secToLastSigs = lastSigs;
+% secToLastPos = lastPos;
 
 % [map, gradients, nextInd] = integrateInitialEvents(events, 100, outputImageSize);
 
-[map, gradients] = initializeMap(img, outputImageSize);
+[gradients, xInds, yInds] = initializeMap(img, outputImageSize);
+
+smallCovariances = repmat(eye(2), [1, 1, outputImageSize]);
+covariances(:,:,yInds,xInds) = smallCovariances(:,:,yInds,xInds);
 nextInd = 1;
 
 pgrads = permute(gradients, [2 3 1]);
@@ -89,26 +92,21 @@ for i = nextInd:size(events,1)
 %         'real value: ' num2str(theta_gt(i,:)) ' ' ...
 %         'error: ' num2str(theta_est(i,:) - theta_gt(i,:)) ' (' num2str(norm(theta_est(i,:) - theta_gt(i,:))) ')']);
     
-    if ~lastPosUpdated && (sum(abs(originInitial - cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), theta_est(i,:), outputImageSize))) > 2)
-        lastPosUpdated = true;
-        newLastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
-        covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
-        lastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64])) = newLastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64]));
-    end
+%     if ~lastPosUpdated && (sum(abs(originInitial - cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(), theta_est(i,:), outputImageSize))) > 2)
+%         lastPosUpdated = true;
+%         newLastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
+%         covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
+%         lastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64])) = newLastPos(lastPos == repmat([1000000000 1000000000]', [1, 64 64]));
+%     end
     
 %     [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
-    
+        [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
+
 %     if useGeneratedMap && mod(i,100) == 0
     if mod(i, 100) == 0
         pgrads = permute(gradients, [2 3 1]);
         map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
-%         disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
-% %         disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
-%     elseif ~useGeneratedMap
-%         useGeneratedMap = norm(theta_est(i,1:2)) > 0.3;
     end
-    
-    %     if deltaT_global > 0; [map, ~] = reconstructMosaic(events_raw(1:i), TS(1:i), theta_est(1:i, :)); end;
    
     
     
@@ -133,37 +131,37 @@ for i = nextInd:size(events,1)
         drawnow;
     end
     
-    if mod(i, 1000) == 0
-        
-        if ~exist('tracking_test2_figure', 'var') || ~ishandle(tracking_test2_figure)
-            tracking_test2_figure = figure('Name', 'Particles');
-        else
-            figure(tracking_test2_figure);
-        end
-        plotParticles(particles, theta_gt(i,:));
-        drawnow;
-        
-        if ~exist('scaled_map_figure', 'var') || ~ishandle(scaled_map_figure)
-            scaled_map_figure = figure('Name', 'scaled map');
-        else
-            figure(scaled_map_figure);
-        end
-        imagesc(map)
-        colorbar;
-        colormap(scaled_map_figure, 'gray');
-        
-%         if ~exist('map_gradient_figure', 'var') || ~ishandle(map_gradient_figure)
-%             map_gradient_figure = figure('Name', 'map gradient');
+%     if mod(i, 1000) == 0
+%         
+%         if ~exist('tracking_test2_figure', 'var') || ~ishandle(tracking_test2_figure)
+%             tracking_test2_figure = figure('Name', 'Particles');
 %         else
-%             figure(map_gradient_figure);
+%             figure(tracking_test2_figure);
 %         end
-%         [X, Y] = meshgrid(1:size(gradients,3), 1:size(gradients,2));
-%         quiver(X, Y, permute(gradients(1,:,:), [2 3 1]), permute(gradients(2,:,:), [2 3 1]));
-        
-        drawnow;
-        disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
-        disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
-    end
+%         plotParticles(particles, theta_gt(i,:));
+%         drawnow;
+%         
+% %         if ~exist('scaled_map_figure', 'var') || ~ishandle(scaled_map_figure)
+% %             scaled_map_figure = figure('Name', 'scaled map');
+% %         else
+% %             figure(scaled_map_figure);
+% %         end
+% %         imagesc(map)
+% %         colorbar;
+% %         colormap(scaled_map_figure, 'gray');
+%         
+% %         if ~exist('map_gradient_figure', 'var') || ~ishandle(map_gradient_figure)
+% %             map_gradient_figure = figure('Name', 'map gradient');
+% %         else
+% %             figure(map_gradient_figure);
+% %         end
+% %         [X, Y] = meshgrid(1:size(gradients,3), 1:size(gradients,2));
+% %         quiver(X, Y, permute(gradients(1,:,:), [2 3 1]), permute(gradients(2,:,:), [2 3 1]));
+%         
+%         drawnow;
+%         disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
+%         disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
+%     end
         
     
     % resample distribution if particles become too unevenly distributed
@@ -209,12 +207,12 @@ end
 plotCameraPositionsInImage(map, theta_est, theta_gt);
 % colormap(intermediate_map_figure, 'gray');
 
-if ~exist('scaled_map_figure', 'var') || ~ishandle(scaled_map_figure)
-    scaled_map_figure = figure('Name', 'scaled map');
-else
-    figure(scaled_map_figure);
-end
-imagesc(map)
-colorbar;
-colormap(scaled_map_figure, 'gray');
+% if ~exist('scaled_map_figure', 'var') || ~ishandle(scaled_map_figure)
+%     scaled_map_figure = figure('Name', 'scaled map');
+% else
+%     figure(scaled_map_figure);
+% end
+% imagesc(map)
+% colorbar;
+% colormap(scaled_map_figure, 'gray');
 drawnow;
