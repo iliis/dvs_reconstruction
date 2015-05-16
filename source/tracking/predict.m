@@ -29,6 +29,6 @@ sigma = 0.0002 * deltaT_global;
 % Lie algebra and exponential maps)
 particles(:, 2:3) = particles(:, 2:3) + double(sigma) * randn(size(particles)-[0,2]);
 
-% disp(['predict: deltaT = ' num2str(deltaT_global)]);
+disp(['predict: deltaT = ' num2str(deltaT_global)]);
 
 end

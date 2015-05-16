@@ -4,7 +4,9 @@ function plotCameraRect( theta, img_size )
 K = cameraIntrinsicParameterMatrix();
 
 % pixel coordinates: 1 to patchSize
-xy = [0 0; 1 0; 1 1; 0 1; 0 0];
+xy = [ ...
+    0 0; 1 0; 1 1; 0 1; 0 0; ... % rectangle
+    0.4 0; 0.5 -0.1; 0.6 0]; % up-arrow
 xy = xy*(simulationPatchSize()-1)+1;
 
 patch_coords = zeros((size(xy,1)-1)*16, 2);
@@ -15,7 +17,7 @@ for i = 1:(size(xy,1)-1)
     
     for j = 1:numel(us)
         world_point = cameraToWorldCoordinates( ...
-            us(j),vs(j),K,theta,img_size);
+            us(j),vs(j),K,theta,img_size, true);
         
         %[us(j) vs(j) world_point]
         

@@ -60,7 +60,7 @@ while size(events,1) < numEvents
     % generate more 'real' timestamps (i.e. more similary to what camera
     % generates and what the reconstruction code uses)
     % adjust this constant according to your map
-    TIME_BETWEEN_STEPS = 1/100;
+    TIME_BETWEEN_STEPS = 10;
     events_new(:,4) = TIME_BETWEEN_STEPS + last_timestamp;
     last_timestamp = events_new(end,4);
     

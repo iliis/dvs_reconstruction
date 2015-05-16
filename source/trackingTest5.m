@@ -9,11 +9,13 @@ close all;
 
 hold on;
 
-%imagepath = 'camera_simulation/testimages/toy_example1.png';
-imagepath = 'camera_simulation/testimages/churchtest_downscaled.jpg';
+imagepath = 'camera_simulation/testimages/toy_example1.png';
+%imagepath = 'camera_simulation/testimages/churchtest_downscaled.jpg';
 %imagepath = 'camera_simulation/testimages/checkerboard_small.jpg';
-% imagepath = 'camera_simulation/testimages/panorama.png';
-img = double(rgb2gray(imread(imagepath)));
+%imagepath = 'camera_simulation/testimages/panorama.png';
+
+% load image and normalize to [0,1]
+img = im2double(rgb2gray(imread(imagepath)));
 
 
 [particles, tracking_state] = initParticles(1000, [simulationPatchSize() simulationPatchSize()]);
@@ -28,14 +30,18 @@ last_time = 0;
 [~,~,flydiff_state] = flyDiffCamFine(img,0,last_time,last_pos); % use flyDiffCamFine to initialize state
 
 tracked_path = particleAverage(particles);
-plotCameraGroundTruth(last_pos, size(img), 'green');
-plotParticlesInWorld(particles, size(img));
+%plotCameraGroundTruth(last_pos, size(img), 'green');
+%plotParticlesInWorld(particles, size(img));
+
+
+%figure; image(img); hold on; plotParticlesInWorld([1000 0 0 0], size(img), [34 33]); hold on; plotCameraRect([0 0 0], size(img));
+%patch = double(getPatch(img, getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0])); figure; imagesc(patch);
 
 path = [ 1     2     1     2     1     2     1     2     2     2];
 
 for i = 1:10
     [events_new, ground_truth_new, flydiff_state] = flyDiffCamFine(img, ...
-            20,          ... % generate at least so many events
+            2,           ... % generate at least so many events
             last_time,   ... % timestamp of last event (i.e. timestamp of flydiff_state)
             last_pos,    ... % start where we left off on last iteration
             path(i), ... %randi(2),    ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)

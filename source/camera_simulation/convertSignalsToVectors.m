@@ -8,18 +8,18 @@ for i = 1:size(events_raw,1)
     % disp(['event ' num2str(i) ' at ' num2str([x y]) ' pol = ' num2str(pol) ' actual diff = ' num2str(diff(y,x))]);
 end
 
-% only use signals in small camera frame
-% i.e. filter out events outside center patch of size simulationPatchSize()
-
-validInds  = ...
-      (events(:,1) >  (simulationPatchSize()/2)) ...
-    & (events(:,1) <= (simulationPatchSize()/2*3)) ...
-    & (events(:,2) >  (simulationPatchSize()/2)) ...
-    & (events(:,2) <= (simulationPatchSize()/2*3));
-
-% adapt indices
-events = events(validInds,:);
-events(:,1:2) = events(:,1:2) - simulationPatchSize()/2;
+% % only use signals in small camera frame
+% % i.e. filter out events outside center patch of size simulationPatchSize()
+% 
+% validInds  = ...
+%       (events(:,1) >  (simulationPatchSize()/2)) ...
+%     & (events(:,1) <= (simulationPatchSize()/2*3)) ...
+%     & (events(:,2) >  (simulationPatchSize()/2)) ...
+%     & (events(:,2) <= (simulationPatchSize()/2*3));
+% 
+% % adapt indices
+% events = events(validInds,:);
+% events(:,1:2) = events(:,1:2) - simulationPatchSize()/2;
 
 assert(all(all(events(:,1:2) > 0 & events(:,1:2) <= simulationPatchSize())));
 
