@@ -8,10 +8,16 @@ assert(~any(any(isnan(intensities))), 'NaN in intensities');
 
 disp(['updating on event ' num2str(event)]);
 
+
+
+show_plots = false;
+
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.0001;
 INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+
+
 
 u = event(1); v = event(2);
 
@@ -23,8 +29,6 @@ end
 
 K = double(cameraIntrinsicParameterMatrix());
 invKPs = reshape(K \ double([u v 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
-
-particles = particles_prior;
 
 %old_points_w = zeros(size(particles,1),2);
 %new_points_w = zeros(size(particles,1),2);
@@ -44,7 +48,7 @@ old_intensities = interp2(intensities, old_points_w(:,2), old_points_w(:,1));
 new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
 
 
-
+particles = particles_prior; % posterior positions are the same as prior positions
 for p = 1:size(particles,1)
     
     % compare current pixel's intensity with all possible previous ones
@@ -67,8 +71,10 @@ for p = 1:size(particles,1)
     particles(p,1) = likelihoods' * particles_prior_this_pixel(:,1); %permute(state_prior(v,u,:,1), [3 1 2 4]);
 end
 
-% just for plotting
-particles_pixelprior_times_likelihood = particles;
+if show_plots
+    % just for plotting
+    particles_pixelprior_times_likelihood = particles;
+end
 
 % actually update prior probability
 particles(:,1) = particles(:,1) .* particles_prior(:,1);
@@ -81,8 +87,15 @@ state_prior(:,:,v,u) = particles; %particleAverage(particles);
 
 
 
-show_plots = true;
 if show_plots
+    
+    global update_event_plot_figure;
+    
+    if ~exist('update_event_plot_figure','var') || isempty(update_event_plot_figure)
+        update_event_plot_figure = figure('Name', 'updateOnEvent(): probabilities');
+    else
+        figure(update_event_plot_figure);
+    end
     
     subplot(4,3,1);
     plotParticles(particles_prior);
@@ -149,8 +162,9 @@ if show_plots
     title('posterior (world)');
     
     
-    
+    disp('waiting for user. click to continue...');
     drawnow; waitforbuttonpress;
+    disp('ok, continuing...');
 end
 
 

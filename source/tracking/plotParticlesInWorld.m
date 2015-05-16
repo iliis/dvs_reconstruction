@@ -16,29 +16,38 @@ avg_world = cameraToWorldCoordinatesBatch(invKP_uv, avg, img_size);
 if nargin >= 4 && ~isempty(background_image)
     
     % measure region of interest
+    colormap 'gray';
     scatter(w(:,2), w(:,1), 5, [0 0 0], 'filled');
     xlimits = xlim(gca);
     ylimits = ylim(gca);
     
-    imagesc(background_image);
+    image(repmat(background_image,1,1,3));
     hold on;
     
     % cannot draw particle's weight, as background image throws off the scale...
-    scatter(w(:,2), w(:,1), 5, [1 0.5 0], 'filled');
+    %scatter(w(:,2), w(:,1), 5, [1 0.5 0], 'filled');
+    
     
     % cut image to region with particles
     xlim(xlimits);
     ylim(ylimits);
-else
-    scatter(w(:,2), w(:,1), 5, particles(:,1), 'filled');
-    set(gca,'YDir','reverse'); % Y = 0 is at the top
-    colormap 'hot'; %'parula';
-    colorbar;
-    hold on;
 end
-
+    
+scatter(w(:,2), w(:,1), 5, particles(:,1), 'filled');
+    
+% scale coloring of scatterplot to range of particle weights
+% (background image might have changed this)
+range = minmax(particles(:,1)');
+if (range(1) >= range(2))
+    range = range(1)*[0.9 1.1];
+end
+caxis(range);
+   
+set(gca,'YDir','reverse'); % Y = 0 is at the top
+colormap 'parula';
+colorbar;
+hold on;
 plot(avg_world(2), avg_world(1), 'ob');
-hold off;
 
 title({'particles in world', 'blue circle: weighted average'});
 

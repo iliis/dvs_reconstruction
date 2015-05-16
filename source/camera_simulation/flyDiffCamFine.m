@@ -41,7 +41,7 @@ thetas = [];
 
 while size(events,1) < numEvents
     while true
-        theta(theta_dim) = theta(theta_dim) + theta_inc;
+        theta(abs(theta_dim)) = theta(abs(theta_dim)) + theta_inc;
 
         new_patch = double(getPatch(img, invKPs, theta));
         diff = new_patch - patch_state;
@@ -60,14 +60,14 @@ while size(events,1) < numEvents
     % generate more 'real' timestamps (i.e. more similary to what camera
     % generates and what the reconstruction code uses)
     % adjust this constant according to your map
-    TIME_BETWEEN_STEPS = 10;
+    TIME_BETWEEN_STEPS = 1;
     events_new(:,4) = TIME_BETWEEN_STEPS + last_timestamp;
     last_timestamp = events_new(end,4);
     
     events = [events; events_new];
     thetas = [thetas; repmat(theta, size(events_new,1), 1)];
     
-    disp(['got ' num2str(size(events_new,1)) ' new events']);
+    disp(['got ' num2str(size(events_new,1)) ' new events. theta = ' num2str(theta)]);
 end
 disp(['got ' num2str(size(events,1)) ' events in total']);
 

@@ -4,7 +4,8 @@ if nargin < 3
     color = 'green';
 end
 
-invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [simulationPatchSize() simulationPatchSize()]);
+% plot at center of camera image
+invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [simulationPatchSize() simulationPatchSize()]/2);
 
 w = zeros(size(path,1),2);
 for i = 1:size(path,1);

@@ -1,9 +1,11 @@
-function [particles, tracking_state] = trackMovement( particles, tracking_state, events, img, last_timestamp)
+function [particles, tracking_state, intermediate_positions] = trackMovement( particles, tracking_state, events, img, last_timestamp)
 % updates on events
 
 if nargin < 5
     last_timestamp = 0;
 end
+
+intermediate_positions = zeros(size(events,1), 3);
 
 avg = particleAverage(particles);
 for i = 1:size(events,1)
@@ -15,10 +17,6 @@ for i = 1:size(events,1)
     
     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state);
     
-    prev_avg = avg;
-    avg = particleAverage(particles);
-    plotInWorld([prev_avg; avg], size(img), ':.b'); drawnow;
-    
     disp(['updated on event ' num2str(i) ' = ' num2str(events(i,:)) ' deltaT_global = ' num2str(deltaT_global) ' mean = ' num2str(particleAverage(particles)) '  eff. no. = ' num2str(effectiveParticleNumber(particles))]);
     %plotParticles(particles); drawnow; waitforbuttonpress;
     
@@ -28,10 +26,17 @@ for i = 1:size(events,1)
         particles = resample(particles);
         effno = effectiveParticleNumber(particles);
         
-        %disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
+        disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
         %plotParticles(particles, theta_new); drawnow; waitforbuttonpress;
     end
+    
+    prev_avg = avg;
+    avg = particleAverage(particles);
+    
+    plotInWorld([prev_avg; avg], size(img), simulationPatchSize()*[1 1]/2, ':.b');
+    drawnow;
 
+    intermediate_positions(i, :) = avg;
 end
 
 end
