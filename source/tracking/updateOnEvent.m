@@ -14,8 +14,8 @@ show_plots = false;
 
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.0001;
-INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
-INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+INTENSITY_VARIANCE  = 0.005; %0.08; %1; % 0.08 % dependent on variance in predict and number of particles
+INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.05;
 
 
 

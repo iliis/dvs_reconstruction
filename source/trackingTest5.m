@@ -22,12 +22,13 @@ img = im2double(rgb2gray(imread(imagepath)));
 
 % generate a path
 
-events = [];
-ground_truth = [];
 
 last_pos  = [0 0 0]; % initial position
 last_time = 0;
 [~,~,flydiff_state] = flyDiffCamFine(img,0,last_time,last_pos); % use flyDiffCamFine to initialize state
+
+events = [];
+ground_truth = last_pos;
 
 tracked_path = particleAverage(particles);
 %plotCameraGroundTruth(last_pos, size(img), 'green');
@@ -39,7 +40,7 @@ tracked_path = particleAverage(particles);
 
 %path = [ 1     2     1     2     1     2     1     2     2     2];
 
-for i = 1:200
+for i = 1:20
     
     dir_sign = 1; %(randi(2)-1)*2-1;
     dir_dim  = randi(2); % only translation, no rotation
@@ -79,6 +80,10 @@ for i = 1:200
     last_time = events(end,4);
 end
 
+err = sum((ground_truth - tracked_path).^2, 2);
+figure;
+plot(err);
+title('error of tracking vs. ground truth');
 
 %function [particles, tracking_state] = trackMovement( particles, tracking_state, events, img, last_timestamp)
 %[particles, tracking_state] = trackMovement( particles, tracking_state, events, img, 0);
