@@ -1,4 +1,4 @@
-function [ map, gradients, theta_est ] = trackingTest_combinedAverage(events_raw, TS, theta_gt, imagepath)
+function [ map, gradients, theta_est, imgSeq ] = trackingTest_combinedAverage(events_raw, TS, theta_gt, imagepath)
 
 if nargin < 4
     imagepath = 'camera_simulation/testimages/panorama.png';
@@ -25,8 +25,10 @@ outputImageSize = [1000 2000];
 boundary_image = 0.5*ones(outputImageSize);
 % origin = outputImageSize ./ 2;
 % gradients = zeros([2, outputImageSize]);
-covariances = 100*repmat(eye(2), [1, 1, outputImageSize]);
+covariances = 1000*repmat(eye(2), [1, 1, outputImageSize]);
 lastSigs = zeros(64);
+
+imgSeq = zeros([outputImageSize, ceil(size(events,1)/10000)]);
 
 % lastPos = round(reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]));
 % lastPos = repmat(origin', [1, 64 64]);
@@ -58,7 +60,7 @@ drawnow;
 
 
 % update on events
-N = 500;
+N = 100;
 [particles, tracking_state] = initParticlesAverage(N, [64 64]);
 
 theta_est = zeros(size(events, 1), 3);
@@ -72,7 +74,7 @@ originInitial = cameraToWorldCoordinates(64, 64, cameraIntrinsicParameterMatrix(
 % last_timestamp = events(nextInd-1,4);
 last_timestamp = 0;
 
-for i = nextInd:size(events,1)
+for i = 1:size(events,1)
     
     deltaT_global = events(i,4) - last_timestamp;
     last_timestamp = events(i,4);
@@ -100,17 +102,17 @@ for i = nextInd:size(events,1)
 %     end
     
 %     [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
-        [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
+        [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), -events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 
 %     if useGeneratedMap && mod(i,100) == 0
-    if mod(i, 100) == 0
+    if mod(i, 5000) == 0
         pgrads = permute(gradients, [2 3 1]);
         map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
     end
    
     
     
-    if mod(i, 100) == 0
+    if mod(i, 1000) == 0
         disp(['updated on event ' num2str(i) ...
             ' (time ' num2str(events(i,4)) ')' ...
             ' = ' num2str(events(i,1:3)) ...
@@ -121,7 +123,7 @@ for i = nextInd:size(events,1)
        
     end
     
-    if mod(i, 500) == 0
+    if mod(i, 10000) == 0
         if ~exist('intermediate_map_figure', 'var') || ~ishandle(intermediate_map_figure)
             intermediate_map_figure = figure('Name', 'Currently used map');
         else
@@ -129,6 +131,8 @@ for i = nextInd:size(events,1)
         end
         plotCameraPositionsInImage(map, theta_est(1:i,:), theta_gt(1:i,:) - repmat(theta_gt(1,:), i,1));
         drawnow;
+        
+        imgSeq(:,:,round(i/10000)) = map;
     end
     
 %     if mod(i, 1000) == 0
@@ -198,6 +202,8 @@ pgrads = permute(gradients, [2 3 1]);
 map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
 disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
 disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
+
+imgSeq(:,:,end) = map;
 
 if ~exist('intermediate_map_figure', 'var') || ~ishandle(intermediate_map_figure)
     intermediate_map_figure = figure();
