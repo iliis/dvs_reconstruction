@@ -20,7 +20,9 @@ function particles = predict(particles, deltaT_global)
 % also allow some error even when the camera didn't move at all
 % sigma = 0.00001 + 0.0002 * deltaT_global;
 %sigma = 0.00005 * deltaT_global; % mean movement between events for 'panorama'
-sigma_a = 0.0004 * deltaT_global; % mean movement between events for 'panorama'
+% 0.0004 works very well on 'panorama'
+%sigma_a = 0.0004 * deltaT_global; % mean movement between events for 'panorama'
+sigma_a = 0.0003 * deltaT_global;
 sigma_b = sigma_a;
 sigma_c = 0.00005 * deltaT_global; % less rotation
 % sigma = 0.000001 + 0.000004 * deltaT_global;

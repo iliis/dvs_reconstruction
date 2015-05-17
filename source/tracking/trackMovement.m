@@ -1,4 +1,4 @@
-function [particles, tracking_state, intermediate_positions] = trackMovement( particles, tracking_state, events, img, last_timestamp)
+function [particles, tracking_state, intermediate_positions] = trackMovement( particles, tracking_state, events, img, last_timestamp, ground_truth)
 % updates on events
 
 if nargin < 5
@@ -32,6 +32,10 @@ for i = 1:size(events,1)
     
     prev_avg = avg;
     avg = particleAverage(particles);
+    
+    if (nargin >= 6 && exist('ground_truth','var') && ~isempty(ground_truth))
+        plotInWorld([ground_truth(i,:); avg], size(img), simulationPatchSize()*[1 1]/2, ':', 'Color', [0.9 0.9 0.9]);
+    end
     
     plotInWorld([prev_avg; avg], size(img), simulationPatchSize()*[1 1]/2, ':.b');
     drawnow;

@@ -39,9 +39,9 @@ tracked_path = particleAverage(particles);
 
 %path = [ 1     2     1     2     1     2     1     2     2     2];
 
-for i = 1:20
+for i = 1:200
     
-    dir_sign = (randi(2)-1)*2-1;
+    dir_sign = 1; %(randi(2)-1)*2-1;
     dir_dim  = randi(2); % only translation, no rotation
     direction = dir_sign * dir_dim;
     
