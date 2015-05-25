@@ -20,7 +20,7 @@ disp(['got ' num2str(size(events,1)) ' events']);
 % prepare variables for reconstruction
 outputImageSize = [1000 2000];
 boundary_image = 0.5*ones(outputImageSize);
-covariances = 100*repmat(eye(2), [1, 1, outputImageSize]);
+covariances = 1000*repmat(eye(2), [1, 1, outputImageSize]);
 lastSigs = zeros(64);
 
 imgSeq = zeros([outputImageSize, ceil(size(events,1)/10000)]);
@@ -57,7 +57,7 @@ deltaT_global = events(i,4) - last_timestamp;
     particles = predict(particles, deltaT_global);
     
     [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
-    theta_est(i,:) = 0.8*particleAverage(particles);   
+    theta_est(i,:) = 0.3*particleAverage(particles);   
     
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 
@@ -72,7 +72,7 @@ for i = 2:size(events,1)
         [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
 %     [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), img, tracking_state);
     
-    theta_est(i,:) = 0.8*particleAverage(particles) + 0.2*theta_est(i-1,:);    
+    theta_est(i,:) = 0.3*particleAverage(particles) + 0.7*theta_est(i-1,:);    
 
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 

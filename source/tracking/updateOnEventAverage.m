@@ -8,7 +8,7 @@ assert(~any(any(isnan(intensities))), 'NaN in intensities');
 
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.02;
-INTENSITY_VARIANCE  = 0.03; %1; % 0.08 % dependent on variance in predict and number of particles
+INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
 INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
 u = event(1); v = event(2);
 
@@ -48,7 +48,7 @@ assert(~any(isnan(measurements)))
 sigma = INTENSITY_VARIANCE;
 c = INTENSITY_THRESHOLD * s;
 likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), LOW_LIKELIHOOD);
-likelihoods(sign(measurements) ~= sign(s)) = LOW_LIKELIHOOD;
+% likelihoods(sign(measurements) ~= sign(s)) = LOW_LIKELIHOOD;
 particles(:,1) = likelihoods;
 
 % for p = 1:size(particles,1)
