@@ -8,6 +8,7 @@ function [x,y,pol]=extractRetinaEventsFromAddr(addr)
 % pol=-1 for OFF
 % {x, y} in [0, 127]!!
 retinaSizeX=128;
+assert(DVS_PatchSize() == retinaSizeX);
 
 persistent xmask ymask xshift yshift polmask
 if isempty(xmask),

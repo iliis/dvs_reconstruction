@@ -15,7 +15,7 @@ initEvents = events(1:(nextInd-1), :);
 integratedImage = integrateEvents(initEvents);
 [FX, FY] = gradient(integratedImage);
 
-gradients = zeros([128, 128, 2]);
+gradients = zeros([DVS_PatchSize(), DVS_PatchSize(), 2]);
 gradients(:,:,1) = FY;
 gradients(:,:,2) = FX;
 gradients = permute(gradients, [3 1 2]);
@@ -25,16 +25,16 @@ image = integratedImage;
 
 K = cameraIntrinsicParameterMatrix();
 img_size = [500 1000];
-ulCorner = round(cameraToWorldCoordinates(1, 1, K, [0 0 0], img_size))
-urCorner = round(cameraToWorldCoordinates(1, 128, K, [0 0 0], img_size))
-dlCorner = round(cameraToWorldCoordinates(128, 1, K, [0 0 0], img_size))
-% dlCorner = round(cameraToWorldCoordinates(128, 128, K, [0 0 0], img_size))
+ulCorner = round(cameraToWorldCoordinates(1, 1, K, [0 0 0], img_size));
+urCorner = round(cameraToWorldCoordinates(1, DVS_PatchSize(), K, [0 0 0], img_size));
+dlCorner = round(cameraToWorldCoordinates(DVS_PatchSize(), 1, K, [0 0 0], img_size));
+% dlCorner = round(cameraToWorldCoordinates(DVS_PatchSize(), DVS_PatchSize(), K, [0 0 0], img_size))
 
 xDiff = urCorner(1) - ulCorner(1);
 yDiff = dlCorner(2) - ulCorner(2);
-xCoords = linspace(1,128, xDiff);
-yCoords = linspace(1,128,yDiff);
-[X Y] = meshgrid(xCoords, yCoords);
+xCoords = linspace(1,DVS_PatchSize(), xDiff);
+yCoords = linspace(1,DVS_PatchSize(), yDiff);
+[X, Y] = meshgrid(xCoords, yCoords);
 
 vals = interp2(image, X, Y);
 size(vals)
@@ -44,9 +44,9 @@ worldImage = zeros(img_size);
 invKPs = cameraIntrinsicParameterMatrix() \ [X(:)'; Y(:)'; ones(1,xDiff*yDiff)];
 
 invKPs = reshape((cameraIntrinsicParameterMatrix() \ [X(:)'; Y(:)'; ones(1,xDiff*yDiff)])', yDiff, xDiff, 3);
-size(invKPs)
-invKPs(1,1,:)
-invKPs(100,100,:)
+%size(invKPs)
+%invKPs(1,1,:)
+%invKPs(100,100,:)
 worldCoords = round(cameraToWorldCoordinatesBatch(invKPs(:,:,1:2), [0 0 0], img_size));
 worldCoordsize = size(worldCoords)
 worldImage(sub2ind(size(worldImage), worldCoords(:,1), worldCoords(:,2))) = vals(:);

@@ -18,7 +18,7 @@ events_pos = events(events(:,3) > 0, :);
 events_neg = events(events(:,3) < 0, :);
 
 figure;
-imshow(patch);
+imagesc(patch);
 hold on;
 plot(events_pos(:,1), events_pos(:,2), 'og');
 plot(events_neg(:,1), events_neg(:,2), 'or');

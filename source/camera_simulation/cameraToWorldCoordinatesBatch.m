@@ -8,7 +8,7 @@ function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, i
 %  //img_size: [W,H] size of world image (i.e. [size(img,2), size(img,1)])
 %
 % output:
-%  [x, y]: pixel coordinates in world image coordinates ([1,img_size])
+%  [y, x]: pixel coordinates in world image coordinates ([1,img_size])
 
 
 % % compute ray angle through pixel
@@ -63,6 +63,7 @@ deltaBetas  = atan(cosMat .* invKPs(:,:,1) - sinMat .* invKPs(:,:,2));
 targetOs = zeros(size(invKPs));
 targetOs(:,:,1) = -theta(1)*ones(N) + deltaAlphas;
 targetOs(:,:,2) = -theta(2)*ones(N) + deltaBetas;
+
 targetCoords = (targetOs .* (double(img_size(2))/(2*pi))) + repmat(double(origin), [N N 1]);
 
 world_coordinates = reshape(targetCoords, N*N, 2);

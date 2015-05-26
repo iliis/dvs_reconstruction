@@ -5,7 +5,7 @@ axisLimits = [-1 1 -1 1];
 
 subplot(1,2,1);
 colormap 'hot'; %'parula';
-whitebg 'black';
+whitebg([0.2 0.2 0.2]);
 scatter(particles(:,2),particles(:,3),5,particles(:,1),'filled');
 %quiver(particles(:,2), particles(:,3), -sin(particles(:,4)).*particles(:,1), cos(particles(:,4)).*particles(:,1));
 colorbar;

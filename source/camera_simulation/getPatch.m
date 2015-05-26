@@ -9,6 +9,6 @@ function patch = getPatch(img, invKPs, theta)
 
 pixelCoords = cameraToWorldCoordinatesBatch(invKPs,theta,size(img));
 
-patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [64 64]);
+patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [simulationPatchSize() simulationPatchSize()]);
 
 end

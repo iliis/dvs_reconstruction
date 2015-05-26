@@ -17,7 +17,7 @@ while events(nextInd, 4) <= maxTime
 end
 
 initEvents = events(1:(nextInd-1), :);
-initEvents(:,1:2) = initEvents(:,1:2) + 32;
+initEvents(:,1:2) = initEvents(:,1:2) + simulationPatchSize()/2;
 
 integratedImage = integrateEvents(initEvents);
 integratedImage = integratedImage * pixelIntensityThreshold() + 0.5;

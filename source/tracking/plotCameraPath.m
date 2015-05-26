@@ -40,9 +40,9 @@ for k = 1:size(omegaCheckpoints)
         xy = [0 0; 1 0; 1 1; 0 1; 0 0];
         patch_coords = [];
         for i = 1:(size(xy,1)-1)
-            for j = 1:16:128
-                u = xy(i,1)*128 + (xy(i+1,1)-xy(i,1))*j;
-                v = xy(i,2)*128 + (xy(i+1,2)-xy(i,2))*j;
+            for j = 1:16:simulationPatchSize()
+                u = xy(i,1)*simulationPatchSize() + (xy(i+1,1)-xy(i,1))*j;
+                v = xy(i,2)*simulationPatchSize() + (xy(i+1,2)-xy(i,2))*j;
                 patch_coords = [patch_coords; cameraToWorldCoordinates( ...
                     u,v,K,thetaStart,img_size)];
             end

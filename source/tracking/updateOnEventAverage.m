@@ -1,4 +1,4 @@
-function [particles, state] = updateOnEventAverage(particles_prior, event, intensities, state_prior) %#codegen
+function [particles, state_prior] = updateOnEventAverage(particles_prior, event, intensities, state_prior)
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]
@@ -19,7 +19,7 @@ else
 end
 
 K = double(cameraIntrinsicParameterMatrix());
-invKPs = reshape(K \ double([u+32 v+32 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
+invKPs = reshape(K \ double([u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
 % old_points_w = zeros(size(particles,1),2);
@@ -27,7 +27,8 @@ new_points_w = zeros(size(particles,1),2);
 particle_prior_this_pixel = permute(state_prior(:,v,u), [2 1 3]);
 
 % get pixel coordinates in world map
-    old_point_w = cameraToWorldCoordinatesBatch(invKPs, particle_prior_this_pixel, size(intensities));
+% WARNING: cameraToWorldCoordinates returns [y,x] !
+old_point_w = cameraToWorldCoordinatesBatch(invKPs, particle_prior_this_pixel, size(intensities));
 
 for i = 1:size(particles,1)
     
@@ -84,5 +85,4 @@ assert(~any(any(isnan(particles))));
 particles = normalizeParticles(particles);
 
 % update state
-state = state_prior;
-state(:,v,u) = permute(particleAverage(particles), [1 3 2]);
+state_prior(:,v,u) = permute(particleAverage(particles), [1 3 2]);

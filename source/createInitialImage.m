@@ -22,7 +22,8 @@ initEvents = events(1:(nextInd-1), :);
 integratedImage = integrateEvents(initEvents);
 [FX, FY] = gradient(integratedImage);
 
-gradients = zeros([128, 128, 2]);
+assert(false, 'TODO: simulationPatchSize() or DVS_patchSize() here? I.e. is this funtion used for real data?');
+gradients = zeros([simulationPatchSize(), simulationPatchSize(), 2]);
 gradients(:,:,1) = FY;
 gradients(:,:,2) = FX;
 gradients = permute(gradients, [3 1 2]);

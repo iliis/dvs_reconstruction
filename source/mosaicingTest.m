@@ -85,7 +85,7 @@ tic;
 allAddr = [];
 allTS = 0; %set first number 0 to have reference for first bunch of stamps
 allThetas = [];
-intermediateState = zeros(64);
+intermediateState = zeros(simulationPatchSize());
 
 for i = 1:size(thetaCheckpoints, 1) - 1
     

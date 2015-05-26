@@ -21,10 +21,10 @@ disp(['got ' num2str(size(events,1)) ' events']);
 outputImageSize = [1000 2000];
 boundary_image = 0.5*ones(outputImageSize);
 covariances = 1000*repmat(eye(2), [1, 1, outputImageSize]);
-lastSigs = zeros(64);
+lastSigs = zeros(simulationPatchSize());
 
 imgSeq = zeros([outputImageSize, ceil(size(events,1)/10000)]);
-lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
+lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 simulationPatchSize() simulationPatchSize()]);
 
 [gradients, xInds, yInds] = initializeMap(img, outputImageSize);
 
@@ -44,7 +44,7 @@ drawnow;
 
 % update on events
 N = 100;
-[particles, tracking_state] = initParticlesAverage(N, [64 64]);
+[particles, tracking_state] = initParticlesAverage(N, [simulationPatchSize() simulationPatchSize()]);
 
 theta_est = zeros(size(events, 1), 3);
 last_timestamp = 0;
@@ -62,10 +62,9 @@ deltaT_global = events(i,4) - last_timestamp;
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 
 for i = 2:size(events,1)
-    
     deltaT_global = events(i,4) - last_timestamp;
     last_timestamp = events(i,4);
-    
+
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);
     
@@ -106,7 +105,7 @@ for i = 2:size(events,1)
             
     
     % resample distribution if particles become too unevenly distributed
-    if effectiveParticleNumber(particles) < size(particles,1)/2; % paper uses 50%state
+    if effectiveParticleNumber(particles) < size(particles,1)/2; % paper uses 50%
         particles = resample(particles);
         effno = effectiveParticleNumber(particles);
         disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
