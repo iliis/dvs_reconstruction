@@ -1,0 +1,38 @@
+reconstruction:
+kalman filter for each pixel
+  state: pixel gradient
+  measurement/signal: pixel-event-frequency
+  
+  compute pixel movement since last event
+  compute pixel velocity in world space
+  gradient from frequency/velocity
+
+standard poisson solver to restore grayscale [REF!!!]
+(taken from http://web.media.mit.edu/~raskar/photo/code.pdf)
+
+initialization:
+  problem:
+    no way to detect motion from empty map
+    motion needed to write data to map (-> gradients)
+    possibilities:
+      assume predefined motion at the beginning (->works if all recordings have this motion at the beginning, completely fails otherwise)
+      assume motion from world origin for all pixels (-> might completely fail depending on observed scene e.g. if the pixels that fire first actually move towards the origin)
+  with simulator:
+    get initial camera field of view from input image
+    compute gradients
+    write to gradient map
+    compute grayscale (-> removes intensity changes at imagepatch boundary)
+  
+  possibilities for initialization with camera:
+    integrate all events while removing a shutter
+      -> almost like a picture with a grayscale camera, but noisy and low resolution (needs to be interpolated in most cases)
+    integrate all events during short interval at beginning
+      assume no motion during interval
+      leads to narrow outlines of objects in sight
+      problems:
+        leads to gradients at both sides of the outlines -> need to be removed later since there should be no events that could correct it at those positions
+	might introduce noise through motion blur
+	might be not sufficient to track robustly (our test suggest it might be, however)
+      2nd generation dvs (DAVIS) can take pictures
+
+      for all of them: compute gradients, write to map & compute grayscale
