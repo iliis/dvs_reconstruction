@@ -14,7 +14,7 @@ for k = 1:imgcount
 
     [x,y,pol] = extractRetinaEventsFromAddr(recording_raw);
 
-    image = zeros(128);
+    image = zeros(DVS_PatchSize());
 
     % remove negative (!) events
     %pol(pol > 0) = 0;
