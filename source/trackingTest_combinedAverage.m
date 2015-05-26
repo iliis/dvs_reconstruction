@@ -32,7 +32,7 @@ smallCovariances = repmat(eye(2), [1, 1, outputImageSize]);
 covariances(:,:,yInds,xInds) = smallCovariances(:,:,yInds,xInds);
 
 pgrads = permute(gradients, [2 3 1]);
-map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
+map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
 if ~exist('initial_map_figure', 'var') || ~ishandle(initial_map_figure)
     initial_map_figure = figure('Name', 'Initial map');
 else
@@ -68,8 +68,8 @@ for i = 2:size(events,1)
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);
     
-        [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
-%     [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), img, tracking_state);
+%         [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
+    [particles, tracking_state] = updateOnEventAverage(particles, events(i,:), img, tracking_state);
     
     theta_est(i,:) = 0.3*particleAverage(particles) + 0.7*theta_est(i-1,:);    
 
@@ -77,7 +77,7 @@ for i = 2:size(events,1)
 
     if mod(i, 5000) == 0
         pgrads = permute(gradients, [2 3 1]);
-        map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
+        map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
     end
    
     if mod(i, 1000) == 0
@@ -108,7 +108,7 @@ for i = 2:size(events,1)
     if effectiveParticleNumber(particles) < size(particles,1)/2; % paper uses 50%
         particles = resample(particles);
         effno = effectiveParticleNumber(particles);
-        disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
+%         disp(['resampled -> mean = ' num2str(mean(particles,1)) '  eff. no. = ' num2str(effno)]);
     end
     drawnow;
 end
@@ -128,7 +128,7 @@ legend('total error', 'overall movement');
 
 
 pgrads = permute(gradients, [2 3 1]);
-map = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
+map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
 disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
 disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
 

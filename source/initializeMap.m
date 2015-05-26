@@ -34,6 +34,6 @@ xInds = lt(2) + (0:(width-1));
 yInds = lt(1) + (0:(height-1));
 
 gradients = zeros([mapSize, 2]);
-gradients(yInds,xInds,1) = reshape(FX(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
-gradients(yInds,xInds,2) = reshape(FY(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
+gradients(yInds,xInds,2) = reshape(FX(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
+gradients(yInds,xInds,1) = reshape(FY(sub2ind(size(image), worldCoords(:,1), worldCoords(:,2))), height, width)';
 gradients = permute(gradients, [3 1 2]);
