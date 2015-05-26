@@ -50,15 +50,15 @@ fprintf('starting simulation with %d timesteps\n', max(steps));
 
 invKPs = getInvKPsforPatch(K);
 
-% lastPatch = getPatch_mex(img, invKPs, thetaStart);
-lastPatch = getPatch(img, invKPs, thetaStart);
+lastPatch = getPatch_mex(img, invKPs, thetaStart);
+% lastPatch = getPatch(img, invKPs, thetaStart);
 
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-%     patch = getPatch_mex(img, invKPs, theta);
-    patch = getPatch(img, invKPs, theta);
+    patch = getPatch_mex(img, invKPs, theta);
+%     patch = getPatch(img, invKPs, theta);
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
     

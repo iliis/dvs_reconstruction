@@ -48,7 +48,7 @@ omegas = ...
 %     0 -1 0; ...
 %     -1 0 0];
 
-%[events_raw1, TS1, theta_gt1, endState1] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(simulationPatchSize()));
+% [events_raw1, TS1, theta_gt1, endState1] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(simulationPatchSize()));
 
 
 allAddr = [];
