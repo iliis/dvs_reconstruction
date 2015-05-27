@@ -13,6 +13,7 @@ codegen/
 
 
 # temporary latex files from report
+*.tex~
 *.aux
 *.glo
 *.idx
