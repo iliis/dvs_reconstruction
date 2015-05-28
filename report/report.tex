@@ -25,11 +25,11 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{\LaTeX\ Author Guidelines for 3DV Proceedings}
+\title{Image Reconstruction from DVS\\ The constant battle agains MATLAB\\ Student Project Report}
 
-\author{First Author\\
-Institution1\\
-Institution1 address\\
+\author{Samuel Bryner\\
+ETH Zurich\\
+%Institution1 address\\
 {\tt\small firstauthor@i1.org}
 % For a paper whose authors are all at the same institution,
 % omit the following lines up until the closing ``}''.
@@ -37,9 +37,9 @@ Institution1 address\\
 % just like the second author.
 % To save space, use either the email address or home page, not both
 \and
-Second Author\\
-Institution2\\
-First line of institution2 address\\
+Marcel Geppert\\
+ETH Zurich\\
+%First line of institution2 address\\
 {\tt\small secondauthor@i2.org}
 }
 
@@ -63,72 +63,77 @@ First line of institution2 address\\
 
 // TODO - insert related work here
 
--Kim \etal
--Scaramuzza
--whoever build the dvs
--vSLAM?
+-Kim \etal\\
+-Scaramuzza\\
+-\cite{lpd08dvs}\\
+-vSLAM?\\
 
 \section{Dynamic Vision Sensors}
 
-// TODO - insert short information about dvs
-
-\section{Rotation Tracking}
-
-// TODO - insert section about tracking
-
-\section{Scene Reconstruction}
-
-// TODO - insert section about reconstruction
-
--see notes folder
-
-\input{sections/scene_reconstruction.tex}
+\input{sections/dvs.tex}
 
 \section{Our Work}
 
 // TODO - insert section to explain what we did here
 
+-implemented paper (kim) in matlab\\
+-some simplifications\\
+	-use particle filter directly with euler angles (ignore corner cases)\\
+	-start with first fov in map\\
+	
+\section{Core Algorithm}
+
+// TODO - insert overview over core algorithm
+
+\subsection{Rotation Tracking}
+
+// TODO - insert section about tracking
+
+\subsection{Scene Reconstruction}
+
+\input{sections/scene_reconstruction.tex}
+
 \section{Problems}
 
 // TODO - insert section about problems
 
--map initialization
--runtime
--> couldn't test with camera
--MATLAB
+-map initialization\\
+-runtime\\
+$\rightarrow$ couldn't test with camera\\
+-MATLAB\\
 
 
 \section{Experiments}
 
 // TODO - insert section about experiments
 
--initialization
-	-integrate whie removing shutter
-	-integrate over short interval
+-initialization\\
+	-integrate whie removing shutter\\
+	-integrate over short interval\\
 	
--camera calibration
+-camera calibration\\
 
 \subsection{Camera Simulation}
 
 // TODO insert section to explain camera simulation
 
--use image as input
--assume 360 deg view
--compute camera fov for given orientation
--move camera over scene
--sum up differences between patches
--problem: discrete
-	-> use tiny steps
-		-> slow
+-use image as input\\
+-assume 360 deg view\\
+-compute camera fov for given orientation\\
+-move camera over scene\\
+-sum up differences between patches\\
+-problem: discrete\\
+	$\rightarrow$ use tiny steps\\
+		$\rightarrow$ slow\\
 
 \section{Results}
 
-// TODO - insert section about results
+\input{sections/results}
 
 
 {\small
 \bibliographystyle{ieee}
-\bibliography{references.bib}
+\bibliography{references}
 }
 
 \end{document}
