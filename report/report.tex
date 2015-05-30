@@ -6,14 +6,13 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{hyperref}
 
 % Include other packages here, before hyperref.
 
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
 % run, let it finish, and you should be clear).
-%\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
 
 \cvprfinalcopy % *** Uncomment this line for the final submission
 
@@ -62,14 +61,7 @@ ETH Zurich\\
 %-------------------------------------------------------------------------
 \section{Related Work}
 
-// TODO - insert related work here
-
-\begin{itemize}
-\item DVS \cite{lpd08dvs}
-\item Simulteneous Mosaicing and tracking \cite{kim2014simultaneous}
-\item object tracking \cite{vmv.20141280}
-\item Scaramuzza pose tracking \cite{mueggler2014event}
-\end{itemize}
+\input{sections/related_work.tex}
 
 \section{Dynamic Vision Sensors}
 
@@ -85,19 +77,15 @@ ETH Zurich\\
 	-start with first fov in map\\
 	
 \section{Core Algorithm}
-
 \input{sections/core_algorithm.tex}
 
 \subsection{Rotation Tracking}
-
 \input{sections/tracking.tex}
 
 \subsection{Scene Reconstruction}
-
 \input{sections/scene_reconstruction.tex}
 
 \section{Problems}
-
 // TODO - insert section about problems
 
 -map initialization\\
@@ -107,7 +95,6 @@ $\rightarrow$ couldn't test with camera\\
 
 
 \section{Experiments}
-
 // TODO - insert section about experiments
 
 \begin{itemize}
@@ -122,11 +109,9 @@ $\rightarrow$ couldn't test with camera\\
 \input{sections/experiments.tex}
 
 \subsection{Camera Simulation}
-
 \input{sections/simulation.tex}
 
 \section{Results}
-
 \input{sections/results}
 
 
