@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{hyperref}
 
 % Include other packages here, before hyperref.
 
@@ -83,11 +84,18 @@ ETH Zurich\\
 	
 \section{Core Algorithm}
 
-// TODO - insert overview over core algorithm
+\input{sections/core_algorithm.tex}
 
 \subsection{Rotation Tracking}
 
 // TODO - insert section about tracking
+
+Assumptions:
+\begin{itemize}
+\item event (change in brightness) is caused by camera rotation or noise, but not by movement in the scene ($\rightarrow$ static scene)
+\item only rotation, no translation and therefore no parallax displacement
+\item initial FOV is already known and in the map
+\end{itemize}
 
 \subsection{Scene Reconstruction}
 
@@ -107,25 +115,38 @@ $\rightarrow$ couldn't test with camera\\
 
 // TODO - insert section about experiments
 
--initialization\\
-	-integrate whie removing shutter\\
-	-integrate over short interval\\
-	
--camera calibration\\
+\begin{itemize}
+\item initialization
+\begin{itemize}
+\item integrate while removing shutter
+\item integrate over short interval ($\rightarrow$ outlines)
+\end{itemize}
+\item camera calibration
+\end{itemize}
+
+\input{sections/experiments.tex}
 
 \subsection{Camera Simulation}
 
 // TODO insert section to explain camera simulation
 
--use image as input\\
--assume 360 deg view\\
--compute camera fov for given orientation\\
--move camera over scene\\
--sum up differences between patches\\
--problem: discrete\\
-	$\rightarrow$ use tiny steps\\
-		$\rightarrow$ slow\\
+\begin{itemize}
+\item use image as input
+\item assume 360 deg view
+\item compute camera fov for given orientation
+\item move camera over scene
+\item sum up differences between patches
+\item problem: discrete
+	$\rightarrow$ use tiny steps
+		$\rightarrow$ slow
+\end{itemize}
 
+\begin{figure}
+\label{fig:simulation}
+\includegraphics[width=\linewidth]{images/simulation_raw.jpg}
+\includegraphics[width=\linewidth]{images/simulation_events.jpg}
+\caption{// TODO}
+\end{figure}
 \section{Results}
 
 \input{sections/results}
