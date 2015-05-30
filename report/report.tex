@@ -31,7 +31,7 @@
 \author{Samuel Bryner\\
 ETH Zurich\\
 %Institution1 address\\
-{\tt\small firstauthor@i1.org}
+{\tt\small samuelbryner@student.ethz.ch}
 % For a paper whose authors are all at the same institution,
 % omit the following lines up until the closing ``}''.
 % Additional authors and addresses can be added with ``\and'',
@@ -41,7 +41,7 @@ ETH Zurich\\
 Marcel Geppert\\
 ETH Zurich\\
 %First line of institution2 address\\
-{\tt\small secondauthor@i2.org}
+{\tt\small mgeppert@student.ethz.ch}
 }
 
 \maketitle
@@ -90,14 +90,7 @@ ETH Zurich\\
 
 \subsection{Rotation Tracking}
 
-// TODO - insert section about tracking
-
-Assumptions:
-\begin{itemize}
-\item event (change in brightness) is caused by camera rotation or noise, but not by movement in the scene ($\rightarrow$ static scene)
-\item only rotation, no translation and therefore no parallax displacement
-\item initial FOV is already known and in the map
-\end{itemize}
+\input{sections/tracking.tex}
 
 \subsection{Scene Reconstruction}
 
@@ -130,25 +123,8 @@ $\rightarrow$ couldn't test with camera\\
 
 \subsection{Camera Simulation}
 
-// TODO insert section to explain camera simulation
+\input{sections/simulation.tex}
 
-\begin{itemize}
-\item use image as input
-\item assume 360 deg view
-\item compute camera fov for given orientation
-\item move camera over scene
-\item sum up differences between patches
-\item problem: discrete
-	$\rightarrow$ use tiny steps
-		$\rightarrow$ slow
-\end{itemize}
-
-\begin{figure}
-\label{fig:simulation}
-\includegraphics[width=\linewidth]{images/simulation_raw.jpg}
-\includegraphics[width=\linewidth]{images/simulation_events.jpg}
-\caption{// TODO}
-\end{figure}
 \section{Results}
 
 \input{sections/results}
