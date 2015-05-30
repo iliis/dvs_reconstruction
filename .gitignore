@@ -37,6 +37,7 @@ codegen/
 *.mtc1
 *.out
 *.synctex.gz
+*.brf
 
 # report.pdf
 report/report.pdf
