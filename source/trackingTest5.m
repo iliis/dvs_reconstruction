@@ -1,5 +1,9 @@
 % track longer path over known image
 
+% this is one of the better visualizations of the tracking subsystem (using
+% a known map, i.e. no reconstruction at all)
+
+% deprecated:
 % Warning: we don't explicitely generate timestamps for the events and just use
 % norm(theta) which works out nicely, as we're monotonically moving away
 % from the start point as flyDiffCamFine only walks in positive direction.
@@ -50,7 +54,7 @@ for i = 1:20
             50,          ... % generate at least so many events
             last_time,   ... % timestamp of last event (i.e. timestamp of flydiff_state)
             last_pos,    ... % start where we left off on last iteration
-            dir_dim,   ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
+            dir_dim,    ... % go into some direction (1 = alpha, 2 = beta, 3 = gamma)
             0.000002*dir_sign, ... % default sweep step size (and direction)
             flydiff_state);          % state of camera sensor
     
