@@ -1,1 +1,25 @@
-Similar to most SLAM algorithms, an iteration of our algorithm consists of two steps. In the first step we try to estimate the current orientation based on the camera signal, our map of the environment and the previous orientation. This is then used to write the new data to the map and reconstruct a grayscale image. This iteration is performed every time an event arrives from the camera. Both the tracking and the rotation work on the assumption that the output  of the other one is correct.
+Similar to most SLAM algorithms, our algorithm consists of two co-dependent
+steps. In the first step we try to estimate the current orientation based on
+the camera signal, our map of the environment and the previous orientation.
+This is then used to write the new data to the map and reconstruct a grayscale
+image. This iteration is performed every time an event arrives from the camera.
+Both the tracking and the rotation work on the assumption that the output  of
+the other one is correct.
+
+We assume a static scene, so every event (every change in brightness) is caused
+by camera rotation or is due to noise.
+
+Further, we only track camera rotation; We assume there is no translation at
+all and therefore no parallax displacment either. This greatyl simplifies our
+algorithm as we only have to keep track of a two dimensional map.
+
+To speed up things even further, we assume that the camera's initial field
+of view is already known and included in the map. With this assumption we do
+not have to deal with a special initialization procedure and can immediately
+start with the standard iteration while being relatively sure that the camera
+movement is tracked correctly.
+
+This is not an unreasonable assumption, as never DVS models incorporate the
+ability to take full-frame pictures and a simple method for generating full
+images can be used with any model (see Section about Experiments [TODO:
+reference]).

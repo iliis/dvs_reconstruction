@@ -22,14 +22,3 @@ dividing the signals between several filters.
 
 The exact formulas used for the Kalman Filters can be seen in
 \cite{kim2014simultaneous}.
-
-In the current state of our code, we assume that the camera's initial field
-of view is already known and included in the map. With this assumption we do
-not have to deal with a special initialization procedure and can immediately
-start with the standard iteration while being relatively sure that the camera
-movement is tracked correctly.
-
-This is not an unreasonable assumption, as never DVS models incorporate the
-ability to take full-frame pictures and a simple method for generating full
-images can be used with any model (see Section about Experiments [TODO:
-reference]).

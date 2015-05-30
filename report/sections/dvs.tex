@@ -1,8 +1,29 @@
-A Dynamic Vision Sensor (DVS) \cite{lpd08dvs}, also known as an event camera, is a new kind of camera. In contrast to a standard camera it does not output a complete image of the scene, but a series of events. An event is generated when the sensed brightness of a pixel changes more than a certain threshold. This happens for each pixel completely independent from all the others.
+A Dynamic Vision Sensor (DVS) \cite{lpd08dvs}, also known as an event camera,
+is a new kind of camera. In contrast to a standard camera it does not output a
+complete image of the scene, but a series of events. An event is generated when
+the sensed brightness of a pixel changes more than a certain threshold. This
+happens for each pixel completely independent from all the others.
 
-A DVS has several advantages compared to standard cameras. Since there is no need to gather data from all pixels to generate an image, events can be sent with an extremely low latency of 15 $\mu$s or less \cite{lpd08dvs, brandli14davis}. For the same reason, there is practically no motion blur in the DVS signal. Another benefit of independent pixels is the very high dynamic range. Saturation, blooming or smearing as observed when a bright light source is captured with a standard camera is basically nonexistent. Finally, due to the reduction of the camera signal to changes and the resulting elimination of redundant information, the signal bandwith is much smaller than with a standard camera.
+A DVS has several advantages compared to standard cameras. Since there is no
+need to gather data from all pixels to generate an image, events can be sent
+with an extremely low latency of 15 $\mu$s or less \cite{lpd08dvs, brandli14davis}.
+For the same reason, there is practically no motion blur in the DVS signal.
+Another benefit of independent pixels is the very high dynamic range.
+Saturation, blooming or smearing as observed when a bright light source is
+captured with a standard camera is basically nonexistent. Finally, due to the
+reduction of the camera signal to changes and the resulting elimination of
+redundant information, the signal bandwith is much smaller than with a standard
+camera.
 
-All these features make the DVS a very desirable sensor for motion tracking, especially for mobile robots where the data has to be analyzed on constrained hardware.
+All these features make the DVS a very desirable sensor for motion tracking,
+especially for mobile robots where the data has to be analyzed on constrained
+hardware.
 
-However, there are currently several caveats:
-First of all, currently available DVS (DVS128 \cite{lpd08dvs}, DAVIS \cite{brandli14davis}) have a very limited resolution of 128 $\times$ 128 or 240 $\times$ 180 pixels, respectively. This obviously limits the spacial accuracy of the sensed data, but it is likely to be a simple matter of time until sensors with a higher resolution are developed. A more important point is that the computer vision algorithms that have been developed during the last decades can either not be used at all or have to be adapted to the new data representation.
+However, there are currently several caveats: First of all, currently available
+DVS (DVS128 \cite{lpd08dvs}, DAVIS \cite{brandli14davis}) have a very limited
+resolution of 128 $\times$ 128 or 240 $\times$ 180 pixels, respectively. This
+obviously limits the spacial accuracy of the sensed data, but it is likely to
+be a simple matter of time until sensors with a higher resolution are
+developed. A more important point is that the computer vision algorithms that
+have been developed during the last decades can either not be used at all or
+have to be adapted to the new data representation.

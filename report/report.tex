@@ -70,6 +70,7 @@ ETH Zurich\\
 -\cite{lpd08dvs}\\
 -vSLAM?\\
 
+%-------------------------------------------------------------------------
 \section{Dynamic Vision Sensors}
 
 \input{sections/dvs.tex}
@@ -77,12 +78,20 @@ ETH Zurich\\
 \section{Our Work}
 
 // TODO - insert section to explain what we did here
+// TODO - move core algorithm section before this?
 
 -implemented paper (kim) in matlab\\
 -some simplifications\\
-	-use particle filter directly with euler angles (ignore corner cases)\\
-	-start with first fov in map\\
-	
+    -use particle filter directly with euler angles (ignore corner cases)\\
+    -start with first fov in map\\
+
+\subsection{Camera Simulation}
+
+\input{sections/simulation.tex}
+
+
+
+%-------------------------------------------------------------------------
 \section{Core Algorithm}
 
 \input{sections/core_algorithm.tex}
@@ -95,6 +104,8 @@ ETH Zurich\\
 
 \input{sections/scene_reconstruction.tex}
 
+
+%-------------------------------------------------------------------------
 \section{Problems}
 
 // TODO - insert section about problems
@@ -105,30 +116,19 @@ $\rightarrow$ couldn't test with camera\\
 -MATLAB\\
 
 
+%-------------------------------------------------------------------------
 \section{Experiments}
-
-// TODO - insert section about experiments
-
-\begin{itemize}
-\item initialization
-\begin{itemize}
-\item integrate while removing shutter
-\item integrate over short interval ($\rightarrow$ outlines)
-\end{itemize}
-\item camera calibration
-\end{itemize}
 
 \input{sections/experiments.tex}
 
-\subsection{Camera Simulation}
 
-\input{sections/simulation.tex}
-
+%-------------------------------------------------------------------------
 \section{Results}
 
-\input{sections/results}
+\input{sections/results.tex}
 
 
+%-------------------------------------------------------------------------
 {\small
 \bibliographystyle{ieee}
 \bibliography{references}
