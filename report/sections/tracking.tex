@@ -1,3 +1,32 @@
+In order to integrate intensity change events into a full gradient map of the
+environment, we must track the current position and movement direction of the
+camera.
+
+We assume a static scene, so every event (every change in brightness) is caused
+by camera rotation or is due to noise.
+Further, we only track camera rotation; We assume there is no translation at
+all and therefore no parallax displacment either. This greatyl simplifies our
+algorithm as we only have to keep track of a two dimensional map.
+
+The camera's position is represented using a particle filter, where each
+particle consists only of a weight and the three Euler angles necessary to
+describe the camera's orientation.
+
+Whenever a new event is received, we disturb the particles randomly with
+variance proportional to the time since the last event. This is essentially a
+constant position model, where the camera is assumed to stay stationary between
+events but with uncertainty growing with time.
+
+To update the weights of the disturbed particles, we retrieve the position of
+the camera at the time of the last event of the *same* pixel (which can be a
+lot earlier than the previous event). We then sample our map (from the
+reconstruction part and which we assume is essentially correct) at this earlier
+position. This intensity is then compared with the intensities at all the
+proposed current positions: The closer the intensity difference to the
+intensity threshold that generates an event, the liklier is the new position
+and the more weight this particle gets.
+
+
 // TODO - insert section about tracking
 
 Assumptions:
