@@ -19,3 +19,26 @@ position. This intensity is then compared with the intensities at all the
 proposed current positions: The closer the intensity difference to the
 intensity threshold that generates an event, the liklier is the new position
 and the more weight this particle gets.
+
+Finally, the particles are resampled whenever the effective number of particles
+(one over sum of squared weights [TODO: insert formula here?]) falls below some
+threshold (\cite{kim2014simultaneous} uses N/2). Resampling is done by copying
+particles with probability equal to their weight into a new set.
+
+\subsubsection{on the matter of prior positions and accuracy}
+
+A particle filter is a nice way of keeping track of multiple hypotheses as
+might conceivably occur when updating on a single event: An event might match
+multiple edges and we might only be able to resolve the correct position after
+receiving further events.
+
+But as described above, we need to know the position at the time of the
+previous event of the same pixel. And as the pixels are independent, we would
+have to keep a full copy of the particle filter for every pixel. This not only
+requires a lot of memory, it also considerably slows down measurement updates
+as we now have to compare each of the current particles with all possible
+previous ones.
+
+However, our experiments show that it is actually enough to only keep the
+weighted average over the particles as any errors are quickly averaged out by
+the sheer number of events.
