@@ -1,4 +1,4 @@
-function [particles, state_prior] = updateOnEventAverage(particles_prior, event, intensities, state_prior)
+function [particles, state_prior] = updateOnEventAverage(particles_prior, event, intensities, state_prior, K, intensityThreshold, camSize)
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]
@@ -10,12 +10,12 @@ assert(~any(any(isnan(intensities))), 'NaN in intensities');
 % different simulationPatchSize(). Make sure we abort directly instead of
 % wondering why it does not work as expected
 % TODO: FIX!!
-assert(max(size(state_prior)) == simulationPatchSize());
+assert(max(size(state_prior)) == camSize);
 
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.02;
 INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
-INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+INTENSITY_THRESHOLD = intensityThreshold; %0.22;
 u = event(1); v = event(2);
 
 if event(3) > 0
@@ -24,11 +24,10 @@ else
     s = -1;
 end
 
-K = double(cameraIntrinsicParameterMatrix());
-
 % TODO: could this be replaced with getInvKPsforPatch()? if not -> refactor
-% since sinulationPatchSize() seems to become a constant when compiled
-invKPs = reshape(K \ double([u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
+% since the formula for offset must be (DVS_PatchSize -
+% simulationPatchSize)/2
+invKPs = reshape(K \ double([u+camSize/2 v+camSize/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
 % old_points_w = zeros(size(particles,1),2);

@@ -6,6 +6,11 @@ end
 
 img = im2double(rgb2gray(imread(imagepath)));
 
+% get some constants
+K = cameraIntrinsicParameterMatrix();
+intensityThreshold = pixelIntensityThreshold();
+camSize = simulationPatchSize();
+
 
 [x, y, pol] = extractRetinaEventsFromAddr(events_raw);
 
@@ -14,7 +19,7 @@ img = im2double(rgb2gray(imread(imagepath)));
 
 maxX = max(x);
 maxY = max(y);
-maxCamIndex = simulationPatchSize()- 1;
+maxCamIndex = camSize- 1;
 
 assert(maxX <= maxCamIndex);
 assert(maxY <= maxCamIndex);
@@ -34,7 +39,7 @@ covariances = 1000*repmat(eye(2), [1, 1, outputImageSize]);
 lastSigs = zeros(simulationPatchSize());
 
 imgSeq = zeros([outputImageSize, ceil(size(events,1)/10000)]);
-lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 simulationPatchSize() simulationPatchSize()]);
+lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 camSize camSize]);
 
 [gradients, xInds, yInds] = initializeMap(img, outputImageSize);
 
@@ -54,7 +59,7 @@ drawnow;
 
 % update on events
 N = 100;
-[particles, tracking_state] = initParticlesAverage(N, [simulationPatchSize() simulationPatchSize()]);
+[particles, tracking_state] = initParticlesAverage(N, [camSize camSize]);
 
 theta_est = zeros(size(events, 1), 3);
 last_timestamp = 0;
@@ -67,7 +72,7 @@ deltaT_global = events(i,4) - last_timestamp;
 %     TODO: does it make sense to put this into updateOnEventAverage()?
     particles = predict(particles, deltaT_global);
     
-    [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
+    [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state, K, intensityThreshold, camSize);
     theta_est(i,:) = 0.01*particleAverage(particles);   
     
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
@@ -77,10 +82,10 @@ for i = 2:size(events,1)
     last_timestamp = events(i,4);
 
     % actually perform Bayesian update
+    %     TODO: does it make sense to put this into updateOnEventAverage()?
     particles = predict(particles, deltaT_global);
     
-    [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);
-%     [particles, tracking_state] = updateOnEventAverage(particles, events(i,:), img, tracking_state);
+    [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state, K, intensityThreshold, camSize);
     
     theta_est(i,:) = 0.01*particleAverage(particles) + 0.99*theta_est(i-1,:);    
 
