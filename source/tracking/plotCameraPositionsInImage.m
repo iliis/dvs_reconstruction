@@ -19,15 +19,6 @@ img_size = size(img); %[size(img,2), size(img,1)];
 
 imshow(img);
 hold on;
-points = zeros(size(thetaCheckpoints,1),2);
-% iterate over all keyframes
-for i = 1:size(thetaCheckpoints)
-    points(i,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(i,:),img_size);
-end
-
-plot(points(:,2), points(:,1), '.');
-plot(points(1,2), points(1,1), 'or');
-%fprintf('keyframe %d is at %6.2d %6.2d\n', k, round(points(1,2)), round(points(1,1)));
 
 if plotGroundTruth
     points = zeros(size(theta_gt,1),2);
@@ -48,6 +39,18 @@ if plotGroundTruth
     
     plot(points(:,2), points(:,1), 'ob');
 end
+
+points = zeros(size(thetaCheckpoints,1),2);
+% iterate over all keyframes
+for i = 1:size(thetaCheckpoints)
+    points(i,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(i,:),img_size);
+end
+
+plot(points(:,2), points(:,1), '.');
+plot(points(1,2), points(1,1), 'or');
+%fprintf('keyframe %d is at %6.2d %6.2d\n', k, round(points(1,2)), round(points(1,1)));
+
+
 
 points = zeros(4,2);
 

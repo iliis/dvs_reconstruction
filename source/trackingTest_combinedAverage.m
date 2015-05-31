@@ -9,6 +9,16 @@ img = im2double(rgb2gray(imread(imagepath)));
 
 [x, y, pol] = extractRetinaEventsFromAddr(events_raw);
 
+% make sure that the camera size of the input data is consistent with the
+% current camera size
+
+maxX = max(x);
+maxY = max(y);
+maxCamIndex = simulationPatchSize()- 1;
+
+assert(maxX <= maxCamIndex);
+assert(maxY <= maxCamIndex);
+
 events = [double(x+1) double(y+1) double(pol) double(TS)];
 
 for i = 1:10
@@ -54,6 +64,7 @@ deltaT_global = events(i,4) - last_timestamp;
     last_timestamp = events(i,4);
     
     % actually perform Bayesian update
+%     TODO: does it make sense to put this into updateOnEventAverage()?
     particles = predict(particles, deltaT_global);
     
     [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state);

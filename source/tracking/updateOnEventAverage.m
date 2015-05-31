@@ -6,6 +6,12 @@ function [particles, state_prior] = updateOnEventAverage(particles_prior, event,
 
 assert(~any(any(isnan(intensities))), 'NaN in intensities');
 
+% right now it causes problems if the function was compiled with a
+% different simulationPatchSize(). Make sure we abort directly instead of
+% wondering why it does not work as expected
+% TODO: FIX!!
+assert(max(size(state_prior)) == simulationPatchSize());
+
 % TODO: these values were chosen arbitrariliy!
 LOW_LIKELIHOOD = 0.02;
 INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
@@ -19,6 +25,9 @@ else
 end
 
 K = double(cameraIntrinsicParameterMatrix());
+
+% TODO: could this be replaced with getInvKPsforPatch()? if not -> refactor
+% since sinulationPatchSize() seems to become a constant when compiled
 invKPs = reshape(K \ double([u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;

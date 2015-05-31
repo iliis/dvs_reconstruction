@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.matlabcoder" plugin-version="R2014a_nu">
-  <configuration build-checksum="2888674077" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\getPatch.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="getPatch" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
+  <configuration build-checksum="88289428" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation\getPatch.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\camera_simulation" name="getPatch" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
     <profile key="profile.mex">
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
@@ -357,7 +357,7 @@
     <param.AutoInferUseUnboundedSize>false</param.AutoInferUseUnboundedSize>
     <param.AutoInferVariableSizeThreshold>1024</param.AutoInferVariableSizeThreshold>
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
-    <param.AnnotationChecksum>354442658</param.AnnotationChecksum>
+    <param.AnnotationChecksum>3023943097</param.AnnotationChecksum>
     <param.mex.outputfile>getPatch_mex</param.mex.outputfile>
     <param.grt.outputfile>getPatch</param.grt.outputfile>
     <param.artifact>option.target.artifact.mex</param.artifact>
@@ -470,7 +470,7 @@
           </Input>
           <Input Name="invKPs">
             <Class>double</Class>
-            <Size>64 x 64 x 2</Size>
+            <Size>:inf x :inf x 2</Size>
             <Value />
             <InitialValue />
             <UserDefined>true</UserDefined>

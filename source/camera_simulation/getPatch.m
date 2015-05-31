@@ -9,6 +9,11 @@ function patch = getPatch(img, invKPs, theta)
 
 pixelCoords = cameraToWorldCoordinatesBatch(invKPs,theta,size(img));
 
-patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [simulationPatchSize() simulationPatchSize()]);
+% patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [simulationPatchSize() simulationPatchSize()]);
+
+% this is a relatively ugly fix, but necessary to make the compiled version
+% work with changing patch sizes without recompiling -> refactor to make
+% patch size explicit input argument?
+patch = reshape(interp2(img, pixelCoords(:,2), pixelCoords(:,1)), [size(invKPs,1) size(invKPs,2)]);
 
 end
