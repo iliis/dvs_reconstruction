@@ -4,10 +4,13 @@ function [gradients, covariances, lastSigs, lastPos] = updateMosaic(u, v, pol, t
 % This function an event and updates the mosaic, gradients, covariances and
 % history with an EKF
 
+% get global parameters - TODO: maybe put this as inut argument?
+params = getParameters();
+
 assert(pol == 1 || pol == -1, sprintf('polarity signal error: pol = %d', pol));
 
-C = pixelIntensityThreshold(); %0.22 - log intensity change that causes an event
-R = measurementNoise(); %DUMMY - measurement noise
+C = params.pixelIntensityThreshold;
+R = params.measurementNoise;
 
 % compute tau
 tau = double(timestamp - lastSigs(v, u));
@@ -15,36 +18,12 @@ tau = double(timestamp - lastSigs(v, u));
 % get last position of this pixel
 pmTau = lastPos(:, v, u);
 
-% handle strong changes (-> multiple signals)
-% if tau == 0
-%     warning('doubled event with same timestamp');
-%     tau = double(timestamp - secToLastSigs(v, u));
-%     if tau == 0
-%         return;
-%     end
-%     pmTau = secToLastPos(:, v, u);
-% else
-%     secToLastSigs(v, u) = lastSigs(v, u);
-%     secToLastPos(:, v, u) = lastPos(:, v, u);
-% end
-
-pmt = cameraToWorldCoordinates(u,v,cameraIntrinsicParameterMatrix(),theta,[size(gradients,2),size(gradients,3)]);
+pmt = cameraToWorldCoordinates(u,v,params.cameraIntrinsicParameterMatrix,theta,params.outputImageSize);
 idx = round(pmt);
 pmt = pmt';
-% pmt = [pmt(2); pmt(1)]
 
 % compute speed
 velocity = (pmt - pmTau) ./ tau;
-
-% if sum(abs(pmt-pmTau)) < 0.1
-% %     if all(round(pmt) == round(pmTau))
-%         warning('abort - double signal');
-%         return;
-% %     end
-% %     warning('small movement detected between events');
-% %     disp(['movement: ' num2str((pmt-pmTau)')]);
-% %     return;
-% end
 
 % get global pixel gradient from matrix
 gTau = gradients(:, idx(1), idx(2));

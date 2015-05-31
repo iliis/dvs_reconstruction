@@ -12,8 +12,10 @@ else
     plotGroundTruth = true;
 end
 
+% get global parameters
+params = getParameters();
+
 img = image;
-K   = cameraIntrinsicParameterMatrix();
 
 img_size = size(img); %[size(img,2), size(img,1)];
 
@@ -23,7 +25,7 @@ hold on;
 if plotGroundTruth
     points = zeros(size(theta_gt,1),2);
     for i = 1:size(theta_gt)
-        points(i,:) = cameraToWorldCoordinates(1,1,K,theta_gt(i,:),img_size);
+        points(i,:) = cameraToWorldCoordinates(1,1,params.cameraIntrinsicParameterMatrix,theta_gt(i,:),img_size);
     end
     
     plot(points(:,2), points(:,1), '.');
@@ -31,11 +33,10 @@ if plotGroundTruth
     
     points = zeros(4,2);
     
-    S = simulationPatchSize();
-    points(1,:) = cameraToWorldCoordinates(1,1,K,theta_gt(end,:),img_size);
-    points(2,:) = cameraToWorldCoordinates(1,S,K,theta_gt(end,:),img_size);
-    points(3,:) = cameraToWorldCoordinates(S,1,K,theta_gt(end,:),img_size);
-    points(4,:) = cameraToWorldCoordinates(S,S,K,theta_gt(end,:),img_size);
+    points(1,:) = cameraToWorldCoordinates(1,1,params.cameraIntrinsicParameterMatrix,theta_gt(end,:),img_size);
+    points(2,:) = cameraToWorldCoordinates(1,params.simulationPatchSize,params.cameraIntrinsicParameterMatrix,theta_gt(end,:),img_size);
+    points(3,:) = cameraToWorldCoordinates(params.simulationPatchSize,1,params.cameraIntrinsicParameterMatrix,theta_gt(end,:),img_size);
+    points(4,:) = cameraToWorldCoordinates(params.simulationPatchSize,params.simulationPatchSize,params.cameraIntrinsicParameterMatrix,theta_gt(end,:),img_size);
     
     plot(points(:,2), points(:,1), 'ob');
 end
@@ -43,33 +44,20 @@ end
 points = zeros(size(thetaCheckpoints,1),2);
 % iterate over all keyframes
 for i = 1:size(thetaCheckpoints)
-    points(i,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(i,:),img_size);
+    points(i,:) = cameraToWorldCoordinates(1,1,params.cameraIntrinsicParameterMatrix,thetaCheckpoints(i,:),img_size);
 end
 
 plot(points(:,2), points(:,1), '.');
 plot(points(1,2), points(1,1), 'or');
-%fprintf('keyframe %d is at %6.2d %6.2d\n', k, round(points(1,2)), round(points(1,1)));
-
-
 
 points = zeros(4,2);
 
-S = simulationPatchSize();
-points(1,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(end,:),img_size);
-points(2,:) = cameraToWorldCoordinates(1,S,K,thetaCheckpoints(end,:),img_size);
-points(3,:) = cameraToWorldCoordinates(S,1,K,thetaCheckpoints(end,:),img_size);
-points(4,:) = cameraToWorldCoordinates(S,S,K,thetaCheckpoints(end,:),img_size);
+points(1,:) = cameraToWorldCoordinates(1,1,params.cameraIntrinsicParameterMatrix,thetaCheckpoints(end,:),img_size);
+points(2,:) = cameraToWorldCoordinates(1,params.simulationPatchSize,params.cameraIntrinsicParameterMatrix,thetaCheckpoints(end,:),img_size);
+points(3,:) = cameraToWorldCoordinates(params.simulationPatchSize,1,params.cameraIntrinsicParameterMatrix,thetaCheckpoints(end,:),img_size);
+points(4,:) = cameraToWorldCoordinates(params.simulationPatchSize,params.simulationPatchSize,params.cameraIntrinsicParameterMatrix,thetaCheckpoints(end,:),img_size);
 
 plot(points(:,2), points(:,1), 'og');
-
-% points = zeros(4,2);
-% 
-% points(1,:) = cameraToWorldCoordinates(1,1,K,thetaCheckpoints(end,:),img_size);
-% points(2,:) = cameraToWorldCoordinates(1,64,K,thetaCheckpoints(end,:),img_size);
-% points(3,:) = cameraToWorldCoordinates(64,1,K,thetaCheckpoints(end,:),img_size);
-% points(4,:) = cameraToWorldCoordinates(64,64,K,thetaCheckpoints(end,:),img_size);
-% 
-% plot(points(:,2), points(:,1), 'og');
 
 hold off;
 

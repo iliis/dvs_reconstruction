@@ -2,6 +2,9 @@ function [addr, ts, state] = getSignals(oldPatch, newPatch, time, state, thresho
 
 % computes the signals of the changed pixels from the two image patches and the system state
 
+% get global parameters
+params = getParameters();
+
 diff = double(newPatch) - double(oldPatch);
 
 state = state + diff;
@@ -13,7 +16,7 @@ pIdx = state > threshold;
 nIdx = state < -threshold;
 
 % compute indices of noise
-noiseInds = randperm(simulationPatchSize()^2, max(20, round(sum(sum(pIdx + nIdx))/20)));
+noiseInds = randperm(params.simulationPatchSize^2, max(20, round(sum(sum(pIdx + nIdx))/20)));
 nOfNoisePxls = size(noiseInds, 1);
 pIdx(noiseInds(1:round(nOfNoisePxls / 4))) = true;
 nIdx(noiseInds(1:round(nOfNoisePxls / 4))) = false;

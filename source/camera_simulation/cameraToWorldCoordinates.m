@@ -1,8 +1,10 @@
 function [ world_coordinates ] = cameraToWorldCoordinates( u, v, K, theta, img_size )
 
-assert(all([u > 0, u <= simulationPatchSize(), v > 0, v <= simulationPatchSize()]));
+params = getParameters();
 
-indexOffset = (DVS_PatchSize() - simulationPatchSize())/2;
+assert(all([u > 0, u <= params.simulationPatchSize, v > 0, v <= params.simulationPatchSize]));
+
+indexOffset = (params.dvsPatchSize - params.simulationPatchSize)/2;
 u = u + indexOffset;
 v = v + indexOffset;
 

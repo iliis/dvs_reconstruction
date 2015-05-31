@@ -1,5 +1,8 @@
 imagepath = 'camera_simulation/testimages/panorama.png';
 
+% get global parameters
+params = getParameters();
+
 % thetaCheckpoints = ...
 %     [pi/8, pi/8, 0; ...
 %     -pi/8, -pi/8, 0];
@@ -104,7 +107,7 @@ tic;
 allAddr = [];
 allTS = 0; %set first number 0 to have reference for first bunch of stamps
 allThetas = [];
-intermediateState = zeros(simulationPatchSize());
+intermediateState = zeros(params.simulationPatchSize);
 
 for i = 1:size(thetaCheckpoints, 1) - 1
     

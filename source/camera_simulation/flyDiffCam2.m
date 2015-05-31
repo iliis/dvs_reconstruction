@@ -12,8 +12,10 @@ function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart,
 
 % theta = thetaStart;
 
-if nargin < 5 || (size(startState, 1) ~= simulationPatchSize() || size(startState, 2) ~= simulationPatchSize())
-    state = zeros(simulationPatchSize());
+params = getParameters();
+
+if nargin < 5 || (size(startState, 1) ~= params.simulationPatchSize || size(startState, 2) ~= params.simulationPatchSize)
+    state = zeros(params.simulationPatchSize);
 else
     state = startState;
 end
@@ -26,8 +28,8 @@ allTS = zeros(100000,1);
 thetas = zeros(100000,3);
 lastOccupied = 0;
 
-threshold = pixelIntensityThreshold();
-K = cameraIntrinsicParameterMatrix();
+threshold = params.pixelIntensityThreshold;
+K = params.cameraIntrinsicParameterMatrix;
 
 steps = round((thetaStop - thetaStart) ./ omega);
 
@@ -50,14 +52,14 @@ fprintf('starting simulation with %d timesteps\n', max(steps));
 
 invKPs = getInvKPsforPatch(K);
 
-lastPatch = getPatch_mex(img, invKPs, thetaStart, simulationPatchSize());
+lastPatch = getPatch_mex(img, invKPs, thetaStart, params.simulationPatchSize);
 % lastPatch = getPatch(img, invKPs, thetaStart);
 
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    patch = getPatch_mex(img, invKPs, theta, simulationPatchSize());
+    patch = getPatch_mex(img, invKPs, theta, params.simulationPatchSize);
 %     patch = getPatch(img, invKPs, theta);
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
