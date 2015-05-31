@@ -7,8 +7,13 @@ function [x,y,pol]=extractRetinaEventsFromAddr(addr)
 % returns x,y addresses and spike ON/OFF polarity pol with pol=1 for ON and
 % pol=-1 for OFF
 % {x, y} in [0, 127]!!
-retinaSizeX=128;
-assert(DVS_PatchSize() == retinaSizeX);
+
+% TODO: how does this help here? Comment back in if there is a real benefit
+% retinaSizeX=128;
+% assert(params.dvsPatchSize == retinaSizeX);
+
+% get global parameters
+params = getParameters();
 
 persistent xmask ymask xshift yshift polmask
 if isempty(xmask),
@@ -29,8 +34,8 @@ end
 
 % TODO: this abs() should NEVER be necessary and might mask another bug!
 % addr=abs(addr); % make sure nonnegative or an error will result from bitand (glitches can somehow result in negative addressses...)
-x=retinaSizeX-1-double(bitshift(bitand(addr,xmask),-xshift)); % x addresses
-y=retinaSizeX-1-double(bitshift(bitand(addr,ymask),-yshift)); % y addresses
+x=params.dvsPatchSize-1-double(bitshift(bitand(addr,xmask),-xshift)); % x addresses
+y=params.dvsPatchSize-1-double(bitshift(bitand(addr,ymask),-yshift)); % y addresses
 pol=2*double(bitand(addr,polmask))-1; % 1 for ON, -1 for OFF
 
 % n=min([3,length(addr)]);

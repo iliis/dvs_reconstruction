@@ -1,4 +1,4 @@
-function [particles, state_prior] = updateOnEventAverage(particles_prior, event, intensities, state_prior)
+function [particles, state_prior] = updateOnEventAverage(particles_prior, event, intensities, state_prior, K, intensityThreshold, camSize)
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]
@@ -6,10 +6,16 @@ function [particles, state_prior] = updateOnEventAverage(particles_prior, event,
 
 assert(~any(any(isnan(intensities))), 'NaN in intensities');
 
+% right now it causes problems if the function was compiled with a
+% different simulationPatchSize(). Make sure we abort directly instead of
+% wondering why it does not work as expected
+% TODO: FIX!!
+assert(max(size(state_prior)) == camSize);
+
 % TODO: these values were chosen arbitrariliy!
-% LOW_LIKELIHOOD = 0.0001;
+LOW_LIKELIHOOD = 0.02;
 INTENSITY_VARIANCE  = 0.08; %1; % 0.08 % dependent on variance in predict and number of particles
-INTENSITY_THRESHOLD = pixelIntensityThreshold(); %0.22;
+INTENSITY_THRESHOLD = intensityThreshold; %0.22;
 u = event(1); v = event(2);
 
 if event(3) > 0
@@ -18,8 +24,10 @@ else
     s = -1;
 end
 
-K = double(cameraIntrinsicParameterMatrix());
-invKPs = reshape(K \ double([u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
+% TODO: could this be replaced with getInvKPsforPatch()? if not -> refactor
+% since the formula for offset must be (DVS_PatchSize -
+% simulationPatchSize)/2
+invKPs = reshape(K \ double([u+camSize/2 v+camSize/2 1]'), 1, 1, 3); invKPs = invKPs(:,:,1:2);
 
 particles = particles_prior;
 % old_points_w = zeros(size(particles,1),2);
@@ -48,7 +56,8 @@ assert(~any(isnan(measurements)))
 
 sigma = INTENSITY_VARIANCE;
 c = INTENSITY_THRESHOLD * s;
-likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), 0.01);
+likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), LOW_LIKELIHOOD);
+% likelihoods(sign(measurements) ~= sign(s)) = LOW_LIKELIHOOD;
 particles(:,1) = likelihoods;
 
 % for p = 1:size(particles,1)

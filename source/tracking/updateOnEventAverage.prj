@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.matlabcoder" plugin-version="R2014a_nu">
-  <configuration build-checksum="2506184153" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\tracking\updateOnEventAverage.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\tracking" name="updateOnEventAverage" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
+  <configuration build-checksum="2365991749" file="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\tracking\updateOnEventAverage.prj" location="D:\Documents\ETH\3DPhoto\Project\dvs_reconstruction\source\tracking" name="updateOnEventAverage" target="target.matlab.coder" target-name="MEX, C, and C++ Code Generation">
     <profile key="profile.mex">
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
@@ -151,7 +151,7 @@
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
       <param.TargetLangStandard>C89/C90 (ANSI)</param.TargetLangStandard>
-      <param.CodeReplacementLibrary />
+      <param.CodeReplacementLibrary>None</param.CodeReplacementLibrary>
       <param.DeprecatedCRLFlag>false</param.DeprecatedCRLFlag>
       <param.SameHardware>true</param.SameHardware>
       <param.HardwareVendor.Production>Generic</param.HardwareVendor.Production>
@@ -357,7 +357,7 @@
     <param.AutoInferUseUnboundedSize>false</param.AutoInferUseUnboundedSize>
     <param.AutoInferVariableSizeThreshold>1024</param.AutoInferVariableSizeThreshold>
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
-    <param.AnnotationChecksum>1476317115</param.AnnotationChecksum>
+    <param.AnnotationChecksum>2215743781</param.AnnotationChecksum>
     <param.mex.outputfile>updateOnEventAverage_mex</param.mex.outputfile>
     <param.grt.outputfile>updateOnEventAverage</param.grt.outputfile>
     <param.artifact>option.target.artifact.mex</param.artifact>
@@ -458,7 +458,7 @@
       <param.DefaultFixedPointSignedness />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="true" value="${PROJECT_ROOT}\updateOnEventAverage.m">
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}\updateOnEventAverage.m">
         <Inputs fileName="updateOnEventAverage.m" functionName="updateOnEventAverage">
           <Input Name="particles_prior">
             <Class>double</Class>
@@ -486,7 +486,31 @@
           </Input>
           <Input Name="state_prior">
             <Class>double</Class>
-            <Size>3 x 64 x 64</Size>
+            <Size>3 x :inf x :inf</Size>
+            <Value />
+            <InitialValue />
+            <UserDefined>true</UserDefined>
+            <Complex>false</Complex>
+          </Input>
+          <Input Name="K">
+            <Class>double</Class>
+            <Size>3 x 3</Size>
+            <Value />
+            <InitialValue />
+            <UserDefined>true</UserDefined>
+            <Complex>false</Complex>
+          </Input>
+          <Input Name="intensityThreshold">
+            <Class>double</Class>
+            <Size>1 x 1</Size>
+            <Value />
+            <InitialValue />
+            <UserDefined>true</UserDefined>
+            <Complex>false</Complex>
+          </Input>
+          <Input Name="camSize">
+            <Class>double</Class>
+            <Size>1 x 1</Size>
             <Value />
             <InitialValue />
             <UserDefined>true</UserDefined>

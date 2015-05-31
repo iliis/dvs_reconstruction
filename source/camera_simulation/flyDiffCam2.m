@@ -12,8 +12,10 @@ function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart,
 
 % theta = thetaStart;
 
-if nargin < 5 || (size(startState, 1) ~= simulationPatchSize() || size(startState, 2) ~= simulationPatchSize())
-    state = zeros(simulationPatchSize());
+params = getParameters();
+
+if nargin < 5 || (size(startState, 1) ~= params.simulationPatchSize || size(startState, 2) ~= params.simulationPatchSize)
+    state = zeros(params.simulationPatchSize);
 else
     state = startState;
 end
@@ -21,12 +23,13 @@ end
 img = im2double(rgb2gray(imread(imagepath)));
 % time = 1;
 
-allAddr = [];
-allTS = [];
-thetas = [];
+allAddr = zeros(100000,1);
+allTS = zeros(100000,1);
+thetas = zeros(100000,3);
+lastOccupied = 0;
 
-threshold = pixelIntensityThreshold();
-K = cameraIntrinsicParameterMatrix();
+threshold = params.pixelIntensityThreshold;
+K = params.cameraIntrinsicParameterMatrix;
 
 steps = round((thetaStop - thetaStart) ./ omega);
 
@@ -47,30 +50,47 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
-invKPs = zeros([simulationPatchSize() simulationPatchSize() 2]);
+invKPs = getInvKPsforPatch(K);
 
-for u = 1:simulationPatchSize()
-    for v = 1:simulationPatchSize()   
-        invKP = K \ [u+simulationPatchSize()/2 v+simulationPatchSize()/2 1]';  
-        invKPs(v, u, :) = invKP(1:2);
-    end
-end
-
-%lastPatch = getPatch_mex(img, invKPs, thetaStart);
-lastPatch = getPatch(img, invKPs, thetaStart);
+lastPatch = getPatch_mex(img, invKPs, thetaStart, params.simulationPatchSize);
+% lastPatch = getPatch(img, invKPs, thetaStart);
 
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    %patch = getPatch_mex(img, invKPs, theta);
-    patch = getPatch(img, invKPs, theta);
+    patch = getPatch_mex(img, invKPs, theta, params.simulationPatchSize);
+%     patch = getPatch(img, invKPs, theta);
 	
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
+    
+    newEvents = size(addr,1);
+    
+    if lastOccupied + newEvents > size(allAddr,1)
+        %does not fit into array -> resize
+        disp('resize');
+        oldSize = size(allAddr,1);
+        newSize = oldSize + 100000;
+        newAllAddr = zeros(newSize,1);
+        newAllTS = zeros(newSize,1);
+        newThetas = zeros(newSize,3);
+        
+        newAllAddr(1:lastOccupied) = allAddr(1:lastOccupied);
+        newAllTS(1:lastOccupied) = allTS(1:lastOccupied);
+        newThetas(1:lastOccupied,:) = thetas(1:lastOccupied,:);
+        
+        allAddr = newAllAddr;
+        allTS = newAllTS;
+        thetas = newThetas;
+    end
+    
+    
 
-    allAddr = [allAddr; addr];
-    allTS   = [allTS; ts];
-    thetas  = [thetas; repmat(theta, size(addr,1), 1)];
+    allAddr((lastOccupied+1):(lastOccupied+newEvents)) = addr;
+    allTS((lastOccupied+1):(lastOccupied+newEvents)) = ts;
+    thetas((lastOccupied+1):(lastOccupied+newEvents),:) = repmat(theta, newEvents, 1);
+    
+    lastOccupied = lastOccupied+newEvents;
 
 	lastPatch = patch; 
     
@@ -79,6 +99,11 @@ for i = 1:max(steps)
         state(isnan(state)) = 0; %reset nan values
     end
 end
+
+% remove leftover space
+allAddr = allAddr(1:lastOccupied);
+allTS = allTS(1:lastOccupied);
+thetas = thetas(1:lastOccupied,:);
 
 endState = state;
 

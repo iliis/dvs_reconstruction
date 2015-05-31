@@ -3,32 +3,23 @@ function [img, gradients] = reconstructMosaic(allAddr, allTS, thetas) %#codegen
 % reconstruct the mosaic from a given set of events with corresponding
 % orientations (without simulating the camera first)
 
-outputImageSize = [2000, 4000];
+% get global parameters
+params = getParameters();
 
-boundary_image = 0.5*ones(outputImageSize);
-origin = outputImageSize ./ 2;
-gradients = zeros([2, outputImageSize]);
-covariances = 10*repmat(eye(2), [1, 1, outputImageSize]);
-lastSigs = zeros(simulationPatchSize());
-% lastPos = 1000000000* ones(2,64,64);
-% lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), [0 0 0], outputImageSize)', [2 64 64]);
-lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(cameraIntrinsicParameterMatrix()), thetas(1,:), outputImageSize)', [2 simulationPatchSize() simulationPatchSize()]);
-secToLastSigs = lastSigs;
-secToLastPos = lastPos;
+boundary_image = 0.5*ones(params.outputImageSize);
+gradients = zeros([2, params.outputImageSize]);
+covariances = 10*repmat(eye(2), [1, 1, params.outputImageSize]);
+lastSigs = zeros(params.simulationPatchSize);
+lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(params.cameraIntrinsicParameterMatrix), thetas(1,:), params.outputImageSize)', [2 params.simulationPatchSize params.simulationPatchSize]);
 
 nOfEvents = size(allAddr, 1);
 fprintf('number of events: %d\n', nOfEvents);
 
 [x, y, pol] = extractRetinaEventsFromAddr(allAddr);
 
-% pgrads = permute(gradients, [2 3 1]);
-% img = poisson_solver_function(pgrads(:,:,1), pgrads(:,:,2), boundary_image);
-% imagesc(img);
-% colormap(gray);
-
 for i = 1:size(x,1)
     
-    [gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos] = updateMosaic(x(i)+1, y(i)+1, pol(i), allTS(i), thetas(i, :), gradients, covariances, lastSigs, lastPos, secToLastSigs, secToLastPos);
+    [gradients, covariances, lastSigs, lastPos] = updateMosaic(x(i)+1, y(i)+1, pol(i), allTS(i), thetas(i, :), gradients, covariances, lastSigs, lastPos);
     
     
     if mod(i, 1000) == 0; fprintf('%d / %d\n', i, size(x,1)); end;
