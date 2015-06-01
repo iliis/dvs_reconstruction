@@ -1,4 +1,4 @@
-function [allAddr, allTS, thetas, endState] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega, startState)
+function [allAddr, allTS, thetas, endState] = flyDiffCam(imagepath, thetaStart, thetaStop, omega, startState)
 
 % Simulates a camera rotation of the event camera in the scene given by 'imagepath'
 % 
