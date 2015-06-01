@@ -1,5 +1,8 @@
 function particles = predict(particles, deltaT_global)
-
+% predict new camera position based on current position and time since last update
+%
+% This is simply a constant position motion model + gaussian noise
+%
 % TODO: also store velocity (maybe also acceleration) in particles and
 % predict motion (instead of just adding noise)
 

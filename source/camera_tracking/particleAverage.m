@@ -1,5 +1,5 @@
 function theta_avg = particleAverage( particles )
-%PARTICLEAVERAGE calculates weighted average over all particles position
+% calculates weighted average over all particles position
 
 % TODO: use fancy SO(3) space math to handle angle 'overflows'
 

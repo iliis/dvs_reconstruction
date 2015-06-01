@@ -1,11 +1,17 @@
 function [ events, thetas, patch_state ] = flyDiffCamFine( img, numEvents, time_start, theta_start, theta_dim, theta_inc, patch_state )
 % generate a path with at least numEvents events where the intensity difference is as
-% close to pixelIntensityThreshold()
+% close to params.tracking.pixelIntensityThreshold
 %
-% time: 1 radian / time unit (i.e. timestamp = norm(theta))
+% This is a more close approximation to the real DVS as flyDiffCam() as the
+% intensity differences that generate an event is bound and close to the
+% threshold.
+%
+% timestamp differences of the generated events:
+% 0 for simultaneous events, T between the following events (where T is a
+% constant defined below as TIME_BETWEEN_STEPS)
 %
 % output:
-%   events: =>numEvents * [x y pol time]
+%   events: >=numEvents * [x y pol time]
 %   thetas: size(events,1) * [alpha beta gamma] at corresponding event (i.e. ground truth)
 %   patch_state: state of camera sensor, can be used to chain multiple
 %   calls to flyDiffCamFine

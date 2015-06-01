@@ -1,4 +1,5 @@
 function [particles, state_prior] = updateOnEvent(particles_prior, event, intensities, state_prior, params)
+% updates particles weight according to their likelihood to match an event
 % input:
 %  4xN list of particles [weight, 3x rotation]
 %  1 event [u,v,sign,timestamp]

@@ -1,4 +1,6 @@
 function invKPs = getInvKPsforPatch()
+% calculates K\p for all pixels p of the simulated camera
+% this is just a convencience, as we usually need p*K^(-1) instead of just p
 
 % get global Parameters
 params = getParameters();

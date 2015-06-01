@@ -11,21 +11,30 @@ run test_tracknig_only.m in the root folder.
 
 The main function here is trackMovement(), which updates a set of particles
 with events and a map. It calls predict() to predict the movement and
-updateOnEvent() to do the actual bayesian updating.
+updateOnEvent() to do the actual bayesian updating. Whenever the
+effectiveParticleNumber() of the particles falls below some threshold of N\2,
+they are resample()d.
 
 
 ### main functions
 
-initParticles()
+* initParticles()
+  initializes data structures
 
-particleAverage()
+* particleAverage()
+  calculates weighted average over all particles
 
-effectiveParticleNumber()
+* effectiveParticleNumber()
+  'effective number' of particles, used to determine if resampling is necessary
 
-trackMovement()
+* trackMovement()
+  main function for tracking, updates a set of particles with events and a map
 
-predict()
+* predict()
+  get predicted position of particles after some time (constant motion model + noise)
 
-updateOnEvent()
+* updateOnEvent()
+  updates particles weight according to their likelihood to match an event
 
-resample()
+* resample()
+  resamples particles by copy a particle with probability according to its weight

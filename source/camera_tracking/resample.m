@@ -1,11 +1,11 @@
 function particles = resample(old_particles)
+% resamples particles by copy a particle with probability according to its weight
+%
 % input:  Nx4 list of particles [normalized weight, 3xrot]
 % output: Nx4 resampled list of particles
 
 % TODO: there are exacter ways to implement resampling
 
-% trivial resampling algorithm
-% copy particle with probability according to its weight
 particles = zeros(size(old_particles));
 for i = 1:size(particles,1)
     

@@ -1,5 +1,9 @@
 function [particles, tracking_state, intermediate_positions, plot_handle] = trackMovement( particles, tracking_state, events, img, last_timestamp, ground_truth)
 % updates on events
+% init particles and tracking state with initParticles()
+% last_timestamp is the timestamp of the last event we already updated and
+% optional, but required for correct prediction
+% ground_truth is simply for visualization and can be omitted
 
 if nargin < 5
     last_timestamp = 0;
