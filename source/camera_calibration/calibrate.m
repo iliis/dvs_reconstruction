@@ -7,17 +7,20 @@
 %   (more documentation on the former in calibration_tool.cpp), then
 %   calibrate camera by running cameraCalibrator (or any other standard
 %   camera calibration toolbox really).
-
+%
+% TODO: automatically scan folder for .aedat files
 
 %recording_raw = loadaerdat('camera_recordings/scene_reveal_H57.aedat');
 % gut: 6, 9
 % 5.5 mm side length
 
 
-% update these to fir your needs
+% update these to fit your needs
 path = 'camera_calibration/recordings/';
 name = 'calibration_'; % 5.5 cm side length
 imgcount = 28;
+
+params = getParameters();
 
 for k = 1:imgcount
     
@@ -27,7 +30,7 @@ for k = 1:imgcount
 
     [x,y,pol] = extractRetinaEventsFromAddr(recording_raw);
 
-    image = zeros(DVS_PatchSize());
+    image = zeros(params.dvsPatchSize);
 
     % remove negative (!) events
     % this is actually not necessary for calibration images as positive
@@ -47,4 +50,4 @@ for k = 1:imgcount
 end
 
 % run cameraCalibrator
-cameraCalibrator('recordings', 55);
+cameraCalibrator('camera_calibration/recordings', 55);
