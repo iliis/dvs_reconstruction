@@ -1,4 +1,4 @@
-function [img, gradients] = reconstructMosaic(allAddr, allTS, thetas) %#codegen
+function [img, gradients] = reconstructMosaic(allAddr, allTS, thetas)
 
 % reconstruct the mosaic from a given set of events with corresponding
 % orientations (without simulating the camera first)
