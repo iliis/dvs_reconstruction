@@ -1,0 +1,14 @@
+Inspired by biological eyes, a dynamic vision sensor (DVS) is a digital camera
+which does not have a global or rolling shutter but where every pixel is
+completely independent of each other and instantaneously reports changes in
+sensed intensity.
+
+Such a sensor provides much lower data bandwith, very high dynamic range and
+extremely low latencies and is therefore very appealing for a wide range of
+applications. However, due to the different [and differential] nature of the
+data, standard computer vision algorithms cannot be used directly.
+
+In this report, we further investigate the approach proposed by Kim et al in
+\cite{kim2014simultaneous}: DVS events are used to track the rotational pose of
+a camera while simultaneously reconstructing a panoramic map of the
+environment.

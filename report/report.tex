@@ -24,6 +24,7 @@
 %\ifcvprfinal\pagestyle{empty}\fi
 \setcounter{page}{1}
 \begin{document}
+%-------------------------------------------------------------------------
 
 %%%%%%%%% TITLE
 \title{Image Reconstruction from DVS\\ The constant battle agains MATLAB\\ Student Project Report}
@@ -32,11 +33,6 @@
 ETH Zurich\\
 %Institution1 address\\
 {\tt\small samuelbryner@student.ethz.ch}
-% For a paper whose authors are all at the same institution,
-% omit the following lines up until the closing ``}''.
-% Additional authors and addresses can be added with ``\and'',
-% just like the second author.
-% To save space, use either the email address or home page, not both
 \and
 Marcel Geppert\\
 ETH Zurich\\
@@ -46,18 +42,29 @@ ETH Zurich\\
 
 \maketitle
 %\thispagestyle{empty}
+%-------------------------------------------------------------------------
+%-------------------------------------------------------------------------
+%-------------------------------------------------------------------------
+
 
 %%%%%%%%% ABSTRACT
+%-------------------------------------------------------------------------
 \begin{abstract}
 
-// TODO - insert abstract
+\input{sections/abstract.tex}
 
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
+%-------------------------------------------------------------------------
 \section{Introduction}
 \label{sec:introduction}
-// TODO - insert introduction here
+\input{sections/introduction.tex}
+
+%-------------------------------------------------------------------------
+\section{Dynamic Vision Sensors}
+\label{sec:dvs}
+\input{sections/dvs.tex}
 
 %-------------------------------------------------------------------------
 \section{Related Work}
@@ -65,24 +72,13 @@ ETH Zurich\\
 \input{sections/related_work.tex}
 
 %-------------------------------------------------------------------------
-\section{Dynamic Vision Sensors}
-\label{sec:dvs}
-\input{sections/dvs.tex}
-
 \section{Our Work}
 \label{sec:our_work}
-// TODO - insert section to explain what we did here
-// TODO - move core algorithm section before this?
-
--implemented paper (kim) in matlab\\
--some simplifications\\
-    -use particle filter directly with euler angles (ignore corner cases)\\
-    -start with first fov in map\\
+\input{sections/our_work.tex}
 
 \subsection{Camera Simulation}
 \label{sec:simulation}
 \input{sections/simulation.tex}
-
 
 
 %-------------------------------------------------------------------------
