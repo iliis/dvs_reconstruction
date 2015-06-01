@@ -6,14 +6,14 @@ happens for each pixel completely independent from all the others.
 
 A DVS has several advantages compared to standard cameras. Since there is no
 need to gather data from all pixels to generate an image, events can be sent
-with an extremely low latency of $15 \mu s$ or less \cite{lpd08dvs, brandli14davis} and
+with an extremely low latency of $15 \mu s$ or less \cite{brandli14davis, lpd08dvs} and
 with microsecond timestamps.  For the same reason, there is practically no
 motion blur in the DVS signal.  Another benefit of independent pixels is the
 very high dynamic range.  Saturation, blooming or smearing as observed when a
 bright light source is captured with a standard camera is basically
 nonexistent. Finally, due to the reduction of the camera signal to changes and
 the resulting elimination of redundant temporal information, the signal
-bandwith is much smaller than with a standard camera.
+bandwidth is much smaller than with a standard camera.
 All these features make the DVS a very desirable sensor for motion tracking,
 especially for mobile robots where the data has to be analyzed on constrained
 hardware.

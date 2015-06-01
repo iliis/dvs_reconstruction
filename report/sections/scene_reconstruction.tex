@@ -1,6 +1,6 @@
 We use Kalman filters to reconstruct a gradient map from the noisy DVS signal.
 These gradients are then used to generate a grayscale image by applying a
-poisson reconstruction algorithm \cite{raskarpoisson}. For each pixel in the
+Poisson reconstruction algorithm \cite{raskarpoisson}. For each pixel in the
 output image there is a Kalman filter that keeps track of the intensity gradient at
 the pixel's position. The input to the Kalman filter is the event frequency
 along the current movement. Here we assumed that the pixel's
