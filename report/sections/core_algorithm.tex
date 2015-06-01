@@ -13,12 +13,3 @@ Further, we only track camera rotation; We assume there is no translation at
 all and therefore no parallax displacment either. This greatyl simplifies our
 algorithm as we only have to keep track of a two dimensional map.
 
-To speed up things even further, we assume that the camera's initial field
-of view is already known and included in the map. With this assumption we do
-not have to deal with a special initialization procedure and can immediately
-start with the standard iteration while being relatively sure that the camera
-movement is tracked correctly.
-
-This is not an unreasonable assumption, as never DVS models incorporate the
-ability to take full-frame pictures and a simple method for generating full
-images can be used with any model (see Section \ref{sec:experiments}).

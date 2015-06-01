@@ -6,10 +6,11 @@ makes comparisons with ground truth much easier.
 There are a few things we looked into with the real DVS tough:
 
 \subsection{initialization by removing shutter}
+\label{sec:shutter_removal}
 
 If the DVS is fully covered by a shutter we can recover a full picture by
 simply removing it slowly and integrating all the events generated. This allows
-for an easy initialization of the map using only the DVS. An example is shown in Figure \ref{fig:shutter_integration}
+for an easy initialization of the map using only the DVS. An example is shown in Figure \ref{fig:shutter_integration}.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{images/PCLab_integrated.png}
@@ -19,6 +20,7 @@ for an easy initialization of the map using only the DVS. An example is shown in
 
 
 \subsection{camera calibration}
+\label{sec:calibration}
 
 As with any sensor, we must calibrate the DVS to get usable data. For normal
 cameras, this is usally done by capturing images of a checkerboard pattern from
@@ -37,6 +39,6 @@ of lines with varying sizes.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{images/checkerboard_integrated.png}
-\caption{a sample checkerboard pattern used for calibration}
+\caption{sample checkerboard pattern used for calibration}
 \label{fig:calibration}
 \end{figure}
