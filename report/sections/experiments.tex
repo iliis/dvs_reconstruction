@@ -20,6 +20,7 @@ If the DVS is fully covered by a shutter we can recover a full picture by
 simply removing it slowly and integrating all the events generated. This allows
 for an easy initialization of the map using only a basic DVS. An example is shown in figure \ref{fig:shutter_integration}.
 
+
 \subsection{Camera Calibration}
 \label{sec:camera_calibration}
 
@@ -28,10 +29,11 @@ cameras, this is usually done by capturing images of a checkerboard pattern from
 different viewpoints and subsequently rectifying images so they fit into a
 standard pinhole camera model.
 
-Unfortunately, the dynamic vision sensor only detects changes and cannot
-directly capture a calibration pattern. We could take pictures as described in
-the previous section, but for calibration \cite{mueggler2014event} proposed a different method:
-Use a computer screen to quickly show and hide the pattern. With this method,
-calibrating the DVS should be almost as convenient as with any standard camera.
-This method can also be used to focus the camera optics by displaying a pattern
-of lines with varying sizes and observing the resulting camera signal with jAER.
+Unfortunately, the dynamic vision sensor only detects changes and is therefore unable to
+capture a static calibration pattern. We could take pictures as described in
+the previous section, but for calibration Mueggler \etal proposed a different method \cite{mueggler2014event}:
+
+By using a computer screen to quickly show and hide the pattern, calibrating
+the DVS should be almost as convenient as with any standard camera.  This
+method can also be used to focus the camera optics by displaying a pattern of
+lines with varying sizes and observing the resulting camera signal with jAER.
