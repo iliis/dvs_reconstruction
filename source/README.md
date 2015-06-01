@@ -9,8 +9,12 @@ generate a camera-like signal from a given image.
 The parameters used might not be optimal since the long runtime makes
 optimization tedious.
 
+## Documentation
 
-## compiled functions
+The code is mostly documented inline. Some general notes for the different
+parts are contained in the enclosed readme files.
+
+## Compiled Functions
 
 For an increase in computing speed, some core functions should be compiled.
 

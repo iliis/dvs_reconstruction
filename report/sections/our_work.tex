@@ -7,24 +7,25 @@ described in Section \ref{sec:core_algorithm}.
 In contrast to \cite{kim2014simultaneous} we are working with some
 simplifications: The particle filter for the tracking directly uses Euler
 angles and corner cases like gimbal lock are not handled.
+
 As we discovered during the implementation, the runtime of the algorithm is
 extremely long when implemented in Matlab. The events that are created by the
 camera during only a few seconds could easily lead to hours of computation.
-To be still able to test the algorithm we exclusively used data generated with
+To still be able to test the algorithm we exclusively used data generated with
 our simulation instead of the real camera.
+
 This enabled us to control the number of events by tweaking parameters of our
 virtual camera.
+
 A further benefit of this approach was the existence of an exact ground truth
-for the camera motion which simplified the evaluation of the algorithm greatly.
+for the camera motion which greatly simplified the evaluation of the algorithm.
 
 To speed things up, we assume that the camera's initial field
 of view is already known and included in the map. With this assumption we do
 not have to deal with a special initialization procedure and can immediately
 start with the standard iteration while being relatively sure that the camera
 movement is tracked correctly.
+
 This is not an unreasonable assumption, as newer DVS models incorporate the
 ability to take full-frame pictures and there's a simple method for generating
 full images which works with any model (see Section \ref{sec:shutter_removal}).
-
-
-// TODO: Explain basic algo, more details in Section 5: 'core algorithm'.
