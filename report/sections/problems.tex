@@ -1,0 +1,67 @@
+During our work we discovered several problems that we would like to discuss briefly.
+
+The general problem with the algorithm that we experienced concerns the
+initialization of the map.
+In \cite{kim2014simultaneous} the authors describe that their algorithm converges
+in most cases quickly to reasonable results if the standard algorithm with
+alternating tracking and mapping just starts with an empty map.
+During our experiments we were not able to reproduce these results.
+We would like to explicitly point out some of our ideas for the initialization
+and their problems. All of them base on the fact that the reconstruction of the
+map is not directly based on the camera motion but on the assumed motion of each
+single pixel. Therefore we keep track of each pixels corresponding position in world
+space at the last time it triggered an event. By assuming different pixel positions
+\textit{before} the first event we should be able to influence the behavior of the
+mapping at the beginning.
+
+\begin{itemize}
+\item
+A na\"{\i}ve approach would be to initialize each initial to the corresponding position in
+world space with the initial camera position. However, this leads to no changes to the map
+as long as no motion is detected. On the other hand, the particle filter with our constant
+motion model will either detect no motion or lead to a random motion direction. We consider
+the likelihood to generate a correct map under these circumstances to be extremely low.
+
+\item
+To be able to immediately write events to the map, we would like to assume a motion
+by the time we receive the first event. Hence, every initial pixel position should be
+selected as a point that is \textit{not} the pixel position at time 0.
+An obvious choice would be to set each pixel's previous position to the center of the
+map, assuming a movement away from the center of the camera.
+Unfortunately, since we cannot predict the appearance of the scene and therefore do not
+know which pixels will trigger the first events, this method should lead to results
+almost as random as the one above.
+
+\item
+Assuming we can control the initial motion direction of the camera, a suitable approach
+would be to assume a certain initial movement direction and set all pixel's previous locations
+accordingly to the left, right, top, or bottom of its initial positions.
+While this approach would likely lead to decent results with the correct initial movement direction,
+it puts very strict constraints on the possible input data. Additionally, if the data
+is captured with a hand-held camera, tiny movements in other directions are likely to appear
+and could cause also this algorithm to fail.
+
+\end{itemize}
+
+We finally decided to assume that the initial field of view of the camera is already
+known and is included in the map when the tracking starts. While this also seems like
+a very strong assumption, it could be easily realized with a second generation DVS that
+has the ability to additionally  take normal pictures.
+
+Our second principal problem deduced from out choice of Matlab as our main tool and language.
+Many smaller problems we had during the development were caused by Matlab's dynamic type system
+and its behavior when compiling files.
+A much bigger problem was, however, the runtime of the algorithm. Especially the tracking with
+the particles filter, but also the extraction of the camera FOV from the input image during
+simulation increased the runtime significantly.
+We tried to minimize the impact of the runtime on our work with several changes.
+Instead of working with real camera data, we limited our test to data generated with our simulation.
+We furthermore reduced the camera size in the simulation to a quarter of the original size.
+This did not only speed up the simulation but also the rest of the algorithm due to the
+reduced amount of generated events. It also means, that our presented results are based on
+only a quarter of the available information, and we expect the robustness and accuracy to
+increase further if all available information is incorporated.
+We isolated the two most time-critical functions in our code and compiled them to C code using
+the matlab coder, which reduced the runtime further.
+However, the resulting runtime was still to slow to enable extensive parameter tuning and
+we expect an improvement in the algorithms performance with more carefully selected parameters.
