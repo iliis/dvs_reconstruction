@@ -1,5 +1,4 @@
-function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, img_size ) %#codegen
-%CAMERATOWORLDCOORDINATES Summary of this function goes here
+function [ world_coordinates ] = cameraToWorldCoordinatesBatch( invKPs, theta, img_size )
 %
 % parameters:
 %  invKPs: list 128x128x2 of pixels with applied inverted camera intrinsics (i.e. K \ [u v 1]')

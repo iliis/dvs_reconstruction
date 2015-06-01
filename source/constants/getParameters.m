@@ -49,3 +49,34 @@ params.pixelIntensityThreshold = 0.05;
 % The size ([height, width], in pixels) of the image produced by the
 % reconstruction
 params.outputImageSize = [1000 2000];
+
+
+params.reconstruction.trackingWeight = 0.01;
+
+% TODO: update this Q'n'A ;)
+% Q: what is a good value for sigma?
+% A: something proportional to the expected movement between two events
+%    if the intensity threshold is at, say, 5 then the simulator produces
+%    the first event at movement of around 0.0003, so sigma should be very
+%    small (and so should the timesteps of the simulation!)
+%    as a rule of thumb: sigma ~ motion_speed * gradient
+% sigma = 0.005; % good for first movement
+% sigma = 0.00001;
+
+% TODO: find good values for sigma here (dependent on average time between
+% events and movement in that period)
+
+% the longer we wait between events, the longer the camera probably moved
+params.tracking.predictSigma = 0.00002;
+
+% These paramaters characterize the likelihood function for the bayesian
+% update in the tracking system. The likelihood for P(movement|event) is
+% basically a gaussian centered around a contrast which highly likely
+% generates an event (i.e. the pixelIntensityThreshold from above), but at
+% least intensitiy_likelihood_min (so that even particles which do not
+% match at all get some low probability instead of being discarded
+% completely).
+params.tracking.intensity_likelihood_min       = 0.02;
+% the lower the variance of the contrast likelihood gaussian, the less
+% noisy is the tracking but the more particles are required to keep it stable.
+params.tracking.intensity_likelihood_variance  = 0.08;

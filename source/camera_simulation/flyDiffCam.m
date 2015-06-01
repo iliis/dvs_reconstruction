@@ -29,7 +29,6 @@ thetas = zeros(100000,3);
 lastOccupied = 0;
 
 threshold = params.pixelIntensityThreshold;
-K = params.cameraIntrinsicParameterMatrix;
 
 steps = round((thetaStop - thetaStart) ./ omega);
 
@@ -50,18 +49,20 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
-invKPs = getInvKPsforPatch(K);
+invKPs = getInvKPsforPatch();
 
-lastPatch = getPatch_mex(img, invKPs, thetaStart, params.simulationPatchSize);
-% lastPatch = getPatch(img, invKPs, thetaStart);
+% [MEX]: recommended: use compiled function here for speedup
+%lastPatch = getPatch_mex(img, invKPs, thetaStart, params.simulationPatchSize);
+lastPatch = getPatch(img, invKPs, thetaStart, params.simulationPatchSize);
 
 for i = 1:max(steps)
     
     theta = thetaStart + i*omega;
     
-    patch = getPatch_mex(img, invKPs, theta, params.simulationPatchSize);
-%     patch = getPatch(img, invKPs, theta);
-	
+    % [MEX]: recommended: use compiled function here for speedup
+    %patch = getPatch_mex(img, invKPs, theta, params.simulationPatchSize);
+    patch = getPatch(img, invKPs, theta, params.simulationPatchSize);
+
 	[addr, ts, state] = getSignals(lastPatch, patch, i, state, threshold);
     
     newEvents = size(addr,1);

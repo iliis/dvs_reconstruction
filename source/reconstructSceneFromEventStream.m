@@ -47,18 +47,17 @@ lastSigs = zeros(params.simulationPatchSize);
 % position of each pixel at time of last event
 lastPos = reshape( ...
     cameraToWorldCoordinatesBatch( ...
-        getInvKPsforPatch( ...
-            params.cameraIntrinsicParameterMatrix), ...
-            [0 0 0], ...
-            params.outputImageSize)', ...
-        [2 params.simulationPatchSize params.simulationPatchSize] ...
-        );
+        getInvKPsforPatch(), ...
+        [0 0 0], ...
+        params.outputImageSize)', ...
+    [2 params.simulationPatchSize params.simulationPatchSize] ...
+    );
 
 % collect some intermediate maps to show progress
 imgSeq = zeros([params.outputImageSize, ceil(size(events,1)/10000)]);
 
 % initialize map with initial FOV
-[gradients, xInds, yInds] = initializeMap(img, params.outputImageSize);
+[gradients, xInds, yInds] = initializeMap(img, params);
 
 % set very small covariances for initial patch to avoid writing unnecessary
 % noise
@@ -81,7 +80,7 @@ drawnow;
 
 % initialize particles
 N = 100;
-[particles, tracking_state] = initParticlesAverage(N, [params.simulationPatchSize params.simulationPatchSize]);
+[particles, tracking_state] = initParticles(N, [params.simulationPatchSize params.simulationPatchSize]);
 
 % prepare array for orientation estimations
 theta_est = zeros(size(events, 1), 3);
@@ -102,10 +101,13 @@ last_timestamp = events(1,4);
 
 % actually perform Bayesian update
 particles = predict(particles, deltaT_global);
-[particles, tracking_state] = updateOnEvent_mex(particles, events(1,:), map, tracking_state, params);
+
+% [MEX]: recommended: use compiled function here for speedup
+%[particles, tracking_state] = updateOnEvent_mex(particles, events(1,:), map, tracking_state, params);
+[particles, tracking_state] = updateOnEvent(particles, events(1,:), map, tracking_state, params);
 
 % use low-pass filter to reduce noise in the estimated path
-theta_est(1,:) = 0.01*particleAverage(particles);
+theta_est(1,:) = params.reconstruction.trackingWeight*particleAverage(particles);
 
 % write the event into the gradient map
 [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(1,1), events(1,2), events(1,3), events(1,4), theta_est(1,:), gradients, covariances, lastSigs, lastPos);
@@ -118,18 +120,22 @@ for i = 2:size(events,1)
 
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);    
-    [particles, tracking_state] = updateOnEvent_mex(particles, events(i,:), map, tracking_state, params);
+    
+    % [MEX]: recommended: use compiled function here for speedup
+    %[particles, tracking_state] = updateOnEvent_mex(particles, events(i,:), map, tracking_state, params);
+    [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state, params);
     
 %     use low-pass filter to reduce noise in the estimated path
-    theta_est(i,:) = 0.01*particleAverage(particles) + 0.99*theta_est(i-1,:);    
+    theta_est(i,:) = params.reconstruction.trackingWeight*particleAverage(particles) ...
+                   + (1-params.reconstruction.trackingWeight)*theta_est(i-1,:);    
 
 %     write event into the gradient map
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 
 %     movements between events are very small and computing the grayscale
-%     image takes relatively long -> only compute new map every 500
+%     image takes relatively long -> only compute new map every 1000
 %     iterations
-    if mod(i, 500) == 0
+    if mod(i, 1000) == 0
         pgrads = permute(gradients, [2 3 1]);
         map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
     end
@@ -198,7 +204,7 @@ map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
 disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
 disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
 
-% add final map to image sequences
+% add final map to image sequence
 imgSeq(:,:,end) = map;
 
 % plot final map with travelled paths and final camera positions
