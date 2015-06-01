@@ -60,7 +60,7 @@ omegas = 0.000001*[-1 -1 0];
 
 thetaCheckpoints = ...
     [0 0 0; ...
-    100000*omegas(1,:)]; ...
+    250000*omegas(1,:)]; ...
 %     250000*omegas(1,:) + 250000*omegas(2,:); ...
 %     500000*omegas(1,:) + 250000*omegas(2,:); ...
 %     500000*omegas(1,:) + 500000*omegas(2,:); ...
@@ -113,20 +113,16 @@ for i = 1:size(thetaCheckpoints, 1) - 1
     
     fprintf('simulating subpath %d/%d\n', i, size(thetaCheckpoints, 1) - 1);
     
-    [addr, ts, thetas, intermediateState] = flyDiffCam2(imagepath, thetaCheckpoints(i, :), thetaCheckpoints(i+1, :), omegas(i, :), intermediateState);
+    [addr, ts, thetas, intermediateState] = flyDiffCam(imagepath, thetaCheckpoints(i, :), thetaCheckpoints(i+1, :), omegas(i, :), intermediateState);
     
     allAddr = [allAddr; addr];
     allTS = [allTS; ts + allTS(end)];
     allThetas = [allThetas; thetas];   
 end
-% [allAddr, allTS, thetas] = flyDiffCam2(imagepath, thetaStart, thetaStop, omega);
 
 allTS = allTS(2:end); %remove pending 0;
 
 toc
-
-% outputImageSize = [500, 1000];
-% boundary_image = 0.5*ones(outputImageSize);
 
 [img, gradients] = reconstructMosaic(allAddr, allTS, allThetas);
 

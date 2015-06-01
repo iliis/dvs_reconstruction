@@ -48,8 +48,6 @@ omegas = ...
 % %     0 -1 0; ...
 % %     -1 0 0];
 
-% [events_raw1, TS1, theta_gt1, endState1] = flyDiffCam2(imagepath, [0 0 0], steps*omega, omega, zeros(simulationPatchSize()));
-
 % get global parameters
 params = getParameters();
 
@@ -62,7 +60,7 @@ for i = 1:size(thetaCheckpoints, 1) - 1
     
     fprintf('simulating subpath %d/%d\n', i, size(omegas, 1));
     
-    [addr, ts, thetas, intermediateState] = flyDiffCam2(imagepath, thetaCheckpoints(i, :), thetaCheckpoints(i+1, :), omegas(i, :), intermediateState);
+    [addr, ts, thetas, intermediateState] = flyDiffCam(imagepath, thetaCheckpoints(i, :), thetaCheckpoints(i+1, :), omegas(i, :), intermediateState);
     
     allAddr = [allAddr; addr];
     allTS = [allTS; ts + allTS(end)];

@@ -30,8 +30,8 @@ assert(maxY <= maxCamIndex);
 % collect events in single matrix, shift pixel indives from 0-indexed to
 % 1-indexed
 events = [double(x+1) double(y+1) double(pol) double(TS)];
-
 disp(['got ' num2str(size(events,1)) ' events']);
+
 
 % prepare variables for reconstruction
 
@@ -101,9 +101,8 @@ deltaT_global = events(1,4) - last_timestamp;
 last_timestamp = events(1,4);
 
 % actually perform Bayesian update
-%     TODO: does it make sense to put this into updateOnEventAverage()?
 particles = predict(particles, deltaT_global);
-[particles, tracking_state] = updateOnEventAverage_mex(particles, events(1,:), map, tracking_state, params.cameraIntrinsicParameterMatrix, params.pixelIntensityThreshold, params.simulationPatchSize);
+[particles, tracking_state] = updateOnEvent_mex(particles, events(1,:), map, tracking_state, params);
 
 % use low-pass filter to reduce noise in the estimated path
 theta_est(1,:) = 0.01*particleAverage(particles);
@@ -118,9 +117,8 @@ for i = 2:size(events,1)
     last_timestamp = events(i,4);
 
     % actually perform Bayesian update
-    %     TODO: does it make sense to put this into updateOnEventAverage()?
     particles = predict(particles, deltaT_global);    
-    [particles, tracking_state] = updateOnEventAverage_mex(particles, events(i,:), map, tracking_state, params.cameraIntrinsicParameterMatrix, params.pixelIntensityThreshold, params.simulationPatchSize);
+    [particles, tracking_state] = updateOnEvent_mex(particles, events(i,:), map, tracking_state, params);
     
 %     use low-pass filter to reduce noise in the estimated path
     theta_est(i,:) = 0.01*particleAverage(particles) + 0.99*theta_est(i-1,:);    
