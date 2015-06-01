@@ -16,8 +16,9 @@ EXE = calibrate
 
 all: $(EXE)
 
-$(EXE): main.cpp
+$(EXE): calibration_tool.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 clean:
-	rm *.o && rm $(EXE)
+	-@rm -f *.o 2> /dev/null
+	-@rm -f $(EXE) 2> /dev/null
