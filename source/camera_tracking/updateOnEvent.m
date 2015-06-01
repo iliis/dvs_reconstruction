@@ -23,6 +23,7 @@ new_points_w = zeros(size(particles,1),2);
 particle_prior_this_pixel = permute(state_prior(:,v,u), [2 1 3]);
 
 % get pixel coordinates in world map
+% WARNING: cameraToWorldCoordinates returns [y,x] !
 old_point_w = cameraToWorldCoordinatesBatch(invKPs, particle_prior_this_pixel, size(intensities));
 
 for i = 1:size(particles,1)

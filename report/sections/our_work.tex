@@ -1,0 +1,41 @@
+The goal of this project is to implement full rotational tracking and scene
+reconstruction using only a DVS. We implemented an approach described in Kim et
+al. in \cite{kim2014simultaneous} using Matlab. It uses a SLAM-like two-step
+algorithm, where the position and the map are jointly estimated and is
+described in Section \ref{sec:core_algorithm}.
+
+In contrast to \cite{kim2014simultaneous} we're working with some
+simplifications: The particle filter for the tracking directly usese Euler
+angles and corner cases like gimbal lock are not handled.
+
+To speed up things up, we assume that the camera's initial field
+of view is already known and included in the map. With this assumption we do
+not have to deal with a special initialization procedure and can immediately
+start with the standard iteration while being relatively sure that the camera
+movement is tracked correctly.
+
+This is not an unreasonable assumption, as newer DVS models incorporate the
+ability to take full-frame pictures and there's a simple method for generating
+full images which works with any model (see Section \ref{sec:shutter_removal}).
+
+
+
+
+
+Explain basic algo, more details in Section 5: 'core algorithm'.
+
+
+-some simplifications\\
+    -use particle filter directly with euler angles (ignore corner cases)\\
+    -start with first fov in map\\
+
+
+
+
+
+// TODO - insert section to explain what we did here
+
+general goal, how to achieve this
+
+-implemented paper (kim) in matlab\\
+

@@ -12,7 +12,7 @@ constant position model, where the camera is assumed to stay stationary between
 events but with uncertainty growing with time.
 
 To update the weights of the disturbed particles, we retrieve the position of
-the camera at the time of the last event of the *same* pixel (which can be a
+the camera at the time of the last event of the \textit{same} pixel (which can be a
 lot earlier than the previous event). We then sample our map (from the
 reconstruction part and which we assume is essentially correct) at this earlier
 position. This intensity is then compared with the intensities at all the
@@ -21,9 +21,10 @@ intensity threshold that generates an event, the liklier is the new position
 and the more weight this particle gets.
 
 Finally, the particles are resampled whenever the effective number of particles
-(one over sum of squared weights [TODO: insert formula here?]) falls below some
-threshold (\cite{kim2014simultaneous} uses N/2). Resampling is done by copying
-particles with probability equal to their weight into a new set.
+(one over sum of squared weights, see \cite{kim2014simultaneous} for details)
+falls below some threshold (usally $N/2$ as in \cite{kim2014simultaneous}).
+Resampling is done by copying particles with probability equal to their weight
+into a new set.
 
 \subsubsection{on the matter of prior positions and accuracy}
 

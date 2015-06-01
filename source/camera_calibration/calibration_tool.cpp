@@ -1,3 +1,47 @@
+/*
+ * CALIBRATION TOOL FOR DVS
+ *
+ * This is a simple tool for calibrating the camera intrinsics and focus of a
+ * dynamic vision sensor. As a DVS only shows changes, this program displays a
+ * standard checkerboard pattern by quickly turning it on and off.
+ *
+ * WARNING: prolonged exposure might result in eye cancer!
+ *
+ *
+ * COMPILATION:
+ *
+ * requires SDL2 to work
+ * use provided makefile or simply compile with
+ *      g++ $(sdl2-config --cflags --libs) main.cpp -o calibrate
+ *
+ *
+ * USAGE:
+ *
+ *      ./calibrate pattern
+ *
+ * Where pattern is one of the following:
+ *
+ *-> checkerboard
+ *      Standard checkerboard pattern for calibrating camera intrinsics.
+ *
+ *-> points
+ *      Rectangular array of square points. Might come in handy.
+ *
+ *-> focus
+ *      Concentric squares with progressively smaller sizes. Can be used to
+ *      focus camera optics.
+ *
+ * How to calibrate a dynamic vision sensor:
+ * 1. Execute this program and make if fullscreen.
+ * 2. Use jAER to record a second or two of events while holding the camera
+ *    pointed still at the screen.
+ * 3. Convert the recordings to PNG files with convert_recordings.m
+ * 4. Use your prefered camera calibration toolbox (for example Matlab's
+ *    cameraCalibrator) with the converted images.
+ *
+ */
+
+// based partly on
 // http://stackoverflow.com/questions/21890627/drawing-a-rectangle-with-sdl2
 
 #include <stdlib.h>

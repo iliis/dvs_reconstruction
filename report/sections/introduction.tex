@@ -1,0 +1,20 @@
+One of the central problems in robotics and augmented reality is localization:
+Knowing where the robot or the user is. To be of any practical use,
+localization must be fast and accurate, while relying on few or none external
+means.
+
+Vision based systems have long been attractive, for they provide very rich data
+with reasonable speed while being very cheap. The drawback with normal cameras
+is that high framerates are required to overcome motion blur resulting in
+massive amounts of data. This in turn requires a lot of processing power to
+extract the relevant information.
+
+There is a new type of digital camera which overcomes these limitations by
+closely mimicing a biological retina: A so called dynamic vision sensor (DVS),
+which only outputs changes in the sensed image.
+
+In this report, we investigate how such a camera (which is more closely
+described in the next section \ref{sec:dvs}) can be used for basic visual SLAM.
+
+This work is heavily based on \cite{kim2014simultaneous} and essentialy shares
+the general structure.
