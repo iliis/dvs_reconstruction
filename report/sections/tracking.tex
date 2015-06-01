@@ -1,7 +1,6 @@
 In order to integrate intensity change events into a full gradient map of the
 environment, we must track the current position and movement direction of the
 camera.
-
 The camera's position is represented using a particle filter, where each
 particle consists only of a weight and the three Euler angles necessary to
 describe the camera's orientation.
@@ -9,11 +8,11 @@ describe the camera's orientation.
 Whenever a new event is received, we disturb the particles randomly with
 variance proportional to the time since the last event. This is essentially a
 constant position model, where the camera is assumed to stay stationary between
-events but with uncertainty growing with time.
+events but with uncertainty growing over time.
 
 To update the weights of the disturbed particles, we retrieve the position of
 the camera at the time of the last event of the \textit{same} pixel (which can be a
-lot earlier than the previous event). We then sample our map (from the
+lot earlier than the previous event). We then sample our map (which we get from the
 reconstruction part and which we assume is essentially correct) at this earlier
 position. This intensity is then compared with the intensities at all the
 proposed current positions: The closer the intensity difference to the
@@ -42,4 +41,6 @@ previous ones.
 
 However, our experiments show that it is actually enough to only keep the
 weighted average over the particles as any errors are quickly averaged out by
-the sheer number of events.
+the sheer number of events. Furthermore, image gradients often cover bigger
+areas than just a few pixels, which further diminishes the effect of small
+errors in location.

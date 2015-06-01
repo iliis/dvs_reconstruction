@@ -10,15 +10,14 @@ angles and corner cases like gimbal lock are not handled.
 
 As we discovered during the implementation, the runtime of the algorithm is
 extremely long when implemented in Matlab. The events that are created by the
-camera during only a few seconds could easily lead to hours of computation.
-To still be able to test the algorithm we exclusively used data generated with
-our simulation instead of the real camera.
+camera in only a few seconds can easily lead to hours of computation.
 
-This enabled us to control the number of events by tweaking parameters of our
-virtual camera.
-
-A further benefit of this approach was the existence of an exact ground truth
-for the camera motion which greatly simplified the evaluation of the algorithm.
+To still be able to test the algorithm and in order to facilitate development
+we implemented and exlusively used a full DVS simulator that generates events
+from a spherical panorama.  This allows us to develop and test each part of the
+algorithm independently with perfect input data and ground truth. It also makes
+experimentation easier and faster as everything can be inspected at will and we can
+control the number of events by tweaking parameters of our virtual camera.
 
 To speed things up, we assume that the camera's initial field
 of view is already known and included in the map. With this assumption we do
@@ -28,4 +27,5 @@ movement is tracked correctly.
 
 This is not an unreasonable assumption, as newer DVS models incorporate the
 ability to take full-frame pictures and there's a simple method for generating
-full images which works with any model (see Section \ref{sec:shutter_removal}).
+full images which works with any hardware model (see section
+\ref{sec:shutter_removal}).
