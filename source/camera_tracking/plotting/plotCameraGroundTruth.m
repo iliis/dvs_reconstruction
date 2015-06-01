@@ -1,4 +1,4 @@
-function plotCameraGroundTruth( path, img_size, color )
+function h = plotCameraGroundTruth( path, img_size, color )
 
 if nargin < 3
     color = 'green';
@@ -14,7 +14,7 @@ for i = 1:size(path,1);
     w(i,:) = cameraToWorldCoordinatesBatch(invKP_uv, path(i,:), img_size);
 end
 
-plot(w(:,2), w(:,1), '.-', 'Color', color);
+h = plot(w(:,2), w(:,1), '.-', 'Color', color);
 
 end
 

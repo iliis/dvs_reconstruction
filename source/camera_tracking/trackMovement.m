@@ -1,4 +1,4 @@
-function [particles, tracking_state, intermediate_positions] = trackMovement( particles, tracking_state, events, img, last_timestamp, ground_truth)
+function [particles, tracking_state, intermediate_positions, plot_handle] = trackMovement( particles, tracking_state, events, img, last_timestamp, ground_truth)
 % updates on events
 
 if nargin < 5
@@ -15,11 +15,16 @@ for i = 1:size(events,1)
     deltaT_global = events(i,4) - last_timestamp;
     last_timestamp = events(i,4);
     
+    % predict motion of camera
+    % in our case, this is simply constant position + gaussian noise
     particles = predict(particles, deltaT_global);
     
+    % actually do bayesian updating based on the measurements
     [particles, tracking_state] = updateOnEvent(particles, events(i,:), img, tracking_state, params);
     
     disp(['updated on event ' num2str(i) ' = ' num2str(events(i,:)) ' deltaT_global = ' num2str(deltaT_global) ' mean = ' num2str(particleAverage(particles)) '  eff. no. = ' num2str(effectiveParticleNumber(particles))]);
+    
+    % show particle distribution and wait for user
     %plotParticles(particles); drawnow; waitforbuttonpress;
     
     
@@ -32,6 +37,7 @@ for i = 1:size(events,1)
         %plotParticles(particles, theta_new); drawnow; waitforbuttonpress;
     end
     
+    % plot weighted average over particles
     prev_avg = avg;
     avg = particleAverage(particles);
     
@@ -39,7 +45,7 @@ for i = 1:size(events,1)
         plotInWorld([ground_truth(i,:); avg], size(img), simulationPatchSize()*[1 1]/2, ':', 'Color', [0.9 0.9 0.9]);
     end
     
-    plotInWorld([prev_avg; avg], size(img), params.simulationPatchSize*[1 1]/2, ':.b');
+    plot_handle = plotInWorld([prev_avg; avg], size(img), params.simulationPatchSize*[1 1]/2, ':.b');
     drawnow;
 
     intermediate_positions(i, :) = avg;

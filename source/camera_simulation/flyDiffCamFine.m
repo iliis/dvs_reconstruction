@@ -69,7 +69,7 @@ while size(events,1) < numEvents
     % Essentialy, the higher this is, the more movement will be
     % predict()ed. So this value must be high enough to allow enough
     % movement, but tracking becomes noisy if it gets too high.
-    TIME_BETWEEN_STEPS = 30;
+    TIME_BETWEEN_STEPS = 10;
         
     events_new(:,4) = TIME_BETWEEN_STEPS + last_timestamp;
     last_timestamp = events_new(end,4);
