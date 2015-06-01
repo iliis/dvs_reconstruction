@@ -13,7 +13,11 @@ optimization tedious.
 ## compiled functions
 
 For an increase in computing speed, some core functions should be compiled.
-These are: [TODO: list all functions to compile]
+
+These are:
+ * getPatch() in flyDiffCam()
+ * updateOnEvent() in reconstructSceneFromEventStream()
 
 To actually use them, change all function calls to the name of the compiled
 function. These lines are marked with a [MEX] comment troughout the code.
+

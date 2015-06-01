@@ -101,7 +101,10 @@ last_timestamp = events(1,4);
 
 % actually perform Bayesian update
 particles = predict(particles, deltaT_global);
-[particles, tracking_state] = updateOnEvent_mex(particles, events(1,:), map, tracking_state, params);
+
+% [MEX]: recommended: use compiled function here for speedup
+%[particles, tracking_state] = updateOnEvent_mex(particles, events(1,:), map, tracking_state, params);
+[particles, tracking_state] = updateOnEvent(particles, events(1,:), map, tracking_state, params);
 
 % use low-pass filter to reduce noise in the estimated path
 theta_est(1,:) = params.reconstruction.trackingWeight*particleAverage(particles);
@@ -117,7 +120,10 @@ for i = 2:size(events,1)
 
     % actually perform Bayesian update
     particles = predict(particles, deltaT_global);    
-    [particles, tracking_state] = updateOnEvent_mex(particles, events(i,:), map, tracking_state, params);
+    
+    % [MEX]: recommended: use compiled function here for speedup
+    %[particles, tracking_state] = updateOnEvent_mex(particles, events(i,:), map, tracking_state, params);
+    [particles, tracking_state] = updateOnEvent(particles, events(i,:), map, tracking_state, params);
     
 %     use low-pass filter to reduce noise in the estimated path
     theta_est(i,:) = params.reconstruction.trackingWeight*particleAverage(particles) ...

@@ -10,14 +10,12 @@
 %
 % TODO: automatically scan folder for .aedat files
 
-%recording_raw = loadaerdat('camera_recordings/scene_reveal_H57.aedat');
-% gut: 6, 9
-% 5.5 mm side length
+% checkerboard squares in camera_calibration/recordings/ have 5.5 mm side length
 
 
 % update these to fit your needs
 path = 'camera_calibration/recordings/';
-name = 'calibration_'; % 5.5 cm side length
+name = 'calibration_';
 imgcount = 28;
 
 params = getParameters();
