@@ -1,9 +1,3 @@
-TODO: write some text here. Conclusion and stuff.
-
-- influence of the various parameters
-- code too slow for realtime, but not optimized at all
-- using Matlab for more than just a few hacked scripts: bad idea
-
 The evaluation of the algorithms performance was mainly done qualitatively.
 For short camera trajectories the quality of the reconstruction was quite good.
 For longer trajectories, however, the error tends to accumulate over time and the
@@ -21,11 +15,10 @@ Reconstructing the scene with ground truth data for the camera orientations can 
 with even higher resolution than the input image. An example for the isolated reconstruction results
 is shown in figure \ref{fig:reconstruction_only}.
 In our experiments, tracking the camera motion with the input image as map consistently lead to a deviation
-of the estimate to the ground truth of less than 1 pixel. The estimated track is, however, oscillating heavily
+of the estimate to the ground truth of less than 1 pixel (figure \ref{fig:tracking_groundtruth}). The estimated track is, however, oscillating heavily
 the ground truth what could lead to some noise in the reconstruction. We tried to tackle
 this problem by using low-pass filters on the estimated positions, but did not manage to
 adapt the parameters in a way to receive completely satisfying results.
-TODO: REFERENCE TO FIGURE
 
 Our additional experiments produced quite promising results.
 By removing a shutter in front of the camera and simply integrating the events,
