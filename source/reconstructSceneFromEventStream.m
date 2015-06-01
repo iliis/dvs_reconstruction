@@ -58,7 +58,7 @@ lastPos = reshape( ...
 imgSeq = zeros([params.outputImageSize, ceil(size(events,1)/10000)]);
 
 % initialize map with initial FOV
-[gradients, xInds, yInds] = initializeMap(img, params.outputImageSize);
+[gradients, xInds, yInds] = initializeMap(img, params);
 
 % set very small covariances for initial patch to avoid writing unnecessary
 % noise
@@ -81,7 +81,7 @@ drawnow;
 
 % initialize particles
 N = 100;
-[particles, tracking_state] = initParticlesAverage(N, [params.simulationPatchSize params.simulationPatchSize]);
+[particles, tracking_state] = initParticles(N, [params.simulationPatchSize params.simulationPatchSize]);
 
 % prepare array for orientation estimations
 theta_est = zeros(size(events, 1), 3);
@@ -127,9 +127,9 @@ for i = 2:size(events,1)
     [gradients, covariances, lastSigs, lastPos] = updateMosaic(events(i,1), events(i,2), events(i,3), events(i,4), theta_est(i,:), gradients, covariances, lastSigs, lastPos);
 
 %     movements between events are very small and computing the grayscale
-%     image takes relatively long -> only compute new map every 500
+%     image takes relatively long -> only compute new map every 1000
 %     iterations
-    if mod(i, 500) == 0
+    if mod(i, 1000) == 0
         pgrads = permute(gradients, [2 3 1]);
         map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
     end
@@ -198,7 +198,7 @@ map = poisson_solver_function(pgrads(:,:,2), pgrads(:,:,1), boundary_image);
 disp(['map extreme values: [' num2str(min(min(map))) ', ' num2str(max(max(map))) ']']);
 disp(['image extreme values: [' num2str(min(min(img))) ', ' num2str(max(max(img))) ']']);
 
-% add final map to image sequences
+% add final map to image sequence
 imgSeq(:,:,end) = map;
 
 % plot final map with travelled paths and final camera positions
