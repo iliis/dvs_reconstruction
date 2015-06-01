@@ -7,9 +7,6 @@ function [particles, state_prior] = updateOnEvent(particles_prior, event, intens
 assert(~any(any(isnan(intensities))), 'NaN in intensities');
 assert(max(size(state_prior)) == params.simulationPatchSize);
 
-LOW_LIKELIHOOD = 0.02;
-INTENSITY_VARIANCE  = 0.08;
-INTENSITY_THRESHOLD = params.pixelIntensityThreshold;
 u = event(1); v = event(2);
 
 if event(3) > 0
@@ -39,9 +36,9 @@ new_intensities = interp2(intensities, new_points_w(:,2), new_points_w(:,1));
 measurements = new_intensities - old_intensity;
 assert(~any(isnan(measurements)))
 
-sigma = INTENSITY_VARIANCE;
-c = INTENSITY_THRESHOLD * s;
-likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), LOW_LIKELIHOOD);
+sigma = params.tracking.intensity_likelihood_variance;
+c = params.pixelIntensityThreshold * s;
+likelihoods = max(exp(-(measurements - c).^2/(2*sigma^2)), params.tracking.intensity_likelihood_min);
 particles(:,1) = likelihoods;
 
 % actually update prior probability
@@ -53,3 +50,5 @@ particles = normalizeParticles(particles);
 
 % update state
 state_prior(:,v,u) = permute(particleAverage(particles), [1 3 2]);
+
+end

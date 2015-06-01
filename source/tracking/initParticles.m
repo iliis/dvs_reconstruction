@@ -1,4 +1,4 @@
-function [ particles, state ] = initParticlesAverage( N, sensor_size )
+function [ particles, state ] = initParticles( N, sensor_size )
 %INITPARTICLES creates N particles at origin
 % particle: [weight, alpha beta gamma]
 

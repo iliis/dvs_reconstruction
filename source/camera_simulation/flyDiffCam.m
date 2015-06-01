@@ -29,7 +29,6 @@ thetas = zeros(100000,3);
 lastOccupied = 0;
 
 threshold = params.pixelIntensityThreshold;
-K = params.cameraIntrinsicParameterMatrix;
 
 steps = round((thetaStop - thetaStart) ./ omega);
 
@@ -50,7 +49,7 @@ end
 
 fprintf('starting simulation with %d timesteps\n', max(steps));
 
-invKPs = getInvKPsforPatch(K);
+invKPs = getInvKPsforPatch();
 
 lastPatch = getPatch_mex(img, invKPs, thetaStart, params.simulationPatchSize);
 % lastPatch = getPatch(img, invKPs, thetaStart);

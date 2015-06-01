@@ -42,9 +42,6 @@ state(vn, un) = 0;
 
 % WHY IS THERE A -1 ?
 % The camera works with 8 bit unsigned integers for pixel coordinates
-% -> it doesn't make much sense to work with 8 bit uints in Matlab (we're
-%    actually using float/doubles anyway), better use one-based indexing
-%    troughout the whole Matlab codebase.
 addr = getTmpdiff128Addr([up; un]-1,  [vp; vn]-1,  [ones(size(vp)); zeros(size(vn))]);
 
 ts = time*ones(size(addr));

@@ -10,7 +10,7 @@ boundary_image = 0.5*ones(params.outputImageSize);
 gradients = zeros([2, params.outputImageSize]);
 covariances = 10*repmat(eye(2), [1, 1, params.outputImageSize]);
 lastSigs = zeros(params.simulationPatchSize);
-lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(params.cameraIntrinsicParameterMatrix), thetas(1,:), params.outputImageSize)', [2 params.simulationPatchSize params.simulationPatchSize]);
+lastPos = reshape(cameraToWorldCoordinatesBatch(getInvKPsforPatch(), thetas(1,:), params.outputImageSize)', [2 params.simulationPatchSize params.simulationPatchSize]);
 
 nOfEvents = size(allAddr, 1);
 fprintf('number of events: %d\n', nOfEvents);

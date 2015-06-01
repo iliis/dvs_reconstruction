@@ -1,8 +1,10 @@
-function plotInWorld( points, img_size, varargin )
+function plotInWorld( thetas, img_size, uv, varargin )
 % plots N*2 points into world frame
 
-invKP_uv = getInvKPforPixels(cameraIntrinsicParameterMatrix(), [simulationPatchSize() simulationPatchSize()]);
-points_w = cameraToWorldCoordinatesThetaBatch(invKP_uv, points, img_size);
+params = getParameters();
+
+invKP_uv = getInvKPforPixels(params.cameraIntrinsicParameterMatrix, uv);
+points_w = cameraToWorldCoordinatesThetaBatch(invKP_uv, thetas, img_size);
 plot(points_w(:,2), points_w(:,1), varargin{:});
 
 end
